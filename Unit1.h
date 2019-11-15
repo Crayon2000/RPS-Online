@@ -1,5 +1,4 @@
 //---------------------------------------------------------------------------
-
 #ifndef Unit1H
 #define Unit1H
 //---------------------------------------------------------------------------
@@ -13,8 +12,8 @@
 #include <ExtCtrls.hpp>
 #include <Graphics.hpp>
 #include <Buttons.hpp>
-#include <MPlayer.hpp>
-#include <vcl\Registry.hpp> // Pour le REGISTRE ou INI
+#include <Vcl.MPlayer.hpp>
+#include <Registry.hpp> // Pour le REGISTRE ou INI
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
@@ -57,7 +56,6 @@ __published:	// Composants gérés par l'EDI
         TMenuItem *Music1;
         TMenuItem *N3;
         TMenuItem *Statistics1;
-        void __fastcall FormCreate(TObject *Sender);
         void __fastcall Quitter1Click(TObject *Sender);
         void __fastcall Disconnectec1Click(TObject *Sender);
         void __fastcall SendClick(TObject *Sender);

@@ -1,5 +1,4 @@
 //---------------------------------------------------------------------------
-
 #include <vcl.h>
 #pragma hdrstop
 
@@ -21,15 +20,12 @@ __fastcall TForm1::TForm1(TComponent* Owner)
    Son             = ini->ReadBool   ( "Setting", "Sound", true);
    PortCom         = ini->ReadInteger( "Setting", "Port", 1024 );
    delete ini;
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::FormCreate(TObject *Sender)
-{
+
 //Prend les paramètres que ICQ envoie (Détection d'arguments)
 //Arguments: -ip numip -name nom_du_user  (pas bon)
-IPServer = _argv[1];
-NickServer = _argv[2];
-MailServer = _argv[3];
+//IPServer = _argv[1];
+//NickServer = _argv[2];
+//MailServer = _argv[3];
 
 //Sert a faire un vrai Random
 randomize();
@@ -160,7 +156,7 @@ y= 0;
      Win->Caption=Wins;
 
      String Texte = "WIN";
-     MonCanvas->Font->Color=RGB(255,254,255);
+     MonCanvas->Font->Color = RGB(255,254,255);
      MonCanvas->TextOut(x+1, y+1, Texte);
      MonCanvas->Font->Color=clBlack;
      MonCanvas->TextOut(x, y, Texte);
@@ -170,7 +166,7 @@ y= 0;
      Lost->Caption=Losts;
 
      String Texte = "LOST";
-     MonCanvas->Font->Color=RGB(255,254,255);
+     MonCanvas->Font->Color = RGB(255,254,255);
      MonCanvas->TextOut(x+1, y+1, Texte);
      MonCanvas->Font->Color=clBlack;
      MonCanvas->TextOut(x, y, Texte);
@@ -180,7 +176,7 @@ y= 0;
      Tie->Caption=Ties;
 
      String Texte = "TIE";
-     MonCanvas->Font->Color=RGB(255,254,255);
+     MonCanvas->Font->Color = RGB(255,254,255);
      MonCanvas->TextOut(x+1, y+1, Texte);
      MonCanvas->Font->Color=clBlack;
      MonCanvas->TextOut(x, y, Texte);
@@ -398,7 +394,7 @@ void __fastcall TForm1::Roche1Click(TObject *Sender)
 {
 if (Son==true)
 if (FileExists("rock.wav")){
-    sndPlaySound("rock.wav",SND_ASYNC);
+    sndPlaySound(L"rock.wav",SND_ASYNC);
   }
 StatsJoueur.Roche++;  //Compte le nombre de Roche
 Play(1);        //On choisi Roche
@@ -408,7 +404,7 @@ void __fastcall TForm1::Papier1Click(TObject *Sender)
 {
 if (Son==true)
 if (FileExists("paper.wav")){
-    sndPlaySound("paper.wav",SND_ASYNC);
+    sndPlaySound(L"paper.wav",SND_ASYNC);
   }
 StatsJoueur.Papier++; //Compte le nombre de Papier
 Play(2);        //On choisi Papier
@@ -418,7 +414,7 @@ void __fastcall TForm1::Ciseaux1Click(TObject *Sender)
 {
 if (Son==true)
 if (FileExists("scissors.wav")){
-    sndPlaySound("scissors.wav",SND_ASYNC);
+    sndPlaySound(L"scissors.wav",SND_ASYNC);
   }
 StatsJoueur.Ciseaux++;//Compte le nombre de Ciseaux
 Play(3);        //On choisi Ciseaux
@@ -489,6 +485,5 @@ void __fastcall TForm1::Statistics1Click(TObject *Sender)
 {
 float Total=Ties+Wins+Losts;
 ShowMessage(AnsiString("Wining ratio : ") + Wins/Total*100 + "%\nNumber of Round : "+ Total+ "\nNumber of Rock: "+ StatsJoueur.Roche + "\nNumber of Paper :" + StatsJoueur.Papier + "\nNumber of Cissors :" + StatsJoueur.Ciseaux);
-
 }
 //---------------------------------------------------------------------------

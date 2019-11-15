@@ -15,16 +15,16 @@ __fastcall TAboutBox::TAboutBox(TComponent* AOwner)
 //---------------------------------------------------------------------
 void __fastcall TAboutBox::CommentsClick(TObject *Sender)
 {
-ShellExecute(Handle,
-             "open",
-             "mailto:crayon1@rocketmail.com?subject=RPS Online",
-              NULL,NULL,SW_SHOWDEFAULT);
+    ShellExecute(Handle,
+                 L"open",
+                 L"mailto:crayon1@rocketmail.com?subject=RPS Online",
+                  NULL, NULL, SW_SHOWDEFAULT);
 }
 //---------------------------------------------------------------------------
 void __fastcall TAboutBox::FormCreate(TObject *Sender)
 {
-//Met l'image dans le carré
-ProgramIcon->Picture->Bitmap=Form1->ImRoche2;
+    //Met l'image dans le carré
+    ProgramIcon->Picture->Bitmap = Form1->ImRoche2;
 }
 //---------------------------------------------------------------------------
 

@@ -16,7 +16,6 @@ object Form1: TForm1
   OldCreateOrder = False
   Position = poScreenCenter
   OnClose = FormClose
-  OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
@@ -461,7 +460,6 @@ object Form1: TForm1
       item
         Width = 50
       end>
-    SimplePanel = False
     SizeGrip = False
   end
   object BoxYou: TGroupBox
@@ -506,6 +504,9 @@ object Form1: TForm1
     Height = 161
     Caption = 'Chat'
     TabOrder = 3
+    DesignSize = (
+      489
+      161)
     object Memo2: TMemo
       Left = 8
       Top = 64
@@ -549,7 +550,9 @@ object Form1: TForm1
       VisibleButtons = [btPlay, btStop, btNext, btPrev]
       AutoOpen = True
       DeviceType = dtSequencer
+      DoubleBuffered = True
       Visible = False
+      ParentDoubleBuffered = False
       ParentShowHint = False
       ShowHint = False
       TabOrder = 3
