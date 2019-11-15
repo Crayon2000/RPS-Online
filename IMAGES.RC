@@ -1,0 +1,14 @@
+//----------------------------------------------------------------------------
+// Borland C++ Builder
+// Copyright (c) 1997 by Borland International, All Rights Reserved
+//----------------------------------------------------------------------------
+#ifndef WORKSHOP_INVOKED
+  #include <windows.h>
+#endif
+
+Roche		BITMAP	roche1.bmp
+Papier		BITMAP	papier1.bmp
+Ciseaux	    BITMAP	ciseaux1.bmp
+Roche2		BITMAP	roche.bmp
+Papier2		BITMAP	papier.bmp
+Ciseaux2	BITMAP	ciseaux.bmp
