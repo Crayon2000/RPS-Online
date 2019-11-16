@@ -8,24 +8,24 @@ USEFORM("About.cpp", AboutBox);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
-    HANDLE mutex ;
+    HANDLE LMutex = NULL;
 
     try
     {
-        const wchar_t mutex_name[] = L"allow_only_one_instance_running" ;
-        // See if the mutex already exists.
-        mutex = OpenMutex ( 0, false, mutex_name ) ;
+        const wchar_t MutexName[] = L"allow_only_one_instance_running" ;
+        // See if the LMutex already exists.
+        LMutex = OpenMutex (0, false, MutexName);
 
-        if (mutex == NULL)
+        if (LMutex == NULL)
         {
-            /* Create a mutex so that all other programs will know that
+            /* Create a LMutex so that all other programs will know that
             * this program is running.*/
-            mutex = CreateMutex( NULL, true, mutex_name ) ;
+            LMutex = CreateMutex(NULL, true, MutexName);
         }
         else
         {
-            Application->MessageBox(L"Application is already running.", L"RPS Online", MB_ICONWARNING );
-            return 0 ;
+            Application->MessageBox(L"Application is already running.", L"RPS Online", MB_ICONWARNING);
+            return 0;
         }
 
         Application->Initialize();
@@ -49,7 +49,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
              Application->ShowException(&exception);
          }
     }
-    ReleaseMutex (mutex);
+    ReleaseMutex (LMutex);
     return 0;
 }
 //---------------------------------------------------------------------------

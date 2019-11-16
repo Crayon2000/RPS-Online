@@ -2,22 +2,21 @@
 #ifndef Unit1H
 #define Unit1H
 //---------------------------------------------------------------------------
-#include <Classes.hpp>
-#include <Controls.hpp>
-#include <StdCtrls.hpp>
-#include <Forms.hpp>
-#include <ScktComp.hpp>
-#include <ComCtrls.hpp>
-#include <Menus.hpp>
-#include <ExtCtrls.hpp>
-#include <Graphics.hpp>
-#include <Buttons.hpp>
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include <System.Win.ScktComp.hpp>
+#include <Vcl.ComCtrls.hpp>
+#include <Vcl.Menus.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Graphics.hpp>
+#include <Vcl.Buttons.hpp>
 #include <Vcl.MPlayer.hpp>
-#include <Registry.hpp> // Pour le REGISTRE ou INI
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
-__published:	// Composants gérés par l'EDI
+__published:    // Composants gérés par l'EDI
         TServerSocket *ServerSocket;
         TClientSocket *ClientSocket;
         TStatusBar *StatusBar1;
@@ -89,7 +88,7 @@ __published:	// Composants gérés par l'EDI
         void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
         void __fastcall Statistics1Click(TObject *Sender);
         void __fastcall FormDestroy(TObject *Sender);
-private:	// Déclarations utilisateur
+private:    // Déclarations utilisateur
         Graphics::TBitmap*    ImRoche;
         Graphics::TBitmap*    ImPapier;
         Graphics::TBitmap*    ImCiseaux;
@@ -100,7 +99,7 @@ private:	// Déclarations utilisateur
         void __fastcall TForm1::Listen(bool Ecoute);       //Attend une connection TCP/IP
         void __fastcall TForm1::Compare();                 //Compare le joueur à l'adversaire
         void __fastcall TForm1::Reception(TCustomWinSocket *Socket); //Réception (réseau)
-public:		// Déclarations utilisateur
+public:     // Déclarations utilisateur
         String IPServer;   // Contient l'adresse IP de l'adversaire
         String Temp_IPServer;   //On s'en sert pour le fichier ini
         String NickServer; // Contient le nick name de l'adversaire
@@ -126,3 +125,4 @@ public:		// Déclarations utilisateur
 extern PACKAGE TForm1 *Form1;
 //---------------------------------------------------------------------------
 #endif
+
