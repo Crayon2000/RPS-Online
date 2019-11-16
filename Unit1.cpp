@@ -95,6 +95,13 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
 __fastcall TForm1::~TForm1()
 {
+    TIniFile *ini;       //Écriture dans le fichier INI
+    ini = new TIniFile(ChangeFileExt( Application->ExeName, ".ini" ) );
+    ini->WriteString ( "Setting", "IP", IPServer );
+    ini->WriteBool   ( "Setting", "Music", Musique );    //0=Off
+    ini->WriteBool   ( "Setting", "Sound", Son );        //1=On
+    delete ini;
+
     //On récupère la mémoire
     delete ImRoche;
     delete ImPapier;
@@ -153,72 +160,93 @@ void __fastcall TForm1::Compare()
     MonCanvas->Font->Style = TFontStyles() << fsBold;   //On met le texte en gras
     SetTextAlign (MonCanvas->Handle, TA_CENTER);     //Le texte est centré
 
-    int x= GLancer->Width;                          //Emplacement des images
-    int y= GLancer->Height - 10;
+    int x = GLancer->Width;                          //Emplacement des images
+    int y = GLancer->Height - 10;
 
-if (P1Choix != 0 && P2Choix != 0)
-{
-  //Affichage des mains Joueurs DEUX et UN
-  switch ( P2Choix ) {
-    case 1 : MonCanvas->Draw(x-ImRoche2->Width , y-ImRoche2->Height+7, ImRoche2);   break;
-    case 2 : MonCanvas->Draw(x-ImPapier2->Width , y-ImRoche2->Height+16, ImPapier2); break;
-    case 3 : MonCanvas->Draw(x-ImCiseaux->Width , y-ImRoche2->Height+8, ImCiseaux2); break;
-  }
-  switch ( P1Choix ) {
-    case 1 : MonCanvas->Draw(0, y-ImRoche2->Height+7, ImRoche);   break;
-    case 2 : MonCanvas->Draw(0, y-ImRoche2->Height+16, ImPapier); break;
-    case 3 : MonCanvas->Draw(0, y-ImRoche2->Height+8, ImCiseaux); break;
-  }
+    if (P1Choix != 0 && P2Choix != 0)
+    {
+        //Affichage des mains Joueurs DEUX et UN
+        switch ( P2Choix )
+        {
+            case 1 :
+                MonCanvas->Draw(x-ImRoche2->Width , y-ImRoche2->Height+7, ImRoche2);
+                break;
+            case 2 :
+                MonCanvas->Draw(x-ImPapier2->Width , y-ImRoche2->Height+16, ImPapier2);
+                break;
+            case 3 :
+                MonCanvas->Draw(x-ImCiseaux->Width , y-ImRoche2->Height+8, ImCiseaux2);
+                break;
+            default:
+                break;
+        }
+        switch ( P1Choix )
+        {
+            case 1 :
+                MonCanvas->Draw(0, y-ImRoche2->Height+7, ImRoche);
+                break;
+            case 2 :
+                MonCanvas->Draw(0, y-ImRoche2->Height+16, ImPapier);
+                break;
+            case 3 :
+                MonCanvas->Draw(0, y-ImRoche2->Height+8, ImCiseaux);
+                break;
+            default:
+                break;
+        }
 
-x = GLancer->Width / 2;                            //Emplacement du texte
-y = 0;
+        x = GLancer->Width / 2;                            //Emplacement du texte
+        y = 0;
 
-  //Détermine si c'est une victoire, défaite ou nulle
-  if ((P1Choix==1&&P2Choix==3)||(P1Choix==2&&P2Choix==1)||(P1Choix==3&&P2Choix==2)){
-     Wins++;
-     Win->Caption = Wins;
+        //Détermine si c'est une victoire, défaite ou nulle
+        if ((P1Choix == 1 && P2Choix == 3) ||
+            (P1Choix == 2 && P2Choix == 1) ||
+            (P1Choix == 3 && P2Choix == 2))
+        {
+            Wins++;
+            Win->Caption = Wins;
 
-     String Texte = "WIN";
-     MonCanvas->Font->Color = RGB(255,254,255);
-     MonCanvas->TextOut(x+1, y+1, Texte);
-     MonCanvas->Font->Color = clBlack;
-     MonCanvas->TextOut(x, y, Texte);
-  }
-  if ((P2Choix == 1 && P1Choix == 3) ||
-    (P2Choix == 2 && P1Choix == 1) ||
-    (P2Choix == 3 && P1Choix == 2))
-  {
-     Losts++;
-     Lost->Caption = Losts;
+            String Texte = "WIN";
+            MonCanvas->Font->Color = RGB(255, 254, 255);
+            MonCanvas->TextOut(x+1, y+1, Texte);
+            MonCanvas->Font->Color = clBlack;
+            MonCanvas->TextOut(x, y, Texte);
+        }
+        if ((P2Choix == 1 && P1Choix == 3) ||
+            (P2Choix == 2 && P1Choix == 1) ||
+            (P2Choix == 3 && P1Choix == 2))
+        {
+            Losts++;
+            Lost->Caption = Losts;
 
-     String Texte = "LOST";
-     MonCanvas->Font->Color = RGB(255,254,255);
-     MonCanvas->TextOut(x+1, y+1, Texte);
-     MonCanvas->Font->Color=clBlack;
-     MonCanvas->TextOut(x, y, Texte);
-  }
-  if ((P2Choix == 1 && P1Choix == 1) ||
-    (P2Choix == 2 && P1Choix == 2) ||
-    (P2Choix == 3 && P1Choix == 3))
-  {
-     Ties++;
-     Tie->Caption=Ties;
+            String Texte = "LOST";
+            MonCanvas->Font->Color = RGB(255, 254, 255);
+            MonCanvas->TextOut(x+1, y+1, Texte);
+            MonCanvas->Font->Color = clBlack;
+            MonCanvas->TextOut(x, y, Texte);
+        }
+        if ((P2Choix == 1 && P1Choix == 1) ||
+            (P2Choix == 2 && P1Choix == 2) ||
+            (P2Choix == 3 && P1Choix == 3))
+        {
+            Ties++;
+            Tie->Caption=Ties;
 
-     String Texte = "TIE";
-     MonCanvas->Font->Color = RGB(255,254,255);
-     MonCanvas->TextOut(x+1, y+1, Texte);
-     MonCanvas->Font->Color=clBlack;
-     MonCanvas->TextOut(x, y, Texte);
-  }
+            String Texte = "TIE";
+            MonCanvas->Font->Color = RGB(255, 254, 255);
+            MonCanvas->TextOut(x+1, y+1, Texte);
+            MonCanvas->Font->Color = clBlack;
+            MonCanvas->TextOut(x, y, Texte);
+        }
 
-  //On réactive pour une nouvelle joute
-  P1Choix = 0;
-  P2Choix = 0;
-  //On enable les boutons pour pouvoir jouer à nouveau
-  Roche1->Enabled = true;
-  Papier1->Enabled = true;
-  Ciseaux1->Enabled = true;
-  }
+        //On réactive pour une nouvelle joute
+        P1Choix = 0;
+        P2Choix = 0;
+        //On enable les boutons pour pouvoir jouer à nouveau
+        Roche1->Enabled = true;
+        Papier1->Enabled = true;
+        Ciseaux1->Enabled = true;
+    }
 }
 //---------------------------------------------------------------------------
 
@@ -464,7 +492,8 @@ void __fastcall TForm1::HelpTopic1Click(TObject *Sender)
 
 void __fastcall TForm1::Roche1Click(TObject *Sender)
 {
-    if (Son == true && FileExists("rock.wav")){
+    if (Son == true && FileExists("rock.wav"))
+    {
         sndPlaySound(L"rock.wav", SND_ASYNC);
     }
     StatsJoueur.Roche++;  //Compte le nombre de Roche
@@ -474,7 +503,8 @@ void __fastcall TForm1::Roche1Click(TObject *Sender)
 
 void __fastcall TForm1::Papier1Click(TObject *Sender)
 {
-    if (Son == true && FileExists("paper.wav")){
+    if (Son == true && FileExists("paper.wav"))
+    {
         sndPlaySound(L"paper.wav", SND_ASYNC);
     }
     StatsJoueur.Papier++; //Compte le nombre de Papier
@@ -484,7 +514,8 @@ void __fastcall TForm1::Papier1Click(TObject *Sender)
 
 void __fastcall TForm1::Ciseaux1Click(TObject *Sender)
 {
-    if (Son == true && FileExists("scissors.wav")){
+    if (Son == true && FileExists("scissors.wav"))
+    {
         sndPlaySound(L"scissors.wav", SND_ASYNC);
     }
     StatsJoueur.Ciseaux++;//Compte le nombre de Ciseaux
@@ -510,7 +541,8 @@ void __fastcall TForm1::PlayerMidiNotify(TObject *Sender)
 {
     // C'est ici que l'on fait looper la musique
     // Play déclanche un PlayerMidi->Notify = true;
-    if (Musique == true){
+    if (Musique == true)
+    {
         PlayerMidi->Play();
     }
 }
@@ -532,7 +564,8 @@ void __fastcall TForm1::Music1Click(TObject *Sender)
              //Erreur d'ouverture
         }
     }
-    else{
+    else
+    {
         Musique = false;  //On enlève la musique
         PlayerMidi->Stop();
         PlayerMidi->Close();
@@ -540,20 +573,9 @@ void __fastcall TForm1::Music1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action)
-{
-   TIniFile *ini;       //Écriture dans le fichier INI
-   ini = new TIniFile(ChangeFileExt( Application->ExeName, ".ini" ) );
-   ini->WriteString ( "Setting", "IP", IPServer );
-   ini->WriteBool   ( "Setting", "Music", Musique );    //0=Off
-   ini->WriteBool   ( "Setting", "Sound", Son );        //1=On
-   delete ini;
-}
-//---------------------------------------------------------------------------
-
 void __fastcall TForm1::Statistics1Click(TObject *Sender)
 {
-    float Total = Ties + Wins + Losts;
+    const float Total = Ties + Wins + Losts;
     ShowMessage(AnsiString("Wining ratio : ") + Wins/Total*100 + "%\nNumber of Round : "+ Total+ "\nNumber of Rock: "+ StatsJoueur.Roche + "\nNumber of Paper :" + StatsJoueur.Papier + "\nNumber of Cissors :" + StatsJoueur.Ciseaux);
 }
 //---------------------------------------------------------------------------

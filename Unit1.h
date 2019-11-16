@@ -85,7 +85,6 @@ __published:    // Composants gérés par l'EDI
         void __fastcall Sound1Click(TObject *Sender);
         void __fastcall PlayerMidiNotify(TObject *Sender);
         void __fastcall Music1Click(TObject *Sender);
-        void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
         void __fastcall Statistics1Click(TObject *Sender);
 private:    // Déclarations utilisateur
         Graphics::TBitmap* ImRoche;
