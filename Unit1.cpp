@@ -11,9 +11,12 @@
 #pragma resource "images.RES"
 TForm1 *Form1;
 //---------------------------------------------------------------------------
+
 __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
 {
+    Logo->Picture->Bitmap->LoadFromResourceName((NativeUInt)HInstance, "Title");
+
     TIniFile *ini;       //Lecture dans le fichier INI
     ini = new TIniFile( ChangeFileExt( Application->ExeName, ".INI" ) );
     Temp_IPServer   = ini->ReadString ( "Setting", "IP", "192.168.0.2" );
@@ -47,23 +50,23 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
     //On load les images du fichier RES
     ImRoche = new Graphics::TBitmap;
-    ImRoche->LoadFromResourceName((int)HInstance, "Roche");
+    ImRoche->LoadFromResourceName((NativeUInt)HInstance, "Roche");
     ImRoche->Transparent = true;
     ImPapier = new Graphics::TBitmap;
-    ImPapier->LoadFromResourceName((int)HInstance, "Papier");
+    ImPapier->LoadFromResourceName((NativeUInt)HInstance, "Papier");
     ImPapier->Transparent = true;
     ImCiseaux = new Graphics::TBitmap;
-    ImCiseaux->LoadFromResourceName((int)HInstance, "Ciseaux");
+    ImCiseaux->LoadFromResourceName((NativeUInt)HInstance, "Ciseaux");
     ImCiseaux->Transparent = true;
 
     ImRoche2 = new Graphics::TBitmap;
-    ImRoche2->LoadFromResourceName((int)HInstance, "Roche2");
+    ImRoche2->LoadFromResourceName((NativeUInt)HInstance, "Roche2");
     ImRoche2->Transparent = true;
     ImPapier2 = new Graphics::TBitmap;
-    ImPapier2->LoadFromResourceName((int)HInstance, "Papier2");
+    ImPapier2->LoadFromResourceName((NativeUInt)HInstance, "Papier2");
     ImPapier2->Transparent = true;
     ImCiseaux2 = new Graphics::TBitmap;
-    ImCiseaux2->LoadFromResourceName((int)HInstance, "Ciseaux2");
+    ImCiseaux2->LoadFromResourceName((NativeUInt)HInstance, "Ciseaux2");
     ImCiseaux2->Transparent = true;
 
     //On réutilise les mêmes images
@@ -89,6 +92,19 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     }
 }
 //---------------------------------------------------------------------------
+
+__fastcall TForm1::~TForm1()
+{
+    //On récupère la mémoire
+    delete ImRoche;
+    delete ImPapier;
+    delete ImCiseaux;
+    delete ImRoche2;
+    delete ImPapier2;
+    delete ImCiseaux2;
+}
+//---------------------------------------------------------------------------
+
 void __fastcall TForm1::ConnectServeur(String IP)
 {
     if (ClientSocket->Active)
@@ -103,6 +119,7 @@ void __fastcall TForm1::ConnectServeur(String IP)
     StatusBar1->Panels->Items[0]->Text = "Connecting to " + IP;
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::Listen(bool Ecoute)
 {
     if (Ecoute == true)                          // Si cocher (menu)
@@ -126,6 +143,7 @@ void __fastcall TForm1::Listen(bool Ecoute)
     }
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::Compare()
 {
     TCanvas *MonCanvas = GLancer->Canvas;
@@ -203,6 +221,7 @@ y = 0;
   }
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::Reception(TCustomWinSocket *Socket)
 {
     String Texte;
@@ -245,6 +264,7 @@ void __fastcall TForm1::Reception(TCustomWinSocket *Socket)
     }
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::Play(int Choix)
 {
     // On enlève toutes les mains
@@ -278,16 +298,19 @@ void __fastcall TForm1::Play(int Choix)
     }
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::Quitter1Click(TObject *Sender)
 {
-  Close();              //Ferme le programme
+    Close();              //Ferme le programme
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::Disconnectec1Click(TObject *Sender)
 {
-  Listen(true);         // On se met en mode d'écoute
+    Listen(true);         // On se met en mode d'écoute
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::SendClick(TObject *Sender)
 {
   if ((ClientSocket->Active == true || IsServer == true))
@@ -309,6 +332,7 @@ void __fastcall TForm1::SendClick(TObject *Sender)
   }
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::Connecttoopponent1Click(TObject *Sender)
 {
   if (InputQuery("Connect to Opponent", "IP number of your opponent:", IPServer))
@@ -320,6 +344,7 @@ void __fastcall TForm1::Connecttoopponent1Click(TObject *Sender)
   }
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::ClientSocketError(TObject *Sender,
       TCustomWinSocket *Socket, TErrorEvent ErrorEvent, int &ErrorCode)
 {
@@ -329,12 +354,14 @@ void __fastcall TForm1::ClientSocketError(TObject *Sender,
     Listen(true);         //On est en écoute
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::ClientSocketRead(TObject *Sender,
       TCustomWinSocket *Socket)
 {
     Reception(Socket);    //Réception d'un message
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::ServerSocketAccept(TObject *Sender,
       TCustomWinSocket *Socket)
 {
@@ -347,24 +374,28 @@ void __fastcall TForm1::ServerSocketAccept(TObject *Sender,
     //C'est ici que l'on envoie les setting du serveur
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::ServerSocketClientConnect(TObject *Sender,
       TCustomWinSocket *Socket)
 {
     Memo2->Lines->Clear();        // Efface les lignes de Memo2 (Réception)
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::ServerSocketClientDisconnect(TObject *Sender,
       TCustomWinSocket *Socket)
 {
     Listen(true);         //On est en écoute
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::ServerSocketClientRead(TObject *Sender,
       TCustomWinSocket *Socket)
 {
     Reception(Socket);    //Réception d'un message
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::ClientSocketConnect(TObject *Sender,
       TCustomWinSocket *Socket)
 {
@@ -374,17 +405,20 @@ void __fastcall TForm1::ClientSocketConnect(TObject *Sender,
     NickServer = "Opponent";         //Versus Distant
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::ClientSocketDisconnect(TObject *Sender,
       TCustomWinSocket *Socket)
 {
     Listen(true);        //On est en écoute
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::About1Click(TObject *Sender)
 {
     AboutBox->ShowModal();  //Affiche le About
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::NewGame1Click(TObject *Sender)
 {
     if ((ClientSocket->Active == true || IsServer == true)) //Joue online
@@ -420,12 +454,14 @@ void __fastcall TForm1::NewGame1Click(TObject *Sender)
     Ciseaux1->Enabled = true;
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::HelpTopic1Click(TObject *Sender)
 {
     Application->HelpFile = "rps.hlp";           //Donne le nom du fichier
     Application->HelpCommand(HELP_CONTENTS, 0);  //Affichage de l'aide
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::Roche1Click(TObject *Sender)
 {
     if (Son == true && FileExists("rock.wav")){
@@ -435,6 +471,7 @@ void __fastcall TForm1::Roche1Click(TObject *Sender)
     Play(1);        //On choisi Roche
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::Papier1Click(TObject *Sender)
 {
     if (Son == true && FileExists("paper.wav")){
@@ -444,6 +481,7 @@ void __fastcall TForm1::Papier1Click(TObject *Sender)
     Play(2);        //On choisi Papier
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::Ciseaux1Click(TObject *Sender)
 {
     if (Son == true && FileExists("scissors.wav")){
@@ -453,6 +491,7 @@ void __fastcall TForm1::Ciseaux1Click(TObject *Sender)
     Play(3);        //On choisi Ciseaux
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::Sound1Click(TObject *Sender)
 {
     Sound1->Checked = !Sound1->Checked; //Inverse le Check
@@ -466,6 +505,7 @@ void __fastcall TForm1::Sound1Click(TObject *Sender)
     }
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::PlayerMidiNotify(TObject *Sender)
 {
     // C'est ici que l'on fait looper la musique
@@ -475,6 +515,7 @@ void __fastcall TForm1::PlayerMidiNotify(TObject *Sender)
     }
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::Music1Click(TObject *Sender)
 {
     Music1->Checked = !Music1->Checked; //Inverse le Check
@@ -498,6 +539,7 @@ void __fastcall TForm1::Music1Click(TObject *Sender)
     }
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action)
 {
    TIniFile *ini;       //Écriture dans le fichier INI
@@ -508,17 +550,7 @@ void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action)
    delete ini;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::FormDestroy(TObject *Sender)
-{
-    //On récupère la mémoire
-    delete ImRoche;
-    delete ImPapier;
-    delete ImCiseaux;
-    delete ImRoche2;
-    delete ImPapier2;
-    delete ImCiseaux2;
-}
-//---------------------------------------------------------------------------
+
 void __fastcall TForm1::Statistics1Click(TObject *Sender)
 {
     float Total = Ties + Wins + Losts;

@@ -87,18 +87,17 @@ __published:    // Composants gérés par l'EDI
         void __fastcall Music1Click(TObject *Sender);
         void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
         void __fastcall Statistics1Click(TObject *Sender);
-        void __fastcall FormDestroy(TObject *Sender);
 private:    // Déclarations utilisateur
-        Graphics::TBitmap*    ImRoche;
-        Graphics::TBitmap*    ImPapier;
-        Graphics::TBitmap*    ImCiseaux;
-        Graphics::TBitmap*    ImPapier2;
-        Graphics::TBitmap*    ImCiseaux2;
-        void __fastcall TForm1::Play(int Choix);           //On joue
-        void __fastcall TForm1::ConnectServeur(String IP); //Connection par TCP/IP
-        void __fastcall TForm1::Listen(bool Ecoute);       //Attend une connection TCP/IP
-        void __fastcall TForm1::Compare();                 //Compare le joueur à l'adversaire
-        void __fastcall TForm1::Reception(TCustomWinSocket *Socket); //Réception (réseau)
+        Graphics::TBitmap* ImRoche;
+        Graphics::TBitmap* ImPapier;
+        Graphics::TBitmap* ImCiseaux;
+        Graphics::TBitmap* ImPapier2;
+        Graphics::TBitmap* ImCiseaux2;
+        void __fastcall Play(int Choix);           //On joue
+        void __fastcall ConnectServeur(String IP); //Connection par TCP/IP
+        void __fastcall Listen(bool Ecoute);       //Attend une connection TCP/IP
+        void __fastcall Compare();                 //Compare le joueur à l'adversaire
+        void __fastcall Reception(TCustomWinSocket *Socket); //Réception (réseau)
 public:     // Déclarations utilisateur
         String IPServer;   // Contient l'adresse IP de l'adversaire
         String Temp_IPServer;   //On s'en sert pour le fichier ini
@@ -120,6 +119,7 @@ public:     // Déclarations utilisateur
         };
         Signe StatsJoueur; //Stats sur signe du joueur
         __fastcall TForm1(TComponent* Owner);
+        __fastcall virtual ~TForm1();
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TForm1 *Form1;

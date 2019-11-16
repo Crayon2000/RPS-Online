@@ -6,9 +6,10 @@
   #include <windows.h>
 #endif
 
-Roche       BITMAP  roche1.bmp
-Papier      BITMAP  papier1.bmp
-Ciseaux     BITMAP  ciseaux1.bmp
-Roche2      BITMAP  roche.bmp
-Papier2     BITMAP  papier.bmp
-Ciseaux2    BITMAP  ciseaux.bmp
+Roche       BITMAP  "images\\rock1.bmp"
+Papier      BITMAP  "images\\paper1.bmp"
+Ciseaux     BITMAP  "images\\scissors1.bmp"
+Roche2      BITMAP  "images\\rock.bmp"
+Papier2     BITMAP  "images\\paper.bmp"
+Ciseaux2    BITMAP  "images\\scissors.bmp"
+Title       BITMAP  "images\\title.bmp"
