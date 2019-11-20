@@ -4,7 +4,7 @@
 
 #include "Unit1.h"
 #include "About.h"
-#include <System.Win.Registry.hpp> // Pour le REGISTRE ou INI
+#include <System.IniFiles.hpp>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -15,15 +15,16 @@ TForm1 *Form1;
 __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
 {
+    Logo->Transparent = true;
     Logo->Picture->Bitmap->LoadFromResourceName((NativeUInt)HInstance, "Title");
 
-    TIniFile *ini;       //Lecture dans le fichier INI
-    ini = new TIniFile( ChangeFileExt( Application->ExeName, ".INI" ) );
-    Temp_IPServer   = ini->ReadString ( "Setting", "IP", "192.168.0.2" );
-    Musique         = ini->ReadBool   ( "Setting", "Music", true );
-    Son             = ini->ReadBool   ( "Setting", "Sound", true);
-    PortCom         = ini->ReadInteger( "Setting", "Port", 1024 );
-    delete ini;
+    TIniFile *LIniFile;       //Lecture dans le fichier INI
+    LIniFile = new TIniFile( ChangeFileExt( Application->ExeName, ".ini" ) );
+    Temp_IPServer   = LIniFile->ReadString ( "Setting", "IP", "192.168.0.2" );
+    Musique         = LIniFile->ReadBool   ( "Setting", "Music", true );
+    Son             = LIniFile->ReadBool   ( "Setting", "Sound", true);
+    PortCom         = LIniFile->ReadInteger( "Setting", "Port", 1024 );
+    delete LIniFile;
 
     //Prend les paramètres que ICQ envoie (Détection d'arguments)
     //Arguments: -ip numip -name nom_du_user  (pas bon)
@@ -75,7 +76,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     Ciseaux1->Glyph = ImCiseaux;
 
     //Met les valeurs par défaut
-    if (IPServer.Length() < 1)           // Si il n'y a rien d'écrit
+    if (IPServer.IsEmpty() == true)           // Si il n'y a rien d'écrit
     {
         IPServer = Temp_IPServer;
         MailServer = "";
@@ -83,10 +84,10 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     }
     else
     {
-        ConnectServeur(IPServer);
+        ConnectServer(IPServer);
     }
 
-    if (NickServer.Length() < 1)           // Si il n'y a rien d'écrit
+    if (NickServer.IsEmpty() == true)           // Si il n'y a rien d'écrit
     {
         NickServer = "CPU Opponent";         //Versus Distant
     }
@@ -95,12 +96,12 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
 __fastcall TForm1::~TForm1()
 {
-    TIniFile *ini;       //Écriture dans le fichier INI
-    ini = new TIniFile(ChangeFileExt( Application->ExeName, ".ini" ) );
-    ini->WriteString ( "Setting", "IP", IPServer );
-    ini->WriteBool   ( "Setting", "Music", Musique );    //0=Off
-    ini->WriteBool   ( "Setting", "Sound", Son );        //1=On
-    delete ini;
+    TIniFile *LIniFile;       //Écriture dans le fichier INI
+    LIniFile = new TIniFile(ChangeFileExt( Application->ExeName, ".ini" ) );
+    LIniFile->WriteString ( "Setting", "IP", IPServer );
+    LIniFile->WriteBool   ( "Setting", "Music", Musique );    //0=Off
+    LIniFile->WriteBool   ( "Setting", "Sound", Son );        //1=On
+    delete LIniFile;
 
     //On récupère la mémoire
     delete ImRoche;
@@ -112,9 +113,9 @@ __fastcall TForm1::~TForm1()
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::ConnectServeur(String IP)
+void __fastcall TForm1::ConnectServer(String IP)
 {
-    if (ClientSocket->Active)
+    if (ClientSocket->Active == true)
     {             // Si Client enable
         ClientSocket->Active = false;       // On le disable
     }
@@ -127,9 +128,9 @@ void __fastcall TForm1::ConnectServeur(String IP)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Listen(bool Ecoute)
+void __fastcall TForm1::Listen(bool AListen)
 {
-    if (Ecoute == true)                          // Si cocher (menu)
+    if (AListen == true)                          // Si cocher (menu)
     {
         ClientSocket->Active = false;                      // Disable le Client
         ServerSocket->Active = true;                       // Enable le Serveur
@@ -155,10 +156,10 @@ void __fastcall TForm1::Compare()
 {
     TCanvas *MonCanvas = GLancer->Canvas;
     SetBkMode(MonCanvas->Handle, TRANSPARENT);
-    MonCanvas->Font->Name = "Arial";                   //Choix de la Police
-    MonCanvas->Font->Size = 30;                        //Grandeur du texte
-    MonCanvas->Font->Style = TFontStyles() << fsBold;   //On met le texte en gras
-    SetTextAlign (MonCanvas->Handle, TA_CENTER);     //Le texte est centré
+    MonCanvas->Font->Name = "Arial";
+    MonCanvas->Font->Size = 30;
+    MonCanvas->Font->Style = TFontStyles() << TFontStyle::fsBold;
+    SetTextAlign (MonCanvas->Handle, TA_CENTER);
 
     int x = GLancer->Width;                          //Emplacement des images
     int y = GLancer->Height - 10;
@@ -207,7 +208,7 @@ void __fastcall TForm1::Compare()
             Win->Caption = Wins;
 
             String Texte = "WIN";
-            MonCanvas->Font->Color = RGB(255, 254, 255);
+            MonCanvas->Font->Color = (TColor)RGB(255, 254, 255);
             MonCanvas->TextOut(x+1, y+1, Texte);
             MonCanvas->Font->Color = clBlack;
             MonCanvas->TextOut(x, y, Texte);
@@ -220,7 +221,7 @@ void __fastcall TForm1::Compare()
             Lost->Caption = Losts;
 
             String Texte = "LOST";
-            MonCanvas->Font->Color = RGB(255, 254, 255);
+            MonCanvas->Font->Color = (TColor)RGB(255, 254, 255);
             MonCanvas->TextOut(x+1, y+1, Texte);
             MonCanvas->Font->Color = clBlack;
             MonCanvas->TextOut(x, y, Texte);
@@ -233,7 +234,7 @@ void __fastcall TForm1::Compare()
             Tie->Caption=Ties;
 
             String Texte = "TIE";
-            MonCanvas->Font->Color = RGB(255, 254, 255);
+            MonCanvas->Font->Color = (TColor)RGB(255, 254, 255);
             MonCanvas->TextOut(x+1, y+1, Texte);
             MonCanvas->Font->Color = clBlack;
             MonCanvas->TextOut(x, y, Texte);
@@ -252,20 +253,19 @@ void __fastcall TForm1::Compare()
 
 void __fastcall TForm1::Reception(TCustomWinSocket *Socket)
 {
-    String Texte;
-    Texte = Socket->ReceiveText();
+    String LText = Socket->ReceiveText();
 
-    if (Texte == "!ChoixEvoyer$1" || Texte == "!ChoixEvoyer$2" || Texte == "!ChoixEvoyer$3")
+    if (LText == "!ChoixEvoyer$1" || LText == "!ChoixEvoyer$2" || LText == "!ChoixEvoyer$3")
     {
-        if (Texte == "!ChoixEvoyer$1")
+        if (LText == "!ChoixEvoyer$1")
         {
             P2Choix = 1;
         }
-        if (Texte == "!ChoixEvoyer$2")
+        if (LText == "!ChoixEvoyer$2")
         {
             P2Choix = 2;
         }
-        if (Texte == "!ChoixEvoyer$3")
+        if (LText == "!ChoixEvoyer$3")
         {
             P2Choix = 3;
         }
@@ -273,7 +273,7 @@ void __fastcall TForm1::Reception(TCustomWinSocket *Socket)
         Compare();
         StatusBar1->Panels->Items[0]->Text = "Waiting for you";
     }
-    else if (Texte == "éèNewGameéè")
+    else if (LText == "éèNewGameéè")
     {
         // NewGame1Click(NULL);
         Win->Caption = "0";       //On met l'affichage à zéro
@@ -288,18 +288,18 @@ void __fastcall TForm1::Reception(TCustomWinSocket *Socket)
     }
     else
     {
-        Memo2->Lines->Add(NickServer + ": " + Texte);     //Met le texte dans Memo2
+        Memo2->Lines->Add(NickServer + ": " + LText);     //Met le texte dans Memo2
     }
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Play(int Choix)
+void __fastcall TForm1::Play(int AChoice)
 {
     // On enlève toutes les mains
     GLancer->Canvas->FillRect(Rect(0, 0, GLancer->Width, GLancer->Height));
     Logo->Visible = false; //Enlève le titre
 
-    P1Choix = Choix;     //Choix du joueur UN
+    P1Choix = AChoice;     // Choix du joueur UN
 
     if (IsServer)
     {
@@ -321,7 +321,7 @@ void __fastcall TForm1::Play(int Choix)
     }
     else
     {                       //On joue contre le CPU
-        P2Choix = random(3) + 1;    //Choix du computer, super AI
+        P2Choix = random(3) + 1;    // Choix du computer, super AI
         Compare();
     }
 }
@@ -363,13 +363,15 @@ void __fastcall TForm1::SendClick(TObject *Sender)
 
 void __fastcall TForm1::Connecttoopponent1Click(TObject *Sender)
 {
-  if (InputQuery("Connect to Opponent", "IP number of your opponent:", IPServer))
-  // Ouvre une boîte de saisie pour entrer une valeur dans Serveur
-  {
-     if (IPServer.Length() > 0)         // Si il n'y a rien d'écrit
-        ConnectServeur(IPServer);
-        NewGame1Click(NULL);            // On fait une nouvelle game
-  }
+    if (InputQuery("Connect to Opponent", "IP number of your opponent:", IPServer) == true)
+    // Ouvre une boîte de saisie pour entrer une valeur dans Serveur
+    {
+        if (IPServer.IsEmpty() == false)
+        {
+            ConnectServer(IPServer);
+            NewGame1Click(NULL);            // On fait une nouvelle game
+        }
+    }
 }
 //---------------------------------------------------------------------------
 
@@ -496,8 +498,8 @@ void __fastcall TForm1::Roche1Click(TObject *Sender)
     {
         sndPlaySound(L"rock.wav", SND_ASYNC);
     }
-    StatsJoueur.Roche++;  //Compte le nombre de Roche
-    Play(1);        //On choisi Roche
+    StatsJoueur.Roche++;  // Compte le nombre de Roche
+    Play(1);        // On choisi Roche
 }
 //---------------------------------------------------------------------------
 
@@ -507,8 +509,8 @@ void __fastcall TForm1::Papier1Click(TObject *Sender)
     {
         sndPlaySound(L"paper.wav", SND_ASYNC);
     }
-    StatsJoueur.Papier++; //Compte le nombre de Papier
-    Play(2);        //On choisi Papier
+    StatsJoueur.Papier++; // Compte le nombre de Papier
+    Play(2);        // On choisi Papier
 }
 //---------------------------------------------------------------------------
 
@@ -518,22 +520,15 @@ void __fastcall TForm1::Ciseaux1Click(TObject *Sender)
     {
         sndPlaySound(L"scissors.wav", SND_ASYNC);
     }
-    StatsJoueur.Ciseaux++;//Compte le nombre de Ciseaux
-    Play(3);        //On choisi Ciseaux
+    StatsJoueur.Ciseaux++;// Compte le nombre de Ciseaux
+    Play(3);        // On choisi Ciseaux
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::Sound1Click(TObject *Sender)
 {
-    Sound1->Checked = !Sound1->Checked; //Inverse le Check
-    if (Sound1->Checked == true)
-    {
-        Son = true;       //On met le son
-    }
-    else
-    {
-        Son = false;      //On enlève le son
-    }
+    Sound1->Checked = !Sound1->Checked;
+    Son = Sound1->Checked;
 }
 //---------------------------------------------------------------------------
 
@@ -550,23 +545,24 @@ void __fastcall TForm1::PlayerMidiNotify(TObject *Sender)
 
 void __fastcall TForm1::Music1Click(TObject *Sender)
 {
-    Music1->Checked = !Music1->Checked; //Inverse le Check
+    Music1->Checked = !Music1->Checked;
     if (Music1->Checked == true)
     {
-        Musique = true;   //On met la musique
+        // Start music
+        Musique = true;
         try
         {
-             PlayerMidi->Open(); //exécuter
+             PlayerMidi->Open();
              PlayerMidi->Play();
         }
         catch ( ... )
         {
-             //Erreur d'ouverture
         }
     }
     else
     {
-        Musique = false;  //On enlève la musique
+        // Stop music
+        Musique = false;
         PlayerMidi->Stop();
         PlayerMidi->Close();
     }

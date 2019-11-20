@@ -31,7 +31,6 @@ object Form1: TForm1
       Height = 169
       Center = True
       Stretch = True
-      Transparent = True
     end
     object Label1: TLabel
       Left = 16

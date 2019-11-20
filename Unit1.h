@@ -92,10 +92,10 @@ private:    // Déclarations utilisateur
         Graphics::TBitmap* ImCiseaux;
         Graphics::TBitmap* ImPapier2;
         Graphics::TBitmap* ImCiseaux2;
-        void __fastcall Play(int Choix);           //On joue
-        void __fastcall ConnectServeur(String IP); //Connection par TCP/IP
-        void __fastcall Listen(bool Ecoute);       //Attend une connection TCP/IP
-        void __fastcall Compare();                 //Compare le joueur à l'adversaire
+        void __fastcall Play(int AChoice);         // On joue
+        void __fastcall ConnectServer(String IP);  // Connection par TCP/IP
+        void __fastcall Listen(bool AListen);      // Attend une connection TCP/IP
+        void __fastcall Compare();                 // Compare le joueur à l'adversaire
         void __fastcall Reception(TCustomWinSocket *Socket); //Réception (réseau)
 public:     // Déclarations utilisateur
         String IPServer;   // Contient l'adresse IP de l'adversaire
@@ -112,9 +112,9 @@ public:     // Déclarations utilisateur
         int PortCom;       // Port de communication
         Graphics::TBitmap*    ImRoche2;
         struct Signe {     //Signes
-                int Roche;
-                int Papier;
-                int Ciseaux;
+            int Roche;
+            int Papier;
+            int Ciseaux;
         };
         Signe StatsJoueur; //Stats sur signe du joueur
         __fastcall TForm1(TComponent* Owner);
