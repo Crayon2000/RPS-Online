@@ -494,7 +494,7 @@ void __fastcall TForm1::HelpTopic1Click(TObject *Sender)
 
 void __fastcall TForm1::Roche1Click(TObject *Sender)
 {
-    if (Son == true && FileExists("rock.wav"))
+    if (Son == true && FileExists("rock.wav") == true)
     {
         sndPlaySound(L"rock.wav", SND_ASYNC);
     }
@@ -505,7 +505,7 @@ void __fastcall TForm1::Roche1Click(TObject *Sender)
 
 void __fastcall TForm1::Papier1Click(TObject *Sender)
 {
-    if (Son == true && FileExists("paper.wav"))
+    if (Son == true && FileExists("paper.wav") == true)
     {
         sndPlaySound(L"paper.wav", SND_ASYNC);
     }
@@ -516,7 +516,7 @@ void __fastcall TForm1::Papier1Click(TObject *Sender)
 
 void __fastcall TForm1::Ciseaux1Click(TObject *Sender)
 {
-    if (Son == true && FileExists("scissors.wav"))
+    if (Son == true && FileExists("scissors.wav") == true)
     {
         sndPlaySound(L"scissors.wav", SND_ASYNC);
     }
