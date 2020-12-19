@@ -12,15 +12,15 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 
     try
     {
-        const wchar_t MutexName[] = L"allow_only_one_instance_running" ;
+        const wchar_t LMutexName[] = L"allow_only_one_instance_running";
         // See if the LMutex already exists.
-        LMutex = OpenMutex (0, false, MutexName);
+        LMutex = OpenMutex(0, false, LMutexName);
 
         if (LMutex == NULL)
         {
             /* Create a LMutex so that all other programs will know that
             * this program is running.*/
-            LMutex = CreateMutex(NULL, true, MutexName);
+            LMutex = CreateMutex(NULL, true, LMutexName);
         }
         else
         {
@@ -49,7 +49,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
              Application->ShowException(&exception);
          }
     }
-    ReleaseMutex (LMutex);
+    ReleaseMutex(LMutex);
     return 0;
 }
 //---------------------------------------------------------------------------

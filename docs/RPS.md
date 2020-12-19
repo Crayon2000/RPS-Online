@@ -119,7 +119,7 @@ Click **Browse** to configure the path of the application : RPS.exe
 
 Enter **Command Line** : %i %h %e
 
-![ICQ](ICQ2.png?raw=true)
+![ICQ](Icq2.png?raw=true)
 
 ## How to get my IP address
 
