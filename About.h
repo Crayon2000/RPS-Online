@@ -28,6 +28,7 @@ __published:
 private:
 public:
     virtual __fastcall TAboutBox(TComponent* AOwner);
+    inline __fastcall virtual ~TAboutBox() { }
 };
 //----------------------------------------------------------------------------
 extern PACKAGE TAboutBox *AboutBox;

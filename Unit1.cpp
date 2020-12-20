@@ -16,6 +16,8 @@ TForm1 *Form1;
 __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
 {
+    String Temp_IPServer;
+
     Logo->Transparent = true;
     Logo->Picture->Bitmap->LoadFromResourceName((NativeUInt)HInstance, "Title");
 
@@ -31,7 +33,6 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     // Arguments: -ip numip -name nom_du_user  (pas bon)
     // IPServer = _argv[1];
     // NickServer = _argv[2];
-    // MailServer = _argv[3];
 
     // Sert a faire un vrai Random
     randomize();
@@ -43,7 +44,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     P1Choix = 0; // On a rien choisi encore
     P2Choix = 0; // L'adversaire n'a rien choisi encore
 
-    //Audio
+    // Audio
     PlayerMidi->FileName = ExtractFilePath(Application->ExeName) + "\\rps.mid"; // Spécifie le fichier son
     Music1->Checked = !Musique;   // Par défaut on met de la musique (true=musique)
     Music1Click(NULL);
@@ -80,7 +81,6 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     if (IPServer.IsEmpty() == true)           // Si il n'y a rien d'écrit
     {
         IPServer = Temp_IPServer;
-        MailServer = "";
         Listen(true);
     }
     else
@@ -90,14 +90,14 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
     if (NickServer.IsEmpty() == true)           // Si il n'y a rien d'écrit
     {
-        NickServer = "CPU Opponent";         // Versus Distant
+        NickServer = "CPU Opponent"; // Versus Distant
     }
 }
 //---------------------------------------------------------------------------
 
 __fastcall TForm1::~TForm1()
 {
-    TIniFile *LIniFile;       // Écriture dans le fichier INI
+    TIniFile *LIniFile; // Écriture dans le fichier INI
     LIniFile = new TIniFile(ChangeFileExt( Application->ExeName, ".ini" ) );
     LIniFile->WriteString ( "Setting", "IP", IPServer );
     LIniFile->WriteBool   ( "Setting", "Music", Musique );    // 0 = Off
@@ -162,7 +162,7 @@ void __fastcall TForm1::Compare()
     MonCanvas->Font->Style = TFontStyles() << TFontStyle::fsBold;
     SetTextAlign (MonCanvas->Handle, TA_CENTER);
 
-    int x = GLancer->Width;                          // Emplacement des images
+    int x = GLancer->Width; // Emplacement des images
     int y = GLancer->Height - 10;
 
     if (P1Choix != 0 && P2Choix != 0)
@@ -197,7 +197,7 @@ void __fastcall TForm1::Compare()
                 break;
         }
 
-        x = GLancer->Width / 2;                            // Emplacement du texte
+        x = GLancer->Width / 2; // Emplacement du texte
         y = 0;
 
         // Détermine si c'est une victoire, défaite ou nulle
@@ -388,7 +388,7 @@ void __fastcall TForm1::ClientSocketError(TObject *Sender,
     // Écrit un message d'erreur
     ShowMessage(AnsiString("Error connecting to: ") + IPServer + ".");
     ErrorCode = 0;
-    Listen(true);         //On est en écoute
+    Listen(true);         // On est en écoute
 }
 //---------------------------------------------------------------------------
 
@@ -446,13 +446,13 @@ void __fastcall TForm1::ClientSocketConnect(TObject *Sender,
 void __fastcall TForm1::ClientSocketDisconnect(TObject *Sender,
       TCustomWinSocket *Socket)
 {
-    Listen(true);        //On est en écoute
+    Listen(true); //On est en écoute
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::About1Click(TObject *Sender)
 {
-    AboutBox->ShowModal();  // Affiche le About
+    AboutBox->ShowModal(); // Affiche le About
 }
 //---------------------------------------------------------------------------
 
@@ -473,9 +473,9 @@ void __fastcall TForm1::NewGame1Click(TObject *Sender)
     }
 
     // Reset les comptes de moves
-    StatsJoueur.Roche = 0;
-    StatsJoueur.Papier = 0;
-    StatsJoueur.Ciseaux = 0;
+    FPlayerStats.Roche = 0;
+    FPlayerStats.Papier = 0;
+    FPlayerStats.Ciseaux = 0;
     Win->Caption = "0";       // On met l'affichage à zéro
     Lost->Caption = "0";
     Tie->Caption = "0";
@@ -505,7 +505,7 @@ void __fastcall TForm1::Roche1Click(TObject *Sender)
     {
         sndPlaySound(L"rock.wav", SND_ASYNC);
     }
-    StatsJoueur.Roche++; // Compte le nombre de Roche
+    FPlayerStats.Roche++; // Compte le nombre de Roche
     Play(1); // On choisi Roche
 }
 //---------------------------------------------------------------------------
@@ -516,7 +516,7 @@ void __fastcall TForm1::Papier1Click(TObject *Sender)
     {
         sndPlaySound(L"paper.wav", SND_ASYNC);
     }
-    StatsJoueur.Papier++; // Compte le nombre de Papier
+    FPlayerStats.Papier++; // Compte le nombre de Papier
     Play(2); // On choisi Papier
 }
 //---------------------------------------------------------------------------
@@ -527,7 +527,7 @@ void __fastcall TForm1::Ciseaux1Click(TObject *Sender)
     {
         sndPlaySound(L"scissors.wav", SND_ASYNC);
     }
-    StatsJoueur.Ciseaux++; // Compte le nombre de Ciseaux
+    FPlayerStats.Ciseaux++; // Compte le nombre de Ciseaux
     Play(3); // On choisi Ciseaux
 }
 //---------------------------------------------------------------------------
@@ -579,7 +579,7 @@ void __fastcall TForm1::Music1Click(TObject *Sender)
 void __fastcall TForm1::Statistics1Click(TObject *Sender)
 {
     const float Total = Ties + Wins + Losts;
-    ShowMessage(AnsiString("Wining ratio : ") + Wins/Total*100 + "%\nNumber of Round : "+ Total+ "\nNumber of Rock: "+ StatsJoueur.Roche + "\nNumber of Paper :" + StatsJoueur.Papier + "\nNumber of Cissors :" + StatsJoueur.Ciseaux);
+    ShowMessage(AnsiString("Wining ratio : ") + Wins/Total*100 + "%\nNumber of Round : "+ Total+ "\nNumber of Rock: "+ FPlayerStats.Roche + "\nNumber of Paper :" + FPlayerStats.Papier + "\nNumber of Cissors :" + FPlayerStats.Ciseaux);
 }
 //---------------------------------------------------------------------------
 
