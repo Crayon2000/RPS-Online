@@ -5,6 +5,7 @@
 //---------------------------------------------------------------------------
 USEFORM("Unit1.cpp", Form1);
 USEFORM("About.cpp", AboutBox);
+USEFORM("ConnectionBox.cpp", Form2);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

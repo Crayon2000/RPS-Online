@@ -4,6 +4,7 @@
 
 #include "Unit1.h"
 #include "About.h"
+#include "ConnectionBox.h"
 #include <System.IniFiles.hpp>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -169,13 +170,13 @@ void __fastcall TForm1::Compare()
         // Affichage des mains Joueurs DEUX et UN
         switch ( P2Choix )
         {
-            case 1 :
+            case 1:
                 MonCanvas->Draw(x-ImRoche2->Width , y-ImRoche2->Height+7, ImRoche2);
                 break;
-            case 2 :
+            case 2:
                 MonCanvas->Draw(x-ImPapier2->Width , y-ImRoche2->Height+16, ImPapier2);
                 break;
-            case 3 :
+            case 3:
                 MonCanvas->Draw(x-ImCiseaux->Width , y-ImRoche2->Height+8, ImCiseaux2);
                 break;
             default:
@@ -183,13 +184,13 @@ void __fastcall TForm1::Compare()
         }
         switch ( P1Choix )
         {
-            case 1 :
+            case 1:
                 MonCanvas->Draw(0, y-ImRoche2->Height+7, ImRoche);
                 break;
-            case 2 :
+            case 2:
                 MonCanvas->Draw(0, y-ImRoche2->Height+16, ImPapier);
                 break;
-            case 3 :
+            case 3:
                 MonCanvas->Draw(0, y-ImRoche2->Height+8, ImCiseaux);
                 break;
             default:
@@ -363,14 +364,20 @@ void __fastcall TForm1::SendClick(TObject *Sender)
 
 void __fastcall TForm1::Connecttoopponent1Click(TObject *Sender)
 {
-    if (InputQuery("Connect to Opponent", "IP number of your opponent:", IPServer) == true)
-    // Ouvre une boîte de saisie pour entrer une valeur dans Serveur
+    TForm2 *LConnectionBox = NULL;
+    try
     {
-        if (IPServer.IsEmpty() == false)
+        LConnectionBox = new TForm2(NULL, &IPServer);
+        const int LReturn = LConnectionBox->ShowModal();
+        if(LReturn == mrOk && IPServer.IsEmpty() == false)
         {
             ConnectServer(IPServer);
-            NewGame1Click(NULL);            // On fait une nouvelle game
+            NewGame1Click(NULL); // On fait une nouvelle game
         }
+    }
+    __finally
+    {
+        delete LConnectionBox;
     }
 }
 //---------------------------------------------------------------------------
