@@ -99,10 +99,12 @@ private:    // Déclarations utilisateur
     Graphics::TBitmap* ImPapier2;
     Graphics::TBitmap* ImCiseaux2;
     void __fastcall Play(int AChoice);         // On joue
-    void __fastcall ConnectServer(String IP);  // Connection par TCP/IP
+    void __fastcall ConnectServer(const String IP);  // Connection par TCP/IP
     void __fastcall Listen(bool AListen);      // Attend une connection TCP/IP
     void __fastcall Compare();                 // Compare le joueur à l'adversaire
     void __fastcall Reception(TCustomWinSocket *Socket); //Réception (réseau)
+protected:
+    void __fastcall LoadPng(Graphics::TBitmap *ABitmapImage, const String AIdentifier);
 public:     // Déclarations utilisateur
     String IPServer;   // Contient l'adresse IP de l'adversaire
     String NickServer; // Contient le nick name de l'adversaire
@@ -112,7 +114,8 @@ public:     // Déclarations utilisateur
     int Wins;          // Calcul le nombre de partie gagnée
     int Losts;         // Calcul le nombre de partie perdue
     int Ties;          // Calcul le nombre de partie nulle
-    bool Son, Musique; // Enable/Disable les sons et la musique
+    bool Son;          // Enable/Disable les sons
+    bool Musique;      // Enable/Disable la musique
     int PortCom;       // Port de communication
     Graphics::TBitmap* ImRoche2;
     struct Signe {     //Signes

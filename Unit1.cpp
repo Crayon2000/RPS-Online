@@ -6,6 +6,7 @@
 #include "About.h"
 #include "ConnectionBox.h"
 #include <System.IniFiles.hpp>
+#include <Vcl.Imaging.pngimage.hpp>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -17,9 +18,6 @@ __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
 {
     String Temp_IPServer;
-
-    Logo->Transparent = true;
-    Logo->Picture->Bitmap->LoadFromResourceName((NativeUInt)HInstance, "Title");
 
     TIniFile *LIniFile;       // Lecture dans le fichier INI
     LIniFile = new TIniFile( ChangeFileExt( Application->ExeName, ".ini" ) );
@@ -52,23 +50,25 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     Sound1Click(NULL);
 
     // On load les images du fichier RES
-    ImRoche = new Graphics::TBitmap;
+    LoadPng(Logo->Picture->Bitmap, "PNG_TITLE");
+
+    ImRoche = new Graphics::TBitmap();
     ImRoche->LoadFromResourceName((NativeUInt)HInstance, "Roche");
     ImRoche->Transparent = true;
-    ImPapier = new Graphics::TBitmap;
+    ImPapier = new Graphics::TBitmap();
     ImPapier->LoadFromResourceName((NativeUInt)HInstance, "Papier");
     ImPapier->Transparent = true;
-    ImCiseaux = new Graphics::TBitmap;
+    ImCiseaux = new Graphics::TBitmap();
     ImCiseaux->LoadFromResourceName((NativeUInt)HInstance, "Ciseaux");
     ImCiseaux->Transparent = true;
 
-    ImRoche2 = new Graphics::TBitmap;
+    ImRoche2 = new Graphics::TBitmap();
     ImRoche2->LoadFromResourceName((NativeUInt)HInstance, "Roche2");
     ImRoche2->Transparent = true;
-    ImPapier2 = new Graphics::TBitmap;
+    ImPapier2 = new Graphics::TBitmap();
     ImPapier2->LoadFromResourceName((NativeUInt)HInstance, "Papier2");
     ImPapier2->Transparent = true;
-    ImCiseaux2 = new Graphics::TBitmap;
+    ImCiseaux2 = new Graphics::TBitmap();
     ImCiseaux2->LoadFromResourceName((NativeUInt)HInstance, "Ciseaux2");
     ImCiseaux2->Transparent = true;
 
@@ -114,7 +114,7 @@ __fastcall TForm1::~TForm1()
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::ConnectServer(String IP)
+void __fastcall TForm1::ConnectServer(const String IP)
 {
     if (ClientSocket->Active == true)
     {             // Si Client enable
@@ -289,7 +289,7 @@ void __fastcall TForm1::Reception(TCustomWinSocket *Socket)
     }
     else
     {
-        Memo2->Lines->Add(NickServer + ": " + LText);     // Met le texte dans Memo2
+        Memo2->Lines->Add(NickServer + ": " + LText); // Met le texte dans Memo2
     }
 }
 //---------------------------------------------------------------------------
@@ -347,17 +347,17 @@ void __fastcall TForm1::SendClick(TObject *Sender)
      if (IsServer == true)
      {
         ServerSocket->Socket->Connections[0]->SendText(Memo1->Text);
-        Memo2->Lines->Add("You: " + Memo1->Text);     //Met le texte dans Memo2
+        Memo2->Lines->Add("You: " + Memo1->Text); //Met le texte dans Memo2
      }
          // On envoie la dernière ligne de Memo1 par le Serveur
      else
      {
         ClientSocket->Socket->SendText(Memo1->Text);
-        Memo2->Lines->Add("You: " + Memo1->Text);     // Met le texte dans Memo2
+        Memo2->Lines->Add("You: " + Memo1->Text); // Met le texte dans Memo2
      }
         // On envoie la dernière ligne de Memo1 par le client
 
-     Memo1->Clear();   // Efface la zone de message
+     Memo1->Clear(); // Efface la zone de message
   }
 }
 //---------------------------------------------------------------------------
@@ -388,7 +388,7 @@ void __fastcall TForm1::ClientSocketError(TObject *Sender,
     // Écrit un message d'erreur
     ShowMessage(AnsiString("Error connecting to: ") + IPServer + ".");
     ErrorCode = 0;
-    Listen(true);         // On est en écoute
+    Listen(true); // On est en écoute
 }
 //---------------------------------------------------------------------------
 
@@ -580,6 +580,21 @@ void __fastcall TForm1::Statistics1Click(TObject *Sender)
 {
     const float Total = Ties + Wins + Losts;
     ShowMessage(AnsiString("Wining ratio : ") + Wins/Total*100 + "%\nNumber of Round : "+ Total+ "\nNumber of Rock: "+ FPlayerStats.Roche + "\nNumber of Paper :" + FPlayerStats.Papier + "\nNumber of Cissors :" + FPlayerStats.Ciseaux);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::LoadPng(Graphics::TBitmap *ABitmapImage, const String AIdentifier)
+{
+    Pngimage::TPngImage* PngImage = new Pngimage::TPngImage;
+    try
+    {
+        PngImage->LoadFromResourceName((NativeUInt)HInstance, AIdentifier);
+        ABitmapImage->Assign(PngImage);
+    }
+    __finally
+    {
+        delete PngImage;
+    }
 }
 //---------------------------------------------------------------------------
 
