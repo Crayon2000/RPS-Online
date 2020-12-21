@@ -44,33 +44,27 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
     // Audio
     PlayerMidi->FileName = ExtractFilePath(Application->ExeName) + "\\rps.mid"; // Spécifie le fichier son
-    Music1->Checked = !Musique;   // Par défaut on met de la musique (true=musique)
+    Music1->Checked = !Musique; // Par défaut on met de la musique (true=musique)
     Music1Click(NULL);
-    Sound1->Checked = !Son;       // Par défaut on met du son (true=son)
+    Sound1->Checked = !Son; // Par défaut on met du son (true=son)
     Sound1Click(NULL);
 
     // On load les images du fichier RES
     LoadPng(Logo->Picture->Bitmap, "PNG_TITLE");
 
     ImRoche = new Graphics::TBitmap();
-    ImRoche->LoadFromResourceName((NativeUInt)HInstance, "Roche");
-    ImRoche->Transparent = true;
+    LoadPng(ImRoche, "PNG_ROCK");
     ImPapier = new Graphics::TBitmap();
-    ImPapier->LoadFromResourceName((NativeUInt)HInstance, "Papier");
-    ImPapier->Transparent = true;
+    LoadPng(ImPapier, "PNG_PAPER");
     ImCiseaux = new Graphics::TBitmap();
-    ImCiseaux->LoadFromResourceName((NativeUInt)HInstance, "Ciseaux");
-    ImCiseaux->Transparent = true;
+    LoadPng(ImCiseaux, "PNG_SCISSORS");
 
     ImRoche2 = new Graphics::TBitmap();
-    ImRoche2->LoadFromResourceName((NativeUInt)HInstance, "Roche2");
-    ImRoche2->Transparent = true;
+    LoadPng(ImRoche2, "PNG_ROCK2");
     ImPapier2 = new Graphics::TBitmap();
-    ImPapier2->LoadFromResourceName((NativeUInt)HInstance, "Papier2");
-    ImPapier2->Transparent = true;
+    LoadPng(ImPapier2, "PNG_PAPER2");
     ImCiseaux2 = new Graphics::TBitmap();
-    ImCiseaux2->LoadFromResourceName((NativeUInt)HInstance, "Ciseaux2");
-    ImCiseaux2->Transparent = true;
+    LoadPng(ImCiseaux2, "PNG_SCISSORS2");
 
     // On réutilise les mêmes images
     Roche1->Glyph = ImRoche;
@@ -285,7 +279,7 @@ void __fastcall TForm1::Reception(TCustomWinSocket *Socket)
         Ties = 0;
         // On enlève les mains pour mettre le logo
         GLancer->Canvas->FillRect(Rect(0, 0, GLancer->Width, GLancer->Height));
-        Logo->Visible = true;     // Remet le titre (logo)
+        Logo->Visible = true; // Remet le titre (logo)
     }
     else
     {
@@ -484,7 +478,7 @@ void __fastcall TForm1::NewGame1Click(TObject *Sender)
     Ties = 0;
     // On enlève les mains pour mettre le logo
     GLancer->Canvas->FillRect(Rect(0, 0, GLancer->Width, GLancer->Height));
-    Logo->Visible = true;     // Remet le titre (logo)
+    Logo->Visible = true; // Remet le titre (logo)
     // Si on avait fait un choix avant d'être déconnecter, on enable tout
     Roche1->Enabled = true;
     Papier1->Enabled = true;
@@ -494,8 +488,8 @@ void __fastcall TForm1::NewGame1Click(TObject *Sender)
 
 void __fastcall TForm1::HelpTopic1Click(TObject *Sender)
 {
-    Application->HelpFile = "rps.hlp";           // Donne le nom du fichier
-    Application->HelpCommand(HELP_CONTENTS, 0);  // Affichage de l'aide
+    Application->HelpFile = "rps.hlp"; // Donne le nom du fichier
+    Application->HelpCommand(HELP_CONTENTS, 0); // Affichage de l'aide
 }
 //---------------------------------------------------------------------------
 
