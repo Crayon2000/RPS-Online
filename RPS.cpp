@@ -13,18 +13,17 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 
     try
     {
-        const wchar_t LMutexName[] = L"allow_only_one_instance_running";
-        // See if the LMutex already exists.
-        LMutex = OpenMutex(0, false, LMutexName);
+        // Create a mutex so that all other programs will know that this program is running
+        const String LMutexName = "allow_only_one_instance_running";
+        LMutex = CreateMutexEx(NULL, LMutexName.c_str(), 0, SYNCHRONIZE);
 
         if (LMutex == NULL)
         {
-            /* Create a LMutex so that all other programs will know that
-            * this program is running.*/
-            LMutex = CreateMutex(NULL, true, LMutexName);
+            Application->MessageBox(L"Fail to create named mutex.", L"RPS Online", MB_ICONERROR);
+            return 0;
         }
-        else
-        {
+        else if( GetLastError() == ERROR_ALREADY_EXISTS )
+        {   // The mutex already exists
             Application->MessageBox(L"Application is already running.", L"RPS Online", MB_ICONWARNING);
             return 0;
         }

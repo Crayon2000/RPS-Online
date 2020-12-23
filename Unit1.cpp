@@ -433,14 +433,14 @@ void __fastcall TForm1::ClientSocketConnect(TObject *Sender,
     StatusBar1->Panels->Items[0]->Text = "Connect to: " + Socket->RemoteHost;
     // Écrit dans la bar d'état l'adresse à la quelle il tente de se connecter
     Disconnectec1->Enabled = true;
-    NickServer = "Opponent";         // Versus Distant
+    NickServer = "Opponent"; // Versus Distant
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ClientSocketDisconnect(TObject *Sender,
       TCustomWinSocket *Socket)
 {
-    Listen(true); //On est en écoute
+    Listen(true); // On est en écoute
 }
 //---------------------------------------------------------------------------
 

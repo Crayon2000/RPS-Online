@@ -14,8 +14,8 @@
    * [Help Menu Commands](#help-menu)
 * FAQ
    * [Where can I find my IP address](#how-to-get-my-ip-address)
-   * [How to launch a game with ICQ](#how-to-launch-a-game-with-icq)
    * [How to configure ICQ](#how-to-configure-icq)
+   * [How to launch a game with ICQ](#how-to-launch-a-game-with-icq)
 
 For more info about this program, contact me by e-mail at:
 crayon1@rocketmail.com
@@ -37,6 +37,7 @@ The AutoInstall program usually but them in C:\Program Files\RPS Online
 ### How to Play
 
 There are two modes:
+
 1. VS the Computer
 2. VS a Real opponent
 
@@ -49,6 +50,7 @@ Simply click one of the three choices (rock, paper, scissors) and the game start
 You must connect to opponent first, go in the **Network** menu and click on **Connect to opponent…** in the text box enter the IP address of your opponent. You could use ICQ to connect yourself to your opponent. For more information on ICQ or IP address go to see the FAQ section. Once you are connected click one of the three choices (rock, paper, scissors) and the game start automatically. In two player mode you have two wait for your opponent to play between each throw. You could also use the chat to talk with your opponent.
 
 For more information see the Menu Commands:
+
 * [Game Menu Commands](#game-menu)
 * [Options Menu Commands](#options-menu)
 * [Network Menu Commands](#network-menu)
@@ -95,6 +97,41 @@ The winner of that round depends on the items formed. If the same item is formed
 
 **About...**: This item brings up a dialog which gives information about RPS Online.
 
+## Network Play Concepts
+
+Instead of playing against the computer, RPS Online allows you to play against another person. This way, every move you do is sent to the computer of your opponent and vice versa. The location of your opponent does not matter: (s)he can be your neighbor or someone halfway across the world.
+
+### Chat
+
+A chat is available when a connection is established. Now you can type messages to your opponent to compliment him/her with a victory, or to protest.
+
+There are two ways to play with another person: over a LAN, or over the Internet.
+
+### TCP/IP
+
+RPS Online uses the TCP/IP protocol. This protocol lets your computer talk to the computer of your opponent. It is used for the Internet, but you can also use it in a LAN.
+
+[Learn where to get your IP address](#how-to-get-my-ip-address)
+
+## How to get my IP address
+
+**If you don't know the IP address** that your ISP temporarily assigns to you, you can find it with the **winipcfg** command** in Win95/98**.**
+
+Click the Start button, and then click Run. 
+
+Type the following line in the Open box, and then click OK: winipcfg
+
+A new window should open
+
+![IP Configuration](WinIPCfg_Flou.png?raw=true)
+
+Your current TCP/IP settings are displayed.
+
+NOTE: The Winipcfg display is not updated dynamically.
+To view changes, quit Winipcfg and then run it again.
+
+If you are using Windows NT, use the **ipconfig** command.
+
 ## How to configure ICQ
 
 You can launch external games from within ICQ. To do so your ICQ Client must be in **Advanced Mode**.
@@ -121,25 +158,6 @@ Enter **Command Line** : %i %h %e
 
 ![ICQ](Icq2.png?raw=true)
 
-## How to get my IP address
-
-**If you don't know the IP address** that your ISP temporarily assigns to you, you can find it with the **winipcfg** command** in Win95/98**.**
-
-Click the Start button, and then click Run. 
-
-Type the following line in the Open box, and then click OK: winipcfg
-
-A new window should open
-
-![IP Configuration](WinIPCfg_Flou.png?raw=true)
-
-Your current TCP/IP settings are displayed.
-
-NOTE: The Winipcfg display is not updated dynamically.
-To view changes, quit Winipcfg and then run it again.
-
-If you are using Windows NT, use the **ipconfig** command.
-
 ## How to launch a game with ICQ
 
 If the [configuration](#how-to-configure-icq) is OK, you just have to follow these steps.
@@ -149,19 +167,3 @@ If the [configuration](#how-to-configure-icq) is OK, you just have to follow the
 3. Choose **application** (RPS Online)<br>A **Send Telephony/Data/Games request** dialog appears. 
 4. Enter **reason** for request. 
 5. Click the **Send** button.
-
-## Network Play Concepts
-
-Instead of playing against the computer, RPS Online allows you to play against another person. This way, every move you do is sent to the computer of your opponent and vice versa. The location of your opponent does not matter: (s)he can be your neighbor or someone halfway across the world.
-
-### Chat
-
-A chat is available when a connection is established. Now you can type messages to your opponent to compliment him/her with a victory, or to protest.
-
-There are two ways to play with another person: over a LAN, or over the Internet.
-
-### TCP/IP
-
-RPS Online uses the TCP/IP protocol. This protocol lets your computer talk to the computer of your opponent. It is used for the Internet, but you can also use it in a LAN.
-
-[Learn where to get your IP address](#how-to-get-my-ip-address)
