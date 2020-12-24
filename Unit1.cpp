@@ -389,7 +389,7 @@ void __fastcall TForm1::ClientSocketError(TObject *Sender,
 void __fastcall TForm1::ClientSocketRead(TObject *Sender,
       TCustomWinSocket *Socket)
 {
-    Reception(Socket);    // Réception d'un message
+    Reception(Socket); // Réception d'un message
 }
 //---------------------------------------------------------------------------
 
@@ -409,21 +409,21 @@ void __fastcall TForm1::ServerSocketAccept(TObject *Sender,
 void __fastcall TForm1::ServerSocketClientConnect(TObject *Sender,
       TCustomWinSocket *Socket)
 {
-    Memo2->Lines->Clear();        // Efface les lignes de Memo2 (Réception)
+    Memo2->Lines->Clear(); // Efface les lignes de Memo2 (Réception)
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ServerSocketClientDisconnect(TObject *Sender,
       TCustomWinSocket *Socket)
 {
-    Listen(true);         // On est en écoute
+    Listen(true); // On est en écoute
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ServerSocketClientRead(TObject *Sender,
       TCustomWinSocket *Socket)
 {
-    Reception(Socket);    // Réception d'un message
+    Reception(Socket); // Réception d'un message
 }
 //---------------------------------------------------------------------------
 
