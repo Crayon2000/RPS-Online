@@ -99,12 +99,14 @@ private:    // Déclarations utilisateur
     Graphics::TBitmap* ImPapier2;
     Graphics::TBitmap* ImCiseaux2;
     void __fastcall Play(int AChoice);         // On joue
-    void __fastcall ConnectServer(const String IP);  // Connection par TCP/IP
+    void __fastcall ConnectServer(const String IP); // Connection par TCP/IP
     void __fastcall Listen(bool AListen);      // Attend une connection TCP/IP
     void __fastcall Compare();                 // Compare le joueur à l'adversaire
     void __fastcall Reception(TCustomWinSocket *Socket); //Réception (réseau)
 protected:
     void __fastcall LoadPng(Graphics::TBitmap *ABitmapImage, const String AIdentifier);
+    void FlipImageH(Graphics::TBitmap *AImage);
+    void FlipImageV(Graphics::TBitmap *AImage);
 public:     // Déclarations utilisateur
     String IPServer;   // Contient l'adresse IP de l'adversaire
     String NickServer; // Contient le nick name de l'adversaire
@@ -118,12 +120,12 @@ public:     // Déclarations utilisateur
     bool Musique;      // Enable/Disable la musique
     int PortCom;       // Port de communication
     Graphics::TBitmap* ImRoche2;
-    struct Signe {     //Signes
+    struct Signe {     // Signes
         int Roche;
         int Papier;
         int Ciseaux;
     };
-    Signe FPlayerStats; //Stats sur signe du joueur
+    Signe FPlayerStats; // Stats sur signe du joueur
     __fastcall TForm1(TComponent* Owner);
     __fastcall virtual ~TForm1();
 };

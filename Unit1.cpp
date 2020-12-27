@@ -52,19 +52,22 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     // On load les images du fichier RES
     LoadPng(Logo->Picture->Bitmap, "PNG_TITLE");
 
-    ImRoche = new Graphics::TBitmap();
-    LoadPng(ImRoche, "PNG_ROCK");
-    ImPapier = new Graphics::TBitmap();
-    LoadPng(ImPapier, "PNG_PAPER");
-    ImCiseaux = new Graphics::TBitmap();
-    LoadPng(ImCiseaux, "PNG_SCISSORS");
-
     ImRoche2 = new Graphics::TBitmap();
-    LoadPng(ImRoche2, "PNG_ROCK2");
+    LoadPng(ImRoche2, "PNG_ROCK");
     ImPapier2 = new Graphics::TBitmap();
-    LoadPng(ImPapier2, "PNG_PAPER2");
+    LoadPng(ImPapier2, "PNG_PAPER");
     ImCiseaux2 = new Graphics::TBitmap();
-    LoadPng(ImCiseaux2, "PNG_SCISSORS2");
+    LoadPng(ImCiseaux2, "PNG_SCISSORS");
+
+    ImRoche = new Graphics::TBitmap();
+    ImRoche->Assign(ImRoche2);
+    FlipImageH(ImRoche);
+    ImPapier = new Graphics::TBitmap();
+    ImPapier->Assign(ImPapier2);
+    FlipImageH(ImPapier);
+    ImCiseaux = new Graphics::TBitmap();
+    ImCiseaux->Assign(ImCiseaux2);
+    FlipImageH(ImCiseaux);
 
     // On réutilise les mêmes images
     Roche1->Glyph = ImRoche;
@@ -72,8 +75,8 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     Ciseaux1->Glyph = ImCiseaux;
 
     // Met les valeurs par défaut
-    if (IPServer.IsEmpty() == true)           // Si il n'y a rien d'écrit
-    {
+    if (IPServer.IsEmpty() == true)
+    {   // S'il n'y a rien d'écrit
         IPServer = Temp_IPServer;
         Listen(true);
     }
@@ -82,8 +85,8 @@ __fastcall TForm1::TForm1(TComponent* Owner)
         ConnectServer(IPServer);
     }
 
-    if (NickServer.IsEmpty() == true)           // Si il n'y a rien d'écrit
-    {
+    if (NickServer.IsEmpty() == true)
+    {   // S'il n'y a rien d'écrit
         NickServer = "CPU Opponent"; // Versus Distant
     }
 }
@@ -599,6 +602,22 @@ void __fastcall TForm1::LoadPng(Graphics::TBitmap *ABitmapImage, const String AI
     {
         delete PngImage;
     }
+}
+//---------------------------------------------------------------------------
+
+void TForm1::FlipImageH(Graphics::TBitmap *AImage)
+{
+    const TRect LSourceRect = Rect(0, 0, AImage->Width, AImage->Height);
+    AImage->Canvas->CopyRect(Rect(AImage->Width - 1, 0, -1, AImage->Height),
+        AImage->Canvas, LSourceRect);
+}
+//---------------------------------------------------------------------------
+
+void TForm1::FlipImageV(Graphics::TBitmap *AImage)
+{
+    const TRect LSourceRect = Rect(0, 0, AImage->Width, AImage->Height);
+    AImage->Canvas->CopyRect(Rect(0, AImage->Height - 1, AImage->Width, -1),
+        AImage->Canvas, LSourceRect);
 }
 //---------------------------------------------------------------------------
 
