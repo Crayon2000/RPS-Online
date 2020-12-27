@@ -248,7 +248,16 @@ void __fastcall TForm1::Compare()
 
 void __fastcall TForm1::Reception(TCustomWinSocket *Socket)
 {
-    String LText = Socket->ReceiveText();
+    TBytes LBytes;
+    // ReceiveLength is not guaranteed to be accurate, so we add 100 more bytes
+    LBytes.Length = Socket->ReceiveLength() + 100;
+
+    int LRecCount = Socket->ReceiveBuf(&LBytes[0], LBytes.Length);
+    if(LRecCount <= 0)
+    {   // Nothing received
+        return;
+    }
+    const String LText = TEncoding::UTF8->GetString(LBytes, 0, LRecCount);
 
     if (LText == "!ChoixEvoyer$1" || LText == "!ChoixEvoyer$2" || LText == "!ChoixEvoyer$3")
     {
@@ -256,11 +265,11 @@ void __fastcall TForm1::Reception(TCustomWinSocket *Socket)
         {
             P2Choix = 1;
         }
-        if (LText == "!ChoixEvoyer$2")
+        else if (LText == "!ChoixEvoyer$2")
         {
             P2Choix = 2;
         }
-        if (LText == "!ChoixEvoyer$3")
+        else if (LText == "!ChoixEvoyer$3")
         {
             P2Choix = 3;
         }
@@ -336,23 +345,24 @@ void __fastcall TForm1::Disconnectec1Click(TObject *Sender)
 
 void __fastcall TForm1::SendClick(TObject *Sender)
 {
-  if ((ClientSocket->Active == true || IsServer == true))
-  {
-     if (IsServer == true)
-     {
-        ServerSocket->Socket->Connections[0]->SendText(Memo1->Text);
-        Memo2->Lines->Add("You: " + Memo1->Text); //Met le texte dans Memo2
-     }
-         // On envoie la dernière ligne de Memo1 par le Serveur
-     else
-     {
-        ClientSocket->Socket->SendText(Memo1->Text);
+    if (Memo1->Text.IsEmpty() == true)
+    {
+        return;
+    }
+    if ((ClientSocket->Active == true || IsServer == true))
+    {
+        TBytes LBytes = TEncoding::UTF8->GetBytes(Memo1->Text);
+        if (IsServer == true)
+        {  // On envoie la dernière ligne de Memo1 par le Serveur
+            ServerSocket->Socket->Connections[0]->SendBuf(&LBytes[0], LBytes.Length);
+        }
+        else
+        {  // On envoie la dernière ligne de Memo1 par le client
+            ClientSocket->Socket->SendBuf(&LBytes[0], LBytes.Length);
+        }
         Memo2->Lines->Add("You: " + Memo1->Text); // Met le texte dans Memo2
-     }
-        // On envoie la dernière ligne de Memo1 par le client
-
-     Memo1->Clear(); // Efface la zone de message
-  }
+        Memo1->Clear(); // Efface la zone de message
+    }
 }
 //---------------------------------------------------------------------------
 
