@@ -105,8 +105,8 @@ private:    // Déclarations utilisateur
     void __fastcall Reception(TCustomWinSocket *Socket); //Réception (réseau)
 protected:
     void __fastcall LoadPng(Graphics::TBitmap *ABitmapImage, const String AIdentifier);
-    void FlipImageH(Graphics::TBitmap *AImage);
-    void FlipImageV(Graphics::TBitmap *AImage);
+    void __fastcall FlipImageH(Graphics::TBitmap *AImage);
+    void __fastcall FlipImageV(Graphics::TBitmap *AImage);
 public:     // Déclarations utilisateur
     String IPServer;   // Contient l'adresse IP de l'adversaire
     String NickServer; // Contient le nick name de l'adversaire

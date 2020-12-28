@@ -308,16 +308,17 @@ void __fastcall TForm1::Play(int AChoice)
     GLancer->Canvas->FillRect(Rect(0, 0, GLancer->Width, GLancer->Height));
     Logo->Visible = false; // Enlève le titre
 
-    P1Choix = AChoice;     // Choix du joueur UN
+    P1Choix = AChoice; // Choix du joueur UN
 
+    TBytes LBytes = TEncoding::UTF8->GetBytes(String("!ChoixEvoyer$") + P1Choix);
     if (IsServer == true)
-    {
-        ServerSocket->Socket->Connections[0]->SendText(
-            AnsiString("!ChoixEvoyer$") + P1Choix);}    // On envoie des instructions au Serveur
+    {   // On envoie des instructions au Serveur
+        ServerSocket->Socket->Connections[0]->SendBuf(&LBytes[0], LBytes.Length);
+    }
     else
-    {
-        ClientSocket->Socket->SendText(
-            AnsiString("!ChoixEvoyer$") + P1Choix);}    // On envoie des instructions au client
+    {   // On envoie des instructions au client
+        ClientSocket->Socket->SendBuf(&LBytes[0], LBytes.Length);
+    }
 
     if ((ClientSocket->Active == true || IsServer == true)) // Joue contre un vrai joueur
     {
@@ -395,7 +396,7 @@ void __fastcall TForm1::ClientSocketError(TObject *Sender,
       TCustomWinSocket *Socket, TErrorEvent ErrorEvent, int &ErrorCode)
 {
     // Écrit un message d'erreur
-    ShowMessage(AnsiString("Error connecting to: ") + IPServer + ".");
+    ShowMessage(String("Error connecting to: ") + IPServer + ".");
     ErrorCode = 0;
     Listen(true); // On est en écoute
 }
@@ -469,16 +470,15 @@ void __fastcall TForm1::NewGame1Click(TObject *Sender)
 {
     if ((ClientSocket->Active == true || IsServer == true)) // Joue online
     {
+        TBytes LBytes = TEncoding::UTF8->GetBytes("éèNewGameéè");
         if (IsServer == true)
-        {
-            ServerSocket->Socket->Connections[0]->SendText(
-                AnsiString("éèNewGameéè"));
-        }    // On envoie des instructions au Serveur
+        {   // On envoie des instructions au Serveur
+            ServerSocket->Socket->Connections[0]->SendBuf(&LBytes[0], LBytes.Length);
+        }
         else
-        {
-            ClientSocket->Socket->SendText(
-                AnsiString("éèNewGameéè"));
-        }    // On envoie des instructions au client
+        {   // On envoie des instructions au client
+            ClientSocket->Socket->SendBuf(&LBytes[0], LBytes.Length);
+        }
     }
 
     // Reset les comptes de moves
@@ -588,7 +588,7 @@ void __fastcall TForm1::Music1Click(TObject *Sender)
 void __fastcall TForm1::Statistics1Click(TObject *Sender)
 {
     const float Total = Ties + Wins + Losts;
-    ShowMessage(AnsiString("Wining ratio : ") + Wins/Total*100 + "%\nNumber of Round : "+ Total+ "\nNumber of Rock: "+ FPlayerStats.Roche + "\nNumber of Paper :" + FPlayerStats.Papier + "\nNumber of Cissors :" + FPlayerStats.Ciseaux);
+    ShowMessage(String("Winning ratio: ") + Wins/Total*100 + "%\nNumber of Round: " + Total + "\nNumber of Rock: " + FPlayerStats.Roche + "\nNumber of Paper: " + FPlayerStats.Papier + "\nNumber of Cissors: " + FPlayerStats.Ciseaux);
 }
 //---------------------------------------------------------------------------
 
@@ -607,7 +607,7 @@ void __fastcall TForm1::LoadPng(Graphics::TBitmap *ABitmapImage, const String AI
 }
 //---------------------------------------------------------------------------
 
-void TForm1::FlipImageH(Graphics::TBitmap *AImage)
+void __fastcall TForm1::FlipImageH(Graphics::TBitmap *AImage)
 {
     const TRect LSourceRect = Rect(0, 0, AImage->Width, AImage->Height);
     AImage->Canvas->CopyRect(Rect(AImage->Width - 1, 0, -1, AImage->Height),
@@ -615,7 +615,7 @@ void TForm1::FlipImageH(Graphics::TBitmap *AImage)
 }
 //---------------------------------------------------------------------------
 
-void TForm1::FlipImageV(Graphics::TBitmap *AImage)
+void __fastcall TForm1::FlipImageV(Graphics::TBitmap *AImage)
 {
     const TRect LSourceRect = Rect(0, 0, AImage->Width, AImage->Height);
     AImage->Canvas->CopyRect(Rect(0, AImage->Height - 1, AImage->Width, -1),
