@@ -3,14 +3,13 @@ object Form2: TForm2
   Top = 430
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = 'Connect to Opponent'
   ClientHeight = 219
   ClientWidth = 458
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter

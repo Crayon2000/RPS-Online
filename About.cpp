@@ -11,7 +11,9 @@ TAboutBox *AboutBox;
 __fastcall TAboutBox::TAboutBox(TComponent* AOwner)
     : TForm(AOwner)
 {
-    // Met l'image dans le carré
+    Caption = "About RPS Online";
+
+    // Set image
     ProgramIcon->Picture->Bitmap = Form1->ImRoche2;
 }
 //---------------------------------------------------------------------

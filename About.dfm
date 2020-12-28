@@ -2,14 +2,13 @@ object AboutBox: TAboutBox
   Left = 335
   Top = 246
   BorderStyle = bsDialog
-  Caption = 'About RPS Online'
   ClientHeight = 213
   ClientWidth = 282
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = True
   Position = poScreenCenter
@@ -36,13 +35,13 @@ object AboutBox: TAboutBox
     object ProductName: TLabel
       Left = 88
       Top = 16
-      Width = 93
-      Height = 20
+      Width = 90
+      Height = 19
       Caption = 'RPS Online'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
-      Font.Name = 'MS Sans Serif'
+      Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
       IsControl = True
@@ -50,15 +49,15 @@ object AboutBox: TAboutBox
     object Version: TLabel
       Left = 88
       Top = 40
-      Width = 83
+      Width = 60
       Height = 13
-      Caption = 'Version beta 1.02'
+      Caption = 'Version 1.02'
       IsControl = True
     end
     object Copyright: TLabel
       Left = 8
       Top = 80
-      Width = 189
+      Width = 195
       Height = 13
       Caption = 'Copyright 2001-2002 Crayon Application'
       IsControl = True
@@ -73,7 +72,7 @@ object AboutBox: TAboutBox
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -11
-      Font.Name = 'MS Sans Serif'
+      Font.Name = 'Tahoma'
       Font.Style = [fsUnderline]
       ParentFont = False
       WordWrap = True
@@ -83,7 +82,7 @@ object AboutBox: TAboutBox
     object Label1: TLabel
       Left = 8
       Top = 104
-      Width = 144
+      Width = 153
       Height = 13
       Caption = 'For more info or to report bugs:'
     end

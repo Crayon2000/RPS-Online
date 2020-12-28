@@ -20,6 +20,8 @@ __fastcall TForm2::TForm2(TComponent* Owner)
 __fastcall TForm2::TForm2(TComponent* Owner, String *AIPAddress)
     : TForm(Owner), FIPAddress(AIPAddress)
 {
+    Caption = "Connect to Opponent";
+
     if(FIPAddress == NULL)
     {
         throw Exception("Second paramater must not be NULL!");

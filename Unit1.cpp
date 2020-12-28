@@ -17,6 +17,8 @@ TForm1 *Form1;
 __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
 {
+    Caption = "RPS Online";
+
     String Temp_IPServer;
 
     TIniFile *LIniFile;       // Lecture dans le fichier INI
