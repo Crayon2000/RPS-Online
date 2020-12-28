@@ -34,7 +34,7 @@ RPS Online is game for Windows that let you play Rock Paper Scissors over the In
 
 All the files must be in the same directory.
 
-The AutoInstall program usually but them in C:\Program Files\RPS Online
+The AutoInstall program usually but them in `C:\Program Files\RPS Online`
 
 ### How to Play
 
@@ -62,7 +62,7 @@ For more information, see the Menu Commands:
 
 This program is shareware and as such it may be freely distributed and copied, as long as it is not modified in any way, and no fee is charged.
 
-This program is provided with no warranties expresed or implied. The author will not be held responsible by the use of this program.
+This program is provided with no warranties expressed or implied. The author will not be held responsible by the use of this program.
 
 Have fun!!!
 

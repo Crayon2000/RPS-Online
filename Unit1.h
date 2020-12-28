@@ -22,7 +22,9 @@
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
-__published:    // Composants gérés par l'EDI
+    typedef TForm inherited;
+
+__published:    // IDE-managed Components
     TServerSocket *ServerSocket;
     TClientSocket *ClientSocket;
     TStatusBar *StatusBar1;
@@ -92,40 +94,43 @@ __published:    // Composants gérés par l'EDI
     void __fastcall PlayerMidiNotify(TObject *Sender);
     void __fastcall Music1Click(TObject *Sender);
     void __fastcall Statistics1Click(TObject *Sender);
-private:    // Déclarations utilisateur
-    Graphics::TBitmap* ImRoche;
-    Graphics::TBitmap* ImPapier;
-    Graphics::TBitmap* ImCiseaux;
-    Graphics::TBitmap* ImPapier2;
-    Graphics::TBitmap* ImCiseaux2;
-    void __fastcall Play(int AChoice);         // On joue
-    void __fastcall ConnectServer(const String IP); // Connection par TCP/IP
-    void __fastcall Listen(bool AListen);      // Attend une connection TCP/IP
-    void __fastcall Compare();                 // Compare le joueur à l'adversaire
-    void __fastcall Reception(TCustomWinSocket *Socket); //Réception (réseau)
-protected:
-    void __fastcall LoadPng(Graphics::TBitmap *ABitmapImage, const String AIdentifier);
-    void __fastcall FlipImageH(Graphics::TBitmap *AImage);
-    void __fastcall FlipImageV(Graphics::TBitmap *AImage);
-public:     // Déclarations utilisateur
+private:    // User declarations
     String IPServer;   // Contient l'adresse IP de l'adversaire
     String NickServer; // Contient le nick name de l'adversaire
     bool IsServer;     // Si VRAI=Serveur, si FAUX=pas serveur
-    int P1Choix;       // Choix du Player 1 (rien, roche, papier ou sciseaux)
-    int P2Choix;       // Choix du Player 2 (rien, roche, papier ou sciseaux)
+    int FPlayer1Choice; // Player 1 choice (none, rock, paper or scissor)
+    int FPlayer2Choice; // Player 2 choice (none, rock, paper or scissor)
     int Wins;          // Calcul le nombre de partie gagnée
     int Losts;         // Calcul le nombre de partie perdue
     int Ties;          // Calcul le nombre de partie nulle
     bool Son;          // Enable/Disable les sons
     bool Musique;      // Enable/Disable la musique
     int PortCom;       // Port de communication
-    Graphics::TBitmap* ImRoche2;
     struct Signe {     // Signes
         int Roche;
         int Papier;
         int Ciseaux;
     };
     Signe FPlayerStats; // Stats sur signe du joueur
+
+    Graphics::TBitmap* ImRoche;
+    Graphics::TBitmap* ImPapier;
+    Graphics::TBitmap* ImCiseaux;
+    Graphics::TBitmap* ImPapier2;
+    Graphics::TBitmap* ImCiseaux2;
+
+    void __fastcall Play(int AChoice); // On joue
+    void __fastcall ConnectServer(const String IP); // Connection par TCP/IP
+    void __fastcall Listen(bool AListen); // Attend une connection TCP/IP
+    void __fastcall Compare(); // Compare le joueur à l'adversaire
+    void __fastcall Reception(TCustomWinSocket *Socket); // Réception (réseau)
+protected:
+    void __fastcall LoadPng(Graphics::TBitmap *ABitmapImage, const String AIdentifier);
+    void __fastcall FlipImageH(Graphics::TBitmap *AImage);
+    void __fastcall FlipImageV(Graphics::TBitmap *AImage);
+public:     // User declarations
+    Graphics::TBitmap* ImRoche2;
+
     __fastcall TForm1(TComponent* Owner);
     __fastcall virtual ~TForm1();
 };

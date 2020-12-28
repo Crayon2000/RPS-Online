@@ -16,6 +16,8 @@ TForm1 *Form1;
 
 __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
+        , FPlayer1Choice(0) // On a rien choisi encore
+        , FPlayer2Choice(0) // L'adversaire n'a rien choisi encore
 {
     Caption = "RPS Online";
 
@@ -40,9 +42,6 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     // Met les numéros de Port par défaut
     ClientSocket->Port = PortCom;
     ServerSocket->Port = PortCom;
-
-    P1Choix = 0; // On a rien choisi encore
-    P2Choix = 0; // L'adversaire n'a rien choisi encore
 
     // Audio
     PlayerMidi->FileName = ExtractFilePath(Application->ExeName) + "\\rps.mid"; // Spécifie le fichier son
@@ -164,10 +163,10 @@ void __fastcall TForm1::Compare()
     int x = GLancer->Width; // Emplacement des images
     int y = GLancer->Height - 10;
 
-    if (P1Choix != 0 && P2Choix != 0)
+    if (FPlayer1Choice != 0 && FPlayer2Choice != 0)
     {
         // Affichage des mains Joueurs DEUX et UN
-        switch ( P2Choix )
+        switch ( FPlayer2Choice )
         {
             case 1:
                 MonCanvas->Draw(x-ImRoche2->Width , y-ImRoche2->Height+7, ImRoche2);
@@ -181,7 +180,7 @@ void __fastcall TForm1::Compare()
             default:
                 break;
         }
-        switch ( P1Choix )
+        switch ( FPlayer1Choice )
         {
             case 1:
                 MonCanvas->Draw(0, y-ImRoche2->Height+7, ImRoche);
@@ -200,9 +199,9 @@ void __fastcall TForm1::Compare()
         y = 0;
 
         // Détermine si c'est une victoire, défaite ou nulle
-        if ((P1Choix == 1 && P2Choix == 3) ||
-            (P1Choix == 2 && P2Choix == 1) ||
-            (P1Choix == 3 && P2Choix == 2))
+        if ((FPlayer1Choice == 1 && FPlayer2Choice == 3) ||
+            (FPlayer1Choice == 2 && FPlayer2Choice == 1) ||
+            (FPlayer1Choice == 3 && FPlayer2Choice == 2))
         {
             Wins++;
             Win->Caption = Wins;
@@ -213,9 +212,9 @@ void __fastcall TForm1::Compare()
             MonCanvas->Font->Color = clBlack;
             MonCanvas->TextOut(x, y, Texte);
         }
-        if ((P2Choix == 1 && P1Choix == 3) ||
-            (P2Choix == 2 && P1Choix == 1) ||
-            (P2Choix == 3 && P1Choix == 2))
+        if ((FPlayer2Choice == 1 && FPlayer1Choice == 3) ||
+            (FPlayer2Choice == 2 && FPlayer1Choice == 1) ||
+            (FPlayer2Choice == 3 && FPlayer1Choice == 2))
         {
             Losts++;
             Lost->Caption = Losts;
@@ -226,9 +225,9 @@ void __fastcall TForm1::Compare()
             MonCanvas->Font->Color = clBlack;
             MonCanvas->TextOut(x, y, Texte);
         }
-        if ((P2Choix == 1 && P1Choix == 1) ||
-            (P2Choix == 2 && P1Choix == 2) ||
-            (P2Choix == 3 && P1Choix == 3))
+        if ((FPlayer2Choice == 1 && FPlayer1Choice == 1) ||
+            (FPlayer2Choice == 2 && FPlayer1Choice == 2) ||
+            (FPlayer2Choice == 3 && FPlayer1Choice == 3))
         {
             Ties++;
             Tie->Caption=Ties;
@@ -241,8 +240,8 @@ void __fastcall TForm1::Compare()
         }
 
         // On réactive pour une nouvelle joute
-        P1Choix = 0;
-        P2Choix = 0;
+        FPlayer1Choice = 0;
+        FPlayer2Choice = 0;
         // On enable les boutons pour pouvoir jouer à nouveau
         Roche1->Enabled = true;
         Papier1->Enabled = true;
@@ -268,15 +267,15 @@ void __fastcall TForm1::Reception(TCustomWinSocket *Socket)
     {
         if (LText == "!ChoixEvoyer$1")
         {
-            P2Choix = 1;
+            FPlayer2Choice = 1;
         }
         else if (LText == "!ChoixEvoyer$2")
         {
-            P2Choix = 2;
+            FPlayer2Choice = 2;
         }
         else if (LText == "!ChoixEvoyer$3")
         {
-            P2Choix = 3;
+            FPlayer2Choice = 3;
         }
 
         Compare();
@@ -308,9 +307,9 @@ void __fastcall TForm1::Play(int AChoice)
     GLancer->Canvas->FillRect(Rect(0, 0, GLancer->Width, GLancer->Height));
     Logo->Visible = false; // Enlève le titre
 
-    P1Choix = AChoice; // Choix du joueur UN
+    FPlayer1Choice = AChoice; // Choix du joueur UN
 
-    TBytes LBytes = TEncoding::UTF8->GetBytes(String("!ChoixEvoyer$") + P1Choix);
+    TBytes LBytes = TEncoding::UTF8->GetBytes(String("!ChoixEvoyer$") + FPlayer1Choice);
     if (IsServer == true)
     {   // On envoie des instructions au Serveur
         ServerSocket->Socket->Connections[0]->SendBuf(&LBytes[0], LBytes.Length);
@@ -331,7 +330,7 @@ void __fastcall TForm1::Play(int AChoice)
     }
     else
     {                       // On joue contre le CPU
-        P2Choix = random(3) + 1;    // Choix du computer, super AI
+        FPlayer2Choice = random(3) + 1;    // Choix du computer, super AI
         Compare();
     }
 }

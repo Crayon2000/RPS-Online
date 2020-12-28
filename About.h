@@ -15,6 +15,8 @@
 //----------------------------------------------------------------------------
 class TAboutBox : public TForm
 {
+    typedef TForm inherited;
+
 __published:
     TPanel *Panel1;
     TImage *ProgramIcon;

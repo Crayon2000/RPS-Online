@@ -9,6 +9,8 @@
 //---------------------------------------------------------------------------
 class TForm2 : public TForm
 {
+    typedef TForm inherited;
+
 __published:	// IDE-managed Components
     TButton *cmdConnect;
     TButton *cmdCancel;

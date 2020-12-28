@@ -142,7 +142,7 @@ object Form1: TForm1
     SizeGrip = False
   end
   object BoxYou: TGroupBox
-    Left = 0
+    Left = 1
     Top = 0
     Width = 105
     Height = 209
