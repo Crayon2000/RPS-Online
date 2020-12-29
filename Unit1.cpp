@@ -18,6 +18,9 @@ __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
         , FPlayer1Choice(0) // On a rien choisi encore
         , FPlayer2Choice(0) // L'adversaire n'a rien choisi encore
+        , FTieCount(0)
+        , FWinCount(0)
+        , FLostCount(0)
 {
     Caption = "RPS Online";
 
@@ -26,8 +29,8 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     TIniFile *LIniFile;       // Lecture dans le fichier INI
     LIniFile = new TIniFile( ChangeFileExt( Application->ExeName, ".ini" ) );
     Temp_IPServer   = LIniFile->ReadString ( "Setting", "IP", "192.168.0.2" );
-    Musique         = LIniFile->ReadBool   ( "Setting", "Music", true );
-    Son             = LIniFile->ReadBool   ( "Setting", "Sound", true);
+    FMusicEnabled   = LIniFile->ReadBool   ( "Setting", "Music", true );
+    FSoundEnabled   = LIniFile->ReadBool   ( "Setting", "Sound", true);
     PortCom         = LIniFile->ReadInteger( "Setting", "Port", 1024 );
     delete LIniFile;
 
@@ -45,9 +48,9 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
     // Audio
     PlayerMidi->FileName = ExtractFilePath(Application->ExeName) + "\\rps.mid"; // Spécifie le fichier son
-    Music1->Checked = !Musique; // Par défaut on met de la musique (true=musique)
+    Music1->Checked = !FMusicEnabled; // Par défaut on met de la musique (true=musique)
     Music1Click(NULL);
-    Sound1->Checked = !Son; // Par défaut on met du son (true=son)
+    Sound1->Checked = !FSoundEnabled; // Par défaut on met du son (true=son)
     Sound1Click(NULL);
 
     // On load les images du fichier RES
@@ -98,8 +101,8 @@ __fastcall TForm1::~TForm1()
     TIniFile *LIniFile; // Écriture dans le fichier INI
     LIniFile = new TIniFile(ChangeFileExt( Application->ExeName, ".ini" ) );
     LIniFile->WriteString ( "Setting", "IP", IPServer );
-    LIniFile->WriteBool   ( "Setting", "Music", Musique );    // 0 = Off
-    LIniFile->WriteBool   ( "Setting", "Sound", Son );        // 1 = On
+    LIniFile->WriteBool   ( "Setting", "Music", FMusicEnabled ); // 0 = Off
+    LIniFile->WriteBool   ( "Setting", "Sound", FSoundEnabled ); // 1 = On
     delete LIniFile;
 
     // On récupère la mémoire
@@ -153,12 +156,12 @@ void __fastcall TForm1::Listen(bool AListen)
 
 void __fastcall TForm1::Compare()
 {
-    TCanvas *MonCanvas = GLancer->Canvas;
-    SetBkMode(MonCanvas->Handle, TRANSPARENT);
-    MonCanvas->Font->Name = "Arial";
-    MonCanvas->Font->Size = 30;
-    MonCanvas->Font->Style = TFontStyles() << TFontStyle::fsBold;
-    SetTextAlign (MonCanvas->Handle, TA_CENTER);
+    TCanvas *LCanvas = GLancer->Canvas;
+    SetBkMode(LCanvas->Handle, TRANSPARENT);
+    LCanvas->Font->Name = "Arial";
+    LCanvas->Font->Size = 30;
+    LCanvas->Font->Style = TFontStyles() << TFontStyle::fsBold;
+    SetTextAlign (LCanvas->Handle, TA_CENTER);
 
     int x = GLancer->Width; // Emplacement des images
     int y = GLancer->Height - 10;
@@ -169,13 +172,13 @@ void __fastcall TForm1::Compare()
         switch ( FPlayer2Choice )
         {
             case 1:
-                MonCanvas->Draw(x-ImRoche2->Width , y-ImRoche2->Height+7, ImRoche2);
+                LCanvas->Draw(x-ImRoche2->Width , y-ImRoche2->Height+7, ImRoche2);
                 break;
             case 2:
-                MonCanvas->Draw(x-ImPapier2->Width , y-ImRoche2->Height+16, ImPapier2);
+                LCanvas->Draw(x-ImPapier2->Width , y-ImRoche2->Height+16, ImPapier2);
                 break;
             case 3:
-                MonCanvas->Draw(x-ImCiseaux->Width , y-ImRoche2->Height+8, ImCiseaux2);
+                LCanvas->Draw(x-ImCiseaux->Width , y-ImRoche2->Height+8, ImCiseaux2);
                 break;
             default:
                 break;
@@ -183,13 +186,13 @@ void __fastcall TForm1::Compare()
         switch ( FPlayer1Choice )
         {
             case 1:
-                MonCanvas->Draw(0, y-ImRoche2->Height+7, ImRoche);
+                LCanvas->Draw(0, y-ImRoche2->Height+7, ImRoche);
                 break;
             case 2:
-                MonCanvas->Draw(0, y-ImRoche2->Height+16, ImPapier);
+                LCanvas->Draw(0, y-ImRoche2->Height+16, ImPapier);
                 break;
             case 3:
-                MonCanvas->Draw(0, y-ImRoche2->Height+8, ImCiseaux);
+                LCanvas->Draw(0, y-ImRoche2->Height+8, ImCiseaux);
                 break;
             default:
                 break;
@@ -198,50 +201,47 @@ void __fastcall TForm1::Compare()
         x = GLancer->Width / 2; // Emplacement du texte
         y = 0;
 
+        String LText;
+
         // Détermine si c'est une victoire, défaite ou nulle
         if ((FPlayer1Choice == 1 && FPlayer2Choice == 3) ||
             (FPlayer1Choice == 2 && FPlayer2Choice == 1) ||
             (FPlayer1Choice == 3 && FPlayer2Choice == 2))
         {
-            Wins++;
-            Win->Caption = Wins;
+            FWinCount++;
+            Win->Caption = FWinCount;
 
-            String Texte = "WIN";
-            MonCanvas->Font->Color = (TColor)RGB(255, 254, 255);
-            MonCanvas->TextOut(x+1, y+1, Texte);
-            MonCanvas->Font->Color = clBlack;
-            MonCanvas->TextOut(x, y, Texte);
+            LText = "WIN";
         }
         if ((FPlayer2Choice == 1 && FPlayer1Choice == 3) ||
             (FPlayer2Choice == 2 && FPlayer1Choice == 1) ||
             (FPlayer2Choice == 3 && FPlayer1Choice == 2))
         {
-            Losts++;
-            Lost->Caption = Losts;
+            FLostCount++;
+            Lost->Caption = FLostCount;
 
-            String Texte = "LOST";
-            MonCanvas->Font->Color = (TColor)RGB(255, 254, 255);
-            MonCanvas->TextOut(x+1, y+1, Texte);
-            MonCanvas->Font->Color = clBlack;
-            MonCanvas->TextOut(x, y, Texte);
+            LText = "LOST";
         }
         if ((FPlayer2Choice == 1 && FPlayer1Choice == 1) ||
             (FPlayer2Choice == 2 && FPlayer1Choice == 2) ||
             (FPlayer2Choice == 3 && FPlayer1Choice == 3))
         {
-            Ties++;
-            Tie->Caption=Ties;
+            FTieCount++;
+            Tie->Caption = FTieCount;
 
-            String Texte = "TIE";
-            MonCanvas->Font->Color = (TColor)RGB(255, 254, 255);
-            MonCanvas->TextOut(x+1, y+1, Texte);
-            MonCanvas->Font->Color = clBlack;
-            MonCanvas->TextOut(x, y, Texte);
+            LText = "TIE";
         }
+
+        // Output text
+        LCanvas->Font->Color = static_cast<TColor>(RGB(255, 254, 255));
+        LCanvas->TextOut(x + 1, y + 1, LText);
+        LCanvas->Font->Color = clBlack;
+        LCanvas->TextOut(x, y, LText);
 
         // On réactive pour une nouvelle joute
         FPlayer1Choice = 0;
         FPlayer2Choice = 0;
+
         // On enable les boutons pour pouvoir jouer à nouveau
         Roche1->Enabled = true;
         Papier1->Enabled = true;
@@ -287,9 +287,9 @@ void __fastcall TForm1::Reception(TCustomWinSocket *Socket)
         Win->Caption = "0";       // On met l'affichage à zéro
         Lost->Caption = "0";
         Tie->Caption = "0";
-        Wins = 0;                 // On met les scores à zéro
-        Losts = 0;
-        Ties = 0;
+        FWinCount = 0;                 // On met les scores à zéro
+        FLostCount = 0;
+        FTieCount = 0;
         // On enlève les mains pour mettre le logo
         GLancer->Canvas->FillRect(Rect(0, 0, GLancer->Width, GLancer->Height));
         Logo->Visible = true; // Remet le titre (logo)
@@ -416,7 +416,7 @@ void __fastcall TForm1::ServerSocketAccept(TObject *Sender,
     IsServer = true; // On met IsServer à VRAI, on est client et connecté
     StatusBar1->Panels->Items[0]->Text = "Connect to: " + Socket->RemoteAddress;
     Disconnectec1->Enabled = true;
-    NickServer = "Opponent";         // Versus Distant
+    NickServer = "Opponent"; // Versus Distant
     // C'est ici que l'on envoie les setting du serveur
 }
 //---------------------------------------------------------------------------
@@ -487,9 +487,9 @@ void __fastcall TForm1::NewGame1Click(TObject *Sender)
     Win->Caption = "0";       // On met l'affichage à zéro
     Lost->Caption = "0";
     Tie->Caption = "0";
-    Wins = 0;                 // On met les scores à zéro
-    Losts = 0;
-    Ties = 0;
+    FWinCount = 0;                 // On met les scores à zéro
+    FLostCount = 0;
+    FTieCount = 0;
     // On enlève les mains pour mettre le logo
     GLancer->Canvas->FillRect(Rect(0, 0, GLancer->Width, GLancer->Height));
     Logo->Visible = true; // Remet le titre (logo)
@@ -509,9 +509,9 @@ void __fastcall TForm1::HelpTopic1Click(TObject *Sender)
 
 void __fastcall TForm1::Roche1Click(TObject *Sender)
 {
-    if (Son == true && FileExists("rock.wav") == true)
+    if (FSoundEnabled == true)
     {
-        sndPlaySound(L"rock.wav", SND_ASYNC);
+        PlaySound(L"rock.wav", NULL, SND_FILENAME | SND_ASYNC | SND_NODEFAULT);
     }
     FPlayerStats.Roche++; // Compte le nombre de Roche
     Play(1); // On choisi Roche
@@ -520,9 +520,9 @@ void __fastcall TForm1::Roche1Click(TObject *Sender)
 
 void __fastcall TForm1::Papier1Click(TObject *Sender)
 {
-    if (Son == true && FileExists("paper.wav") == true)
+    if (FSoundEnabled == true)
     {
-        sndPlaySound(L"paper.wav", SND_ASYNC);
+        PlaySound(L"paper.wav", NULL, SND_FILENAME | SND_ASYNC | SND_NODEFAULT);
     }
     FPlayerStats.Papier++; // Compte le nombre de Papier
     Play(2); // On choisi Papier
@@ -531,9 +531,9 @@ void __fastcall TForm1::Papier1Click(TObject *Sender)
 
 void __fastcall TForm1::Ciseaux1Click(TObject *Sender)
 {
-    if (Son == true && FileExists("scissors.wav") == true)
+    if (FSoundEnabled == true)
     {
-        sndPlaySound(L"scissors.wav", SND_ASYNC);
+        PlaySound(L"scissors.wav", NULL, SND_FILENAME | SND_ASYNC | SND_NODEFAULT);
     }
     FPlayerStats.Ciseaux++; // Compte le nombre de Ciseaux
     Play(3); // On choisi Ciseaux
@@ -543,7 +543,7 @@ void __fastcall TForm1::Ciseaux1Click(TObject *Sender)
 void __fastcall TForm1::Sound1Click(TObject *Sender)
 {
     Sound1->Checked = !Sound1->Checked;
-    Son = Sound1->Checked;
+    FSoundEnabled = Sound1->Checked;
 }
 //---------------------------------------------------------------------------
 
@@ -551,7 +551,7 @@ void __fastcall TForm1::PlayerMidiNotify(TObject *Sender)
 {
     // C'est ici que l'on fait looper la musique
     // Play déclanche un PlayerMidi->Notify = true;
-    if (Musique == true)
+    if (FMusicEnabled == true)
     {
         PlayerMidi->Play();
     }
@@ -564,7 +564,7 @@ void __fastcall TForm1::Music1Click(TObject *Sender)
     if (Music1->Checked == true)
     {
         // Start music
-        Musique = true;
+        FMusicEnabled = true;
         try
         {
              PlayerMidi->Open();
@@ -577,7 +577,7 @@ void __fastcall TForm1::Music1Click(TObject *Sender)
     else
     {
         // Stop music
-        Musique = false;
+        FMusicEnabled = false;
         PlayerMidi->Stop();
         PlayerMidi->Close();
     }
@@ -586,8 +586,8 @@ void __fastcall TForm1::Music1Click(TObject *Sender)
 
 void __fastcall TForm1::Statistics1Click(TObject *Sender)
 {
-    const float Total = Ties + Wins + Losts;
-    ShowMessage(String("Winning ratio: ") + Wins/Total*100 + "%\nNumber of Round: " + Total + "\nNumber of Rock: " + FPlayerStats.Roche + "\nNumber of Paper: " + FPlayerStats.Papier + "\nNumber of Cissors: " + FPlayerStats.Ciseaux);
+    const float Total = FTieCount + FWinCount + FLostCount;
+    ShowMessage(String("Winning ratio: ") + FWinCount/Total*100 + "%\nNumber of Round: " + Total + "\nNumber of Rock: " + FPlayerStats.Roche + "\nNumber of Paper: " + FPlayerStats.Papier + "\nNumber of Cissors: " + FPlayerStats.Ciseaux);
 }
 //---------------------------------------------------------------------------
 

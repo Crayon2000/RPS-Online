@@ -100,11 +100,11 @@ private:    // User declarations
     bool IsServer;     // Si VRAI=Serveur, si FAUX=pas serveur
     int FPlayer1Choice; // Player 1 choice (none, rock, paper or scissor)
     int FPlayer2Choice; // Player 2 choice (none, rock, paper or scissor)
-    int Wins;          // Calcul le nombre de partie gagnée
-    int Losts;         // Calcul le nombre de partie perdue
-    int Ties;          // Calcul le nombre de partie nulle
-    bool Son;          // Enable/Disable les sons
-    bool Musique;      // Enable/Disable la musique
+    int FWinCount; // Calcul le nombre de partie gagnée
+    int FLostCount; // Calcul le nombre de partie perdue
+    int FTieCount; // Calcul le nombre de partie nulle
+    bool FSoundEnabled; // Enable/Disable sound effects
+    bool FMusicEnabled; // Enable/Disable music
     int PortCom;       // Port de communication
     struct Signe {     // Signes
         int Roche;
