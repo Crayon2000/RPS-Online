@@ -26,13 +26,20 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
     String Temp_IPServer;
 
-    TIniFile *LIniFile;       // Lecture dans le fichier INI
-    LIniFile = new TIniFile( ChangeFileExt( Application->ExeName, ".ini" ) );
-    Temp_IPServer   = LIniFile->ReadString ( "Setting", "IP", "192.168.0.2" );
-    FMusicEnabled   = LIniFile->ReadBool   ( "Setting", "Music", true );
-    FSoundEnabled   = LIniFile->ReadBool   ( "Setting", "Sound", true);
-    PortCom         = LIniFile->ReadInteger( "Setting", "Port", 1024 );
-    delete LIniFile;
+    // Read settings from .ini file
+    TIniFile *LIniFile = NULL;
+    try
+    {
+        LIniFile = new TIniFile(ChangeFileExt(Application->ExeName, ".ini"));
+        Temp_IPServer   = LIniFile->ReadString ( "Setting", "IP", "192.168.0.2" );
+        FMusicEnabled   = LIniFile->ReadBool   ( "Setting", "Music", true );
+        FSoundEnabled   = LIniFile->ReadBool   ( "Setting", "Sound", true);
+        PortCom         = LIniFile->ReadInteger( "Setting", "Port", 1024 );
+    }
+    __finally
+    {
+        delete LIniFile;
+    }
 
     // Prend les paramètres que ICQ envoie (Détection d'arguments)
     // Arguments: -ip numip -name nom_du_user  (pas bon)
@@ -98,12 +105,26 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
 __fastcall TForm1::~TForm1()
 {
-    TIniFile *LIniFile; // Écriture dans le fichier INI
-    LIniFile = new TIniFile(ChangeFileExt( Application->ExeName, ".ini" ) );
-    LIniFile->WriteString ( "Setting", "IP", IPServer );
-    LIniFile->WriteBool   ( "Setting", "Music", FMusicEnabled ); // 0 = Off
-    LIniFile->WriteBool   ( "Setting", "Sound", FSoundEnabled ); // 1 = On
-    delete LIniFile;
+    try
+    {
+        // Write settings to .ini file
+        TIniFile *LIniFile = NULL;
+        try
+        {
+            LIniFile = new TIniFile(ChangeFileExt(Application->ExeName, ".ini"));
+            LIniFile->WriteString ( "Setting", "IP", IPServer );
+            LIniFile->WriteBool   ( "Setting", "Music", FMusicEnabled ); // 0 = Off
+            LIniFile->WriteBool   ( "Setting", "Sound", FSoundEnabled ); // 1 = On
+        }
+        __finally
+        {
+            delete LIniFile;
+        }
+    }
+    catch(...)
+    {
+        // No exception allowed in destructor
+    }
 
     // On récupère la mémoire
     delete ImRoche;
