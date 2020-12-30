@@ -20,7 +20,7 @@
   * [How to launch a game with ICQ](#how-to-launch-a-game-with-icq)
 
 For more info about this program, contact me by e-mail at:
-crayon1@rocketmail.com
+[crayon1@rocketmail.com](crayon1@rocketmail.com)
 
 Copyright © 2001-2002 Crayon Application
 
@@ -49,7 +49,7 @@ Simply click one of the three choices (rock, paper, scissors) and the game start
 
 #### VS a Real opponent
 
-You must connect to opponent first, go in the **Network** menu and click on **Connect to opponent…** in the text box enter the IP address of your opponent. You could use ICQ to connect yourself to your opponent. For more information on ICQ or IP address go to see the FAQ section. Once you are connected click one of the three choices (rock, paper, scissors) and the game start automatically. In two players mode you have to wait for your opponent to play between each throw. You could also use the chat to talk with your opponent.
+You must connect to opponent first, go in the **Network** menu and click on **Connect to opponent...** in the text box enter the IP address of your opponent. You could use ICQ to connect yourself to your opponent. For more information on ICQ or IP address go to see the FAQ section. Once you are connected click one of the three choices (rock, paper, scissors) and the game start automatically. In two players mode you have to wait for your opponent to play between each throw. You could also use the chat to talk with your opponent.
 
 For more information, see the Menu Commands:
 
@@ -135,13 +135,13 @@ The following standard IP number ranges should be used for LAN play:
 
 Only addresses in these ranges will be recognized as LAN addresses, all other IP addresses are seen as Internet addresses.
 
-You need to know the IP number of your opponent in order to connect to him/her. Your opponent can tell you that by opening the Network | Connect to Opponent window. His IP number is shown there.
+You need to know the IP number of your opponent in order to connect to him/her. Your opponent can tell you that by opening the **Network** / **Connect to Opponent** window. His IP number is shown there.
 
 ### Steps to follow
 
 Follow these steps to start a network game:
 
-1. On the Network menu, select Connect to Opponent…
+1. On the **Network** menu, select **Connect to Opponent...**
 2. Type the IP Number of your opponent in the edit box.
 3. Click Connect.
 4. Note: your opponent has to execute these steps as well.
@@ -165,7 +165,7 @@ You need to know the IP number of your opponent in order to connect to him/her.
 Follow these steps to start a network game:
 
 1. Connect to the Internet
-2. On the Network menu, select Connect to Opponent…
+2. On the **Network** menu, select **Connect to Opponent...**
 3. Type the IP number of your opponent in the edit box. To retrieve the IP number of your opponent, you can use the utility ICQ. See [How to launch a game with ICQ](#how-to-launch-a-game-with-icq) for more info.
 4. Click Connect.
 5. Note: your opponent has to execute these steps as well.
