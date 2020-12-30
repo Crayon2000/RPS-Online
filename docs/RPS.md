@@ -205,13 +205,13 @@ Choose the **Telephony/Data/Games** tab.
 
 Click the **New External** button to add a new external application.
 
-In **External Group** we choose : Game
+In **External Group** we choose: Game
 
 In **External Application** enter application name: RPS Online
 
-Click **Browse** to configure the path of the application : RPS.exe
+Click **Browse** to configure the path of the application: RPS.exe
 
-Enter **Command Line** : %i %h %e
+Enter **Command Line**: %i %h %e
 
 ![ICQ](Icq2.png?raw=true)
 

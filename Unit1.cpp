@@ -10,7 +10,6 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
-#pragma resource "images.RES"
 TForm1 *Form1;
 //---------------------------------------------------------------------------
 
@@ -42,9 +41,9 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     }
 
     // Prend les paramètres que ICQ envoie (Détection d'arguments)
-    // Arguments: -ip numip -name nom_du_user  (pas bon)
-    // IPServer = _argv[1];
-    // NickServer = _argv[2];
+    // Arguments: ip_address user_name
+    IPServer = ParamStr(1);
+    NickServer = ParamStr(2);
 
     // Sert a faire un vrai Random
     randomize();
@@ -343,7 +342,7 @@ void __fastcall TForm1::Play(int AChoice)
     if ((ClientSocket->Active == true || IsServer == true)) // Joue contre un vrai joueur
     {
         StatusBar1->Panels->Items[0]->Text = "Waiting for opponent";
-        // On disable les boutons pour que le joueur attente l'autre joueur
+        // On disable les boutons pour que le joueur attende l'autre joueur
         Roche1->Enabled = false;
         Papier1->Enabled = false;
         Ciseaux1->Enabled = false;
@@ -505,10 +504,12 @@ void __fastcall TForm1::NewGame1Click(TObject *Sender)
     FPlayerStats.Roche = 0;
     FPlayerStats.Papier = 0;
     FPlayerStats.Ciseaux = 0;
-    Win->Caption = "0";       // On met l'affichage à zéro
+    // On met l'affichage à zéro
+    Win->Caption = "0";
     Lost->Caption = "0";
     Tie->Caption = "0";
-    FWinCount = 0;                 // On met les scores à zéro
+    // On met les scores à zéro
+    FWinCount = 0;
     FLostCount = 0;
     FTieCount = 0;
     // On enlève les mains pour mettre le logo
