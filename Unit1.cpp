@@ -524,8 +524,10 @@ void __fastcall TForm1::NewGame1Click(TObject *Sender)
 
 void __fastcall TForm1::HelpTopic1Click(TObject *Sender)
 {
-    Application->HelpFile = "rps.hlp"; // Donne le nom du fichier
-    Application->HelpCommand(HELP_CONTENTS, 0); // Affichage de l'aide
+    ShellExecute(Handle,
+                 L"open",
+                 L"https://crayon2000.github.io/RPS-Online",
+                 NULL, NULL, SW_SHOWDEFAULT);
 }
 //---------------------------------------------------------------------------
 

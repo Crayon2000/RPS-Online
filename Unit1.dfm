@@ -308,7 +308,7 @@ object Form1: TForm1
     object Help1: TMenuItem
       Caption = '&Help'
       object HelpTopic1: TMenuItem
-        Caption = '&Help Topics'
+        Caption = 'Online &Help'
         ShortCut = 112
         OnClick = HelpTopic1Click
       end
