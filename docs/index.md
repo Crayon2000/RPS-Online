@@ -94,7 +94,7 @@ The winner of that round depends on the items formed. If the same item is formed
 
 ## Help menu
 
-**Help Topics**: Opens the RPS Online Help file (but you’ve already figured out that much). Select a topic from the Contents list.
+**Online Help**: Opens the RPS Online Help (but you’ve already figured out that much). Select a topic from the Contents list.
 
 **About...**: This item brings up a dialog which gives information about RPS Online.
 
