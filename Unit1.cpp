@@ -15,8 +15,8 @@ TForm1 *Form1;
 
 __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
-        , FPlayer1Choice(0) // On a rien choisi encore
-        , FPlayer2Choice(0) // L'adversaire n'a rien choisi encore
+        , FPlayer1Choice(TPlayerMove::None) // On a rien choisi encore
+        , FPlayer2Choice(TPlayerMove::None) // L'adversaire n'a rien choisi encore
         , FTieCount(0)
         , FWinCount(0)
         , FLostCount(0)
@@ -186,18 +186,18 @@ void __fastcall TForm1::Compare()
     int x = GLancer->Width; // Emplacement des images
     int y = GLancer->Height - 10;
 
-    if (FPlayer1Choice != 0 && FPlayer2Choice != 0)
+    if (FPlayer1Choice != TPlayerMove::None && FPlayer2Choice != TPlayerMove::None)
     {
         // Affichage des mains Joueurs DEUX et UN
         switch ( FPlayer2Choice )
         {
-            case 1:
+            case TPlayerMove::Rock:
                 LCanvas->Draw(x-ImRoche2->Width , y-ImRoche2->Height+7, ImRoche2);
                 break;
-            case 2:
+            case TPlayerMove::Paper:
                 LCanvas->Draw(x-ImPapier2->Width , y-ImRoche2->Height+16, ImPapier2);
                 break;
-            case 3:
+            case TPlayerMove::Scissors:
                 LCanvas->Draw(x-ImCiseaux->Width , y-ImRoche2->Height+8, ImCiseaux2);
                 break;
             default:
@@ -205,13 +205,13 @@ void __fastcall TForm1::Compare()
         }
         switch ( FPlayer1Choice )
         {
-            case 1:
+            case TPlayerMove::Rock:
                 LCanvas->Draw(0, y-ImRoche2->Height+7, ImRoche);
                 break;
-            case 2:
+            case TPlayerMove::Paper:
                 LCanvas->Draw(0, y-ImRoche2->Height+16, ImPapier);
                 break;
-            case 3:
+            case TPlayerMove::Scissors:
                 LCanvas->Draw(0, y-ImRoche2->Height+8, ImCiseaux);
                 break;
             default:
@@ -224,27 +224,27 @@ void __fastcall TForm1::Compare()
         String LText;
 
         // Détermine si c'est une victoire, défaite ou nulle
-        if ((FPlayer1Choice == 1 && FPlayer2Choice == 3) ||
-            (FPlayer1Choice == 2 && FPlayer2Choice == 1) ||
-            (FPlayer1Choice == 3 && FPlayer2Choice == 2))
+        if ((FPlayer1Choice == TPlayerMove::Rock && FPlayer2Choice == TPlayerMove::Scissors) ||
+            (FPlayer1Choice == TPlayerMove::Paper && FPlayer2Choice == TPlayerMove::Rock) ||
+            (FPlayer1Choice == TPlayerMove::Scissors && FPlayer2Choice == TPlayerMove::Paper))
         {
             FWinCount++;
             Win->Caption = FWinCount;
 
             LText = "WIN";
         }
-        if ((FPlayer2Choice == 1 && FPlayer1Choice == 3) ||
-            (FPlayer2Choice == 2 && FPlayer1Choice == 1) ||
-            (FPlayer2Choice == 3 && FPlayer1Choice == 2))
+        if ((FPlayer2Choice == TPlayerMove::Rock && FPlayer1Choice == TPlayerMove::Scissors) ||
+            (FPlayer2Choice == TPlayerMove::Paper && FPlayer1Choice == TPlayerMove::Rock) ||
+            (FPlayer2Choice == TPlayerMove::Scissors && FPlayer1Choice == TPlayerMove::Paper))
         {
             FLostCount++;
             Lost->Caption = FLostCount;
 
             LText = "LOST";
         }
-        if ((FPlayer2Choice == 1 && FPlayer1Choice == 1) ||
-            (FPlayer2Choice == 2 && FPlayer1Choice == 2) ||
-            (FPlayer2Choice == 3 && FPlayer1Choice == 3))
+        if ((FPlayer2Choice == TPlayerMove::Rock && FPlayer1Choice == TPlayerMove::Rock) ||
+            (FPlayer2Choice == TPlayerMove::Paper && FPlayer1Choice == TPlayerMove::Paper) ||
+            (FPlayer2Choice == TPlayerMove::Scissors && FPlayer1Choice == TPlayerMove::Scissors))
         {
             FTieCount++;
             Tie->Caption = FTieCount;
@@ -259,8 +259,8 @@ void __fastcall TForm1::Compare()
         LCanvas->TextOut(x, y, LText);
 
         // On réactive pour une nouvelle joute
-        FPlayer1Choice = 0;
-        FPlayer2Choice = 0;
+        FPlayer1Choice = TPlayerMove::None;
+        FPlayer2Choice = TPlayerMove::None;
 
         // On enable les boutons pour pouvoir jouer à nouveau
         Roche1->Enabled = true;
@@ -287,15 +287,19 @@ void __fastcall TForm1::Reception(TCustomWinSocket *Socket)
     {
         if (LText == "!ChoixEvoyer$1")
         {
-            FPlayer2Choice = 1;
+            FPlayer2Choice = TPlayerMove::Rock;
         }
         else if (LText == "!ChoixEvoyer$2")
         {
-            FPlayer2Choice = 2;
+            FPlayer2Choice = TPlayerMove::Paper;
         }
         else if (LText == "!ChoixEvoyer$3")
         {
-            FPlayer2Choice = 3;
+            FPlayer2Choice = TPlayerMove::Scissors;
+        }
+        else
+        {
+            throw Exception("Invalid choice!");
         }
 
         Compare();
@@ -321,7 +325,7 @@ void __fastcall TForm1::Reception(TCustomWinSocket *Socket)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Play(int AChoice)
+void __fastcall TForm1::Play(TPlayerMove AChoice)
 {
     // On enlève toutes les mains
     GLancer->Canvas->FillRect(Rect(0, 0, GLancer->Width, GLancer->Height));
@@ -329,7 +333,7 @@ void __fastcall TForm1::Play(int AChoice)
 
     FPlayer1Choice = AChoice; // Choix du joueur UN
 
-    TBytes LBytes = TEncoding::UTF8->GetBytes(String("!ChoixEvoyer$") + FPlayer1Choice);
+    TBytes LBytes = TEncoding::UTF8->GetBytes(String("!ChoixEvoyer$") + static_cast<int>(FPlayer1Choice));
     if (IsServer == true)
     {   // On envoie des instructions au Serveur
         ServerSocket->Socket->Connections[0]->SendBuf(&LBytes[0], LBytes.Length);
@@ -339,7 +343,7 @@ void __fastcall TForm1::Play(int AChoice)
         ClientSocket->Socket->SendBuf(&LBytes[0], LBytes.Length);
     }
 
-    if ((ClientSocket->Active == true || IsServer == true)) // Joue contre un vrai joueur
+    if (ClientSocket->Active == true || IsServer == true) // Joue contre un vrai joueur
     {
         StatusBar1->Panels->Items[0]->Text = "Waiting for opponent";
         // On disable les boutons pour que le joueur attende l'autre joueur
@@ -350,7 +354,7 @@ void __fastcall TForm1::Play(int AChoice)
     }
     else
     {                       // On joue contre le CPU
-        FPlayer2Choice = random(3) + 1;    // Choix du computer, super AI
+        FPlayer2Choice = TPlayerMove(random(3) + 1);    // Choix du computer, super AI
         Compare();
     }
 }
@@ -501,9 +505,7 @@ void __fastcall TForm1::NewGame1Click(TObject *Sender)
     }
 
     // Reset les comptes de moves
-    FPlayerStats.Roche = 0;
-    FPlayerStats.Papier = 0;
-    FPlayerStats.Ciseaux = 0;
+    FPlayerStats.Reset();
     // On met l'affichage à zéro
     Win->Caption = "0";
     Lost->Caption = "0";
@@ -537,8 +539,8 @@ void __fastcall TForm1::Roche1Click(TObject *Sender)
     {
         PlaySound(L"rock.wav", NULL, SND_FILENAME | SND_ASYNC | SND_NODEFAULT);
     }
-    FPlayerStats.Roche++; // Compte le nombre de Roche
-    Play(1); // On choisi Roche
+    FPlayerStats.Rock++; // Compte le nombre de Roche
+    Play(TPlayerMove::Rock); // On choisi Roche
 }
 //---------------------------------------------------------------------------
 
@@ -548,8 +550,8 @@ void __fastcall TForm1::Papier1Click(TObject *Sender)
     {
         PlaySound(L"paper.wav", NULL, SND_FILENAME | SND_ASYNC | SND_NODEFAULT);
     }
-    FPlayerStats.Papier++; // Compte le nombre de Papier
-    Play(2); // On choisi Papier
+    FPlayerStats.Paper++; // Compte le nombre de Papier
+    Play(TPlayerMove::Paper); // On choisi Papier
 }
 //---------------------------------------------------------------------------
 
@@ -559,8 +561,8 @@ void __fastcall TForm1::Ciseaux1Click(TObject *Sender)
     {
         PlaySound(L"scissors.wav", NULL, SND_FILENAME | SND_ASYNC | SND_NODEFAULT);
     }
-    FPlayerStats.Ciseaux++; // Compte le nombre de Ciseaux
-    Play(3); // On choisi Ciseaux
+    FPlayerStats.Scissors++; // Compte le nombre de Ciseaux
+    Play(TPlayerMove::Scissors); // On choisi Ciseaux
 }
 //---------------------------------------------------------------------------
 
@@ -611,7 +613,7 @@ void __fastcall TForm1::Music1Click(TObject *Sender)
 void __fastcall TForm1::Statistics1Click(TObject *Sender)
 {
     const float Total = FTieCount + FWinCount + FLostCount;
-    ShowMessage(String("Winning ratio: ") + FWinCount/Total*100 + "%\nNumber of Round: " + Total + "\nNumber of Rock: " + FPlayerStats.Roche + "\nNumber of Paper: " + FPlayerStats.Papier + "\nNumber of Cissors: " + FPlayerStats.Ciseaux);
+    ShowMessage(String("Winning ratio: ") + FWinCount/Total*100 + "%\nNumber of Round: " + Total + "\nNumber of Rock: " + FPlayerStats.Rock + "\nNumber of Paper: " + FPlayerStats.Paper + "\nNumber of Cissors: " + FPlayerStats.Scissors);
 }
 //---------------------------------------------------------------------------
 

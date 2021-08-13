@@ -20,6 +20,33 @@
 #include <IdTCPConnection.hpp>
 #include <IdTCPServer.hpp>
 //---------------------------------------------------------------------------
+enum class TPlayerMove : unsigned char
+{
+    None,
+    Rock,
+    Paper,
+    Scissors
+};
+
+class TMoveStats {
+public:
+    int Rock;
+    int Paper;
+    int Scissors;
+
+    void __fastcall Reset()
+    {
+        Rock = 0;
+        Paper = 0;
+        Scissors = 0;
+    }
+
+    int __fastcall Total()
+    {
+        return Rock + Paper + Scissors;
+    }
+};
+
 class TForm1 : public TForm
 {
     typedef TForm inherited;
@@ -98,20 +125,15 @@ private:    // User declarations
     String IPServer;   // Contient l'adresse IP de l'adversaire
     String NickServer; // Contient le nick name de l'adversaire
     bool IsServer;     // Si VRAI=Serveur, si FAUX=pas serveur
-    int FPlayer1Choice; // Player 1 choice (none, rock, paper or scissor)
-    int FPlayer2Choice; // Player 2 choice (none, rock, paper or scissor)
+    TPlayerMove FPlayer1Choice; // Player 1 choice
+    TPlayerMove FPlayer2Choice; // Player 2 choice
     int FWinCount; // Calcul le nombre de partie gagnée
     int FLostCount; // Calcul le nombre de partie perdue
     int FTieCount; // Calcul le nombre de partie nulle
     bool FSoundEnabled; // Enable/Disable sound effects
     bool FMusicEnabled; // Enable/Disable music
     int PortCom;       // Port de communication
-    struct Signe {     // Signes
-        int Roche;
-        int Papier;
-        int Ciseaux;
-    };
-    Signe FPlayerStats; // Stats sur signe du joueur
+    TMoveStats FPlayerStats; // Stats sur signe du joueur
 
     Graphics::TBitmap* ImRoche;
     Graphics::TBitmap* ImPapier;
@@ -119,7 +141,7 @@ private:    // User declarations
     Graphics::TBitmap* ImPapier2;
     Graphics::TBitmap* ImCiseaux2;
 
-    void __fastcall Play(int AChoice); // On joue
+    void __fastcall Play(TPlayerMove AChoice); // On joue
     void __fastcall ConnectServer(const String IP); // Connection par TCP/IP
     void __fastcall Listen(bool AListen); // Attend une connection TCP/IP
     void __fastcall Compare(); // Compare le joueur à l'adversaire
