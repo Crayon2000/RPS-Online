@@ -135,11 +135,11 @@ private:    // User declarations
     int PortCom;       // Port de communication
     TMoveStats FPlayerStats; // Stats sur signe du joueur
 
-    Graphics::TBitmap* ImRoche;
-    Graphics::TBitmap* ImPapier;
-    Graphics::TBitmap* ImCiseaux;
-    Graphics::TBitmap* ImPapier2;
-    Graphics::TBitmap* ImCiseaux2;
+    Graphics::TBitmap* FBitmapPaperLeft;
+    Graphics::TBitmap* FBitmapScissorsLeft;
+    Graphics::TBitmap* FBitmapRockRight;
+    Graphics::TBitmap* FBitmapPaperRight;
+    Graphics::TBitmap* FBitmapScissorsRight;
 
     void __fastcall Play(TPlayerMove AChoice); // On joue
     void __fastcall ConnectServer(const String IP); // Connection par TCP/IP
@@ -150,8 +150,9 @@ protected:
     void __fastcall LoadPng(Graphics::TBitmap *ABitmapImage, const String AIdentifier);
     void __fastcall FlipImageH(Graphics::TBitmap *AImage);
     void __fastcall FlipImageV(Graphics::TBitmap *AImage);
+    void __fastcall ReplaceColor(Graphics::TBitmap* ABitmap, TColor AOldColor, TColor ANewColor);
 public:     // User declarations
-    Graphics::TBitmap* ImRoche2;
+    Graphics::TBitmap* FBitmapRockLeft;
 
     __fastcall TForm1(TComponent* Owner);
     __fastcall virtual ~TForm1();

@@ -14,7 +14,7 @@ __fastcall TAboutBox::TAboutBox(TComponent* AOwner)
     Caption = "About RPS Online";
 
     // Set image
-    ProgramIcon->Picture->Bitmap = Form1->ImRoche2;
+    ProgramIcon->Picture->Bitmap = Form1->FBitmapRockLeft;
 }
 //---------------------------------------------------------------------
 

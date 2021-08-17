@@ -62,27 +62,27 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     // On load les images du fichier RES
     LoadPng(Logo->Picture->Bitmap, "PNG_TITLE");
 
-    ImRoche2 = new Graphics::TBitmap();
-    LoadPng(ImRoche2, "PNG_ROCK");
-    ImPapier2 = new Graphics::TBitmap();
-    LoadPng(ImPapier2, "PNG_PAPER");
-    ImCiseaux2 = new Graphics::TBitmap();
-    LoadPng(ImCiseaux2, "PNG_SCISSORS");
+    FBitmapRockRight = new Graphics::TBitmap();
+    LoadPng(FBitmapRockRight, "PNG_ROCK");
+    FBitmapPaperRight = new Graphics::TBitmap();
+    LoadPng(FBitmapPaperRight, "PNG_PAPER");
+    FBitmapScissorsRight = new Graphics::TBitmap();
+    LoadPng(FBitmapScissorsRight, "PNG_SCISSORS");
 
-    ImRoche = new Graphics::TBitmap();
-    ImRoche->Assign(ImRoche2);
-    FlipImageH(ImRoche);
-    ImPapier = new Graphics::TBitmap();
-    ImPapier->Assign(ImPapier2);
-    FlipImageH(ImPapier);
-    ImCiseaux = new Graphics::TBitmap();
-    ImCiseaux->Assign(ImCiseaux2);
-    FlipImageH(ImCiseaux);
+    FBitmapRockLeft = new Graphics::TBitmap();
+    FBitmapRockLeft->Assign(FBitmapRockRight);
+    FlipImageH(FBitmapRockLeft);
+    FBitmapPaperLeft = new Graphics::TBitmap();
+    FBitmapPaperLeft->Assign(FBitmapPaperRight);
+    FlipImageH(FBitmapPaperLeft);
+    FBitmapScissorsLeft = new Graphics::TBitmap();
+    FBitmapScissorsLeft->Assign(FBitmapScissorsRight);
+    FlipImageH(FBitmapScissorsLeft);
 
     // On réutilise les mêmes images
-    Roche1->Glyph = ImRoche;
-    Papier1->Glyph = ImPapier;
-    Ciseaux1->Glyph = ImCiseaux;
+    Roche1->Glyph = FBitmapRockLeft;
+    Papier1->Glyph = FBitmapPaperLeft;
+    Ciseaux1->Glyph = FBitmapScissorsLeft;
 
     // Met les valeurs par défaut
     if (IPServer.IsEmpty() == true)
@@ -126,12 +126,12 @@ __fastcall TForm1::~TForm1()
     }
 
     // On récupère la mémoire
-    delete ImRoche;
-    delete ImPapier;
-    delete ImCiseaux;
-    delete ImRoche2;
-    delete ImPapier2;
-    delete ImCiseaux2;
+    delete FBitmapRockLeft;
+    delete FBitmapPaperLeft;
+    delete FBitmapScissorsLeft;
+    delete FBitmapRockRight;
+    delete FBitmapPaperRight;
+    delete FBitmapScissorsRight;
 }
 //---------------------------------------------------------------------------
 
@@ -192,13 +192,13 @@ void __fastcall TForm1::Compare()
         switch ( FPlayer2Choice )
         {
             case TPlayerMove::Rock:
-                LCanvas->Draw(x-ImRoche2->Width , y-ImRoche2->Height+7, ImRoche2);
+                LCanvas->Draw(x - FBitmapRockRight->Width , y - FBitmapRockRight->Height + 7, FBitmapRockRight);
                 break;
             case TPlayerMove::Paper:
-                LCanvas->Draw(x-ImPapier2->Width , y-ImRoche2->Height+16, ImPapier2);
+                LCanvas->Draw(x - FBitmapPaperRight->Width , y - FBitmapRockRight->Height + 16, FBitmapPaperRight);
                 break;
             case TPlayerMove::Scissors:
-                LCanvas->Draw(x-ImCiseaux->Width , y-ImRoche2->Height+8, ImCiseaux2);
+                LCanvas->Draw(x - FBitmapScissorsRight->Width , y - FBitmapRockRight->Height + 8, FBitmapScissorsRight);
                 break;
             default:
                 break;
@@ -206,13 +206,13 @@ void __fastcall TForm1::Compare()
         switch ( FPlayer1Choice )
         {
             case TPlayerMove::Rock:
-                LCanvas->Draw(0, y-ImRoche2->Height+7, ImRoche);
+                LCanvas->Draw(0, y - FBitmapRockLeft->Height + 7, FBitmapRockLeft);
                 break;
             case TPlayerMove::Paper:
-                LCanvas->Draw(0, y-ImRoche2->Height+16, ImPapier);
+                LCanvas->Draw(0, y - FBitmapRockLeft->Height + 16, FBitmapPaperLeft);
                 break;
             case TPlayerMove::Scissors:
-                LCanvas->Draw(0, y-ImRoche2->Height+8, ImCiseaux);
+                LCanvas->Draw(0, y - FBitmapRockLeft->Height + 8, FBitmapScissorsLeft);
                 break;
             default:
                 break;
@@ -619,6 +619,11 @@ void __fastcall TForm1::Statistics1Click(TObject *Sender)
 
 void __fastcall TForm1::LoadPng(Graphics::TBitmap *ABitmapImage, const String AIdentifier)
 {
+    if(ABitmapImage == NULL)
+    {
+        throw EArgumentException(Sysutils::Format(System_Rtlconsts_SParamIsNil, ARRAYOFCONST(("ABitmapImage"))));
+    }
+
     Pngimage::TPngImage* PngImage = new Pngimage::TPngImage;
     try
     {
@@ -634,6 +639,11 @@ void __fastcall TForm1::LoadPng(Graphics::TBitmap *ABitmapImage, const String AI
 
 void __fastcall TForm1::FlipImageH(Graphics::TBitmap *AImage)
 {
+    if(AImage == NULL)
+    {
+        throw EArgumentException(Sysutils::Format(System_Rtlconsts_SParamIsNil, ARRAYOFCONST(("AImage"))));
+    }
+
     const TRect LSourceRect = Rect(0, 0, AImage->Width, AImage->Height);
     AImage->Canvas->CopyRect(Rect(AImage->Width - 1, 0, -1, AImage->Height),
         AImage->Canvas, LSourceRect);
@@ -642,9 +652,55 @@ void __fastcall TForm1::FlipImageH(Graphics::TBitmap *AImage)
 
 void __fastcall TForm1::FlipImageV(Graphics::TBitmap *AImage)
 {
+    if(AImage == NULL)
+    {
+        throw EArgumentException(Sysutils::Format(System_Rtlconsts_SParamIsNil, ARRAYOFCONST(("AImage"))));
+    }
+
     const TRect LSourceRect = Rect(0, 0, AImage->Width, AImage->Height);
     AImage->Canvas->CopyRect(Rect(0, AImage->Height - 1, AImage->Width, -1),
         AImage->Canvas, LSourceRect);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::ReplaceColor(Graphics::TBitmap* ABitmap, TColor AOldColor, TColor ANewColor)
+{
+    if(ABitmap == NULL)
+    {
+        throw EArgumentException(Sysutils::Format(System_Rtlconsts_SParamIsNil, ARRAYOFCONST(("ABitmap"))));
+    }
+
+    if(ABitmap->PixelFormat != TPixelFormat::pf32bit)
+    {
+        return;
+    }
+
+    const int LOldColor = ColorToRGB(AOldColor);
+    const BYTE LOldColorRed = GetRValue(LOldColor);
+    const BYTE LOldColorGreen = GetGValue(LOldColor);
+    const BYTE LOldColorBlue = GetBValue(LOldColor);
+
+    const int LNewColor = ColorToRGB(ANewColor);
+    const BYTE LNewColorRed = GetRValue(LNewColor);
+    const BYTE LNewColorGreen = GetGValue(LNewColor);
+    const BYTE LNewColorBlue = GetBValue(LNewColor);
+
+    for(int y = 0; y < ABitmap->Height; ++y)
+    {
+        TRGBQuad* Pixel = static_cast<TRGBQuad*>(ABitmap->ScanLine[y]);
+        for(int x = 0; x < ABitmap->Width; ++x)
+        {
+            if(Pixel->rgbRed == LOldColorRed &&
+                Pixel->rgbGreen == LOldColorGreen &&
+                Pixel->rgbBlue == LOldColorBlue)
+            {
+                Pixel->rgbRed = LNewColorRed;
+                Pixel->rgbGreen = LNewColorGreen;
+                Pixel->rgbBlue = LNewColorBlue;
+            }
+            Pixel++;
+        }
+    }
 }
 //---------------------------------------------------------------------------
 
