@@ -51,7 +51,7 @@ object AboutBox: TAboutBox
       Top = 40
       Width = 60
       Height = 13
-      Caption = 'Version 1.02'
+      Caption = 'Version 2.0.0'
       IsControl = True
     end
     object Copyright: TLabel
@@ -59,7 +59,7 @@ object AboutBox: TAboutBox
       Top = 80
       Width = 195
       Height = 13
-      Caption = 'Copyright 2001-2002 Crayon Application'
+      Caption = 'Copyright 2001-2023 Crayon Application'
       IsControl = True
     end
     object Comments: TLabel

@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2.0.0 (Unreleased)
+## 2.0.0 - 2023-05-28
 
 - Use online help.
 - Use UTF-8 for communication.
