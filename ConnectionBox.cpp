@@ -24,7 +24,7 @@ __fastcall TForm2::TForm2(TComponent* Owner, String *AIPAddress)
 
     if(FIPAddress == nullptr)
     {
-        throw Exception("Second paramater must not be nullptr!");
+        throw Exception("Second parameter must not be nullptr!");
     }
     txtOpponentIP->Text = *FIPAddress;
 

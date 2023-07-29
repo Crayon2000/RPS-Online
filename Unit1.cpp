@@ -7,6 +7,7 @@
 #include "ConnectionBox.h"
 #include <System.IniFiles.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
+#include <memory>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -397,20 +398,12 @@ void __fastcall TForm1::SendClick(TObject *Sender)
 
 void __fastcall TForm1::Connecttoopponent1Click(TObject *Sender)
 {
-    TForm2 *LConnectionBox = nullptr;
-    try
+    auto LConnectionBox = std::make_unique<TForm2>(nullptr, &IPServer);
+    const int LReturn = LConnectionBox->ShowModal();
+    if(LReturn == mrOk && IPServer.IsEmpty() == false)
     {
-        LConnectionBox = new TForm2(nullptr, &IPServer);
-        const int LReturn = LConnectionBox->ShowModal();
-        if(LReturn == mrOk && IPServer.IsEmpty() == false)
-        {
-            ConnectServer(IPServer);
-            NewGame1Click(nullptr); // On fait une nouvelle game
-        }
-    }
-    __finally
-    {
-        delete LConnectionBox;
+        ConnectServer(IPServer);
+        NewGame1Click(nullptr); // On fait une nouvelle game
     }
 }
 //---------------------------------------------------------------------------
@@ -624,16 +617,9 @@ void __fastcall TForm1::LoadPng(Graphics::TBitmap *ABitmapImage, const String AI
         throw EArgumentException(Sysutils::Format(System_Rtlconsts_SParamIsNil, ARRAYOFCONST(("ABitmapImage"))));
     }
 
-    Pngimage::TPngImage* PngImage = new Pngimage::TPngImage;
-    try
-    {
-        PngImage->LoadFromResourceName((NativeUInt)HInstance, AIdentifier);
-        ABitmapImage->Assign(PngImage);
-    }
-    __finally
-    {
-        delete PngImage;
-    }
+    auto PngImage = std::make_unique<Pngimage::TPngImage>();
+    PngImage->LoadFromResourceName((NativeUInt)HInstance, AIdentifier);
+    ABitmapImage->Assign(PngImage.get());
 }
 //---------------------------------------------------------------------------
 
