@@ -26,7 +26,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     String Temp_IPServer;
 
     // Read settings from .ini file
-    TIniFile *LIniFile = NULL;
+    TIniFile *LIniFile = nullptr;
     try
     {
         LIniFile = new TIniFile(ChangeFileExt(Application->ExeName, ".ini"));
@@ -55,9 +55,9 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     // Audio
     PlayerMidi->FileName = ExtractFilePath(Application->ExeName) + "\\rps.mid"; // Spécifie le fichier son
     Music1->Checked = !FMusicEnabled; // Par défaut on met de la musique (true=musique)
-    Music1Click(NULL);
+    Music1Click(nullptr);
     Sound1->Checked = !FSoundEnabled; // Par défaut on met du son (true=son)
-    Sound1Click(NULL);
+    Sound1Click(nullptr);
 
     // On load les images du fichier RES
     LoadPng(Logo->Picture->Bitmap, "PNG_TITLE");
@@ -107,7 +107,7 @@ __fastcall TForm1::~TForm1()
     try
     {
         // Write settings to .ini file
-        TIniFile *LIniFile = NULL;
+        TIniFile *LIniFile = nullptr;
         try
         {
             LIniFile = new TIniFile(ChangeFileExt(Application->ExeName, ".ini"));
@@ -307,7 +307,7 @@ void __fastcall TForm1::Reception(TCustomWinSocket *Socket)
     }
     else if (LText == "éèNewGameéè")
     {
-        // NewGame1Click(NULL);
+        // NewGame1Click(nullptr);
         Win->Caption = "0";       // On met l'affichage à zéro
         Lost->Caption = "0";
         Tie->Caption = "0";
@@ -397,15 +397,15 @@ void __fastcall TForm1::SendClick(TObject *Sender)
 
 void __fastcall TForm1::Connecttoopponent1Click(TObject *Sender)
 {
-    TForm2 *LConnectionBox = NULL;
+    TForm2 *LConnectionBox = nullptr;
     try
     {
-        LConnectionBox = new TForm2(NULL, &IPServer);
+        LConnectionBox = new TForm2(nullptr, &IPServer);
         const int LReturn = LConnectionBox->ShowModal();
         if(LReturn == mrOk && IPServer.IsEmpty() == false)
         {
             ConnectServer(IPServer);
-            NewGame1Click(NULL); // On fait une nouvelle game
+            NewGame1Click(nullptr); // On fait une nouvelle game
         }
     }
     __finally
@@ -526,10 +526,10 @@ void __fastcall TForm1::NewGame1Click(TObject *Sender)
 
 void __fastcall TForm1::HelpTopic1Click(TObject *Sender)
 {
-    ShellExecute(Handle,
+    ShellExecuteW(Handle,
                  L"open",
                  L"https://crayon2000.github.io/RPS-Online",
-                 NULL, NULL, SW_SHOWDEFAULT);
+                 nullptr, nullptr, SW_SHOWDEFAULT);
 }
 //---------------------------------------------------------------------------
 
@@ -537,7 +537,7 @@ void __fastcall TForm1::Roche1Click(TObject *Sender)
 {
     if (FSoundEnabled == true)
     {
-        PlaySound(L"rock.wav", NULL, SND_FILENAME | SND_ASYNC | SND_NODEFAULT);
+        PlaySoundW(L"rock.wav", nullptr, SND_FILENAME | SND_ASYNC | SND_NODEFAULT);
     }
     FPlayerStats.Rock++; // Compte le nombre de Roche
     Play(TPlayerMove::Rock); // On choisi Roche
@@ -548,7 +548,7 @@ void __fastcall TForm1::Papier1Click(TObject *Sender)
 {
     if (FSoundEnabled == true)
     {
-        PlaySound(L"paper.wav", NULL, SND_FILENAME | SND_ASYNC | SND_NODEFAULT);
+        PlaySoundW(L"paper.wav", nullptr, SND_FILENAME | SND_ASYNC | SND_NODEFAULT);
     }
     FPlayerStats.Paper++; // Compte le nombre de Papier
     Play(TPlayerMove::Paper); // On choisi Papier
@@ -559,7 +559,7 @@ void __fastcall TForm1::Ciseaux1Click(TObject *Sender)
 {
     if (FSoundEnabled == true)
     {
-        PlaySound(L"scissors.wav", NULL, SND_FILENAME | SND_ASYNC | SND_NODEFAULT);
+        PlaySoundW(L"scissors.wav", nullptr, SND_FILENAME | SND_ASYNC | SND_NODEFAULT);
     }
     FPlayerStats.Scissors++; // Compte le nombre de Ciseaux
     Play(TPlayerMove::Scissors); // On choisi Ciseaux
@@ -619,7 +619,7 @@ void __fastcall TForm1::Statistics1Click(TObject *Sender)
 
 void __fastcall TForm1::LoadPng(Graphics::TBitmap *ABitmapImage, const String AIdentifier)
 {
-    if(ABitmapImage == NULL)
+    if(ABitmapImage == nullptr)
     {
         throw EArgumentException(Sysutils::Format(System_Rtlconsts_SParamIsNil, ARRAYOFCONST(("ABitmapImage"))));
     }
@@ -639,7 +639,7 @@ void __fastcall TForm1::LoadPng(Graphics::TBitmap *ABitmapImage, const String AI
 
 void __fastcall TForm1::FlipImageH(Graphics::TBitmap *AImage)
 {
-    if(AImage == NULL)
+    if(AImage == nullptr)
     {
         throw EArgumentException(Sysutils::Format(System_Rtlconsts_SParamIsNil, ARRAYOFCONST(("AImage"))));
     }
@@ -652,7 +652,7 @@ void __fastcall TForm1::FlipImageH(Graphics::TBitmap *AImage)
 
 void __fastcall TForm1::FlipImageV(Graphics::TBitmap *AImage)
 {
-    if(AImage == NULL)
+    if(AImage == nullptr)
     {
         throw EArgumentException(Sysutils::Format(System_Rtlconsts_SParamIsNil, ARRAYOFCONST(("AImage"))));
     }
@@ -665,7 +665,7 @@ void __fastcall TForm1::FlipImageV(Graphics::TBitmap *AImage)
 
 void __fastcall TForm1::ReplaceColor(Graphics::TBitmap* ABitmap, TColor AOldColor, TColor ANewColor)
 {
-    if(ABitmap == NULL)
+    if(ABitmap == nullptr)
     {
         throw EArgumentException(Sysutils::Format(System_Rtlconsts_SParamIsNil, ARRAYOFCONST(("ABitmap"))));
     }

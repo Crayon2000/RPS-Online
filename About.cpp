@@ -20,10 +20,10 @@ __fastcall TAboutBox::TAboutBox(TComponent* AOwner)
 
 void __fastcall TAboutBox::CommentsClick(TObject *Sender)
 {
-    ShellExecute(Handle,
+    ShellExecuteW(Handle,
                  L"open",
                  L"mailto:crayon1@rocketmail.com?subject=RPS Online",
-                 NULL, NULL, SW_SHOWDEFAULT);
+                 nullptr, nullptr, SW_SHOWDEFAULT);
 }
 //---------------------------------------------------------------------------
 
