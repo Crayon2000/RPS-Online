@@ -9,15 +9,15 @@ USEFORM("ConnectionBox.cpp", Form2);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
-    HANDLE LMutex = NULL;
+    HANDLE LMutex = nullptr;
 
     try
     {
         // Create a mutex so that all other programs will know that this program is running
         const String LMutexName = "allow_only_one_instance_running";
-        LMutex = CreateMutexEx(NULL, LMutexName.c_str(), 0, SYNCHRONIZE);
+        LMutex = CreateMutexExW(nullptr, LMutexName.c_str(), 0, SYNCHRONIZE);
 
-        if (LMutex == NULL)
+        if (LMutex == nullptr)
         {
             Application->MessageBox(L"Fail to create named mutex.", L"RPS Online", MB_ICONERROR);
             return 0;

@@ -6,7 +6,7 @@ This project was mostly coded in 2001-2002 and recently added to a git repositor
 
 ## Build
 
-This application is being developed under C++Builder 10.4 Sydney.
+This application is being developed under C++Builder 11.
 
 It requires the **TClientSocket** and **TServerSocket** components.
 These components are not installed by default.

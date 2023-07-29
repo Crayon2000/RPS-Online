@@ -11,7 +11,7 @@
 TForm2 *Form2;
 //---------------------------------------------------------------------------
 __fastcall TForm2::TForm2(TComponent* Owner)
-    : TForm(Owner), FIPAddress(NULL)
+    : TForm(Owner), FIPAddress(nullptr)
 {
     throw Exception("Don't use this constructor!");
 }
@@ -22,9 +22,9 @@ __fastcall TForm2::TForm2(TComponent* Owner, String *AIPAddress)
 {
     Caption = "Connect to Opponent";
 
-    if(FIPAddress == NULL)
+    if(FIPAddress == nullptr)
     {
-        throw Exception("Second paramater must not be NULL!");
+        throw Exception("Second parameter must not be nullptr!");
     }
     txtOpponentIP->Text = *FIPAddress;
 
@@ -41,12 +41,12 @@ __fastcall TForm2::TForm2(TComponent* Owner, String *AIPAddress)
             TIdStackLocalAddress* LStackLocalAddress = LLocalAddresses->Addresses[i];
             if(LStackLocalAddress->IPVersion == TIdIPVersion::Id_IPv4)
             {
-                lstMyIP->AddItem(LStackLocalAddress->IPAddress, NULL);
+                lstMyIP->AddItem(LStackLocalAddress->IPAddress, nullptr);
             }
         }
         if(lstMyIP->Items->Count == 0 && LIpCount > 0)
         {   // Nothing was found, we take the default local address
-            lstMyIP->AddItem(LLocalAddresses->Addresses[0]->IPAddress, NULL);
+            lstMyIP->AddItem(LLocalAddresses->Addresses[0]->IPAddress, nullptr);
         }
     }
     __finally
