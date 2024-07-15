@@ -16,8 +16,6 @@
   * [Help Menu Commands](#help-menu)
 * FAQ
   * [Where can I find my IP address](#how-to-get-my-ip-address)
-  * [How to configure ICQ](#how-to-configure-icq)
-  * [How to launch a game with ICQ](#how-to-launch-a-game-with-icq)
 
 For more info about this program, contact me by e-mail at:
 [crayon1@rocketmail.com](crayon1@rocketmail.com)
@@ -49,7 +47,7 @@ Simply click one of the three choices (rock, paper, scissors) and the game start
 
 #### VS a Real opponent
 
-You must connect to opponent first, go in the **Network** menu and click on **Connect to opponent...** in the text box enter the IP address of your opponent. You could use ICQ to connect yourself to your opponent. For more information on ICQ or IP address go to see the FAQ section. Once you are connected click one of the three choices (rock, paper, scissors) and the game start automatically. In two players mode you have to wait for your opponent to play between each throw. You could also use the chat to talk with your opponent.
+You must connect to opponent first, go in the **Network** menu and click on **Connect to opponent...** in the text box enter the IP address of your opponent. For more information on IP address go to see the FAQ section. Once you are connected click one of the three choices (rock, paper, scissors) and the game start automatically. In two players mode you have to wait for your opponent to play between each throw. You could also use the chat to talk with your opponent.
 
 For more information, see the Menu Commands:
 
@@ -166,7 +164,7 @@ Follow these steps to start a network game:
 
 1. Connect to the Internet
 2. On the **Network** menu, select **Connect to Opponent...**
-3. Type the IP number of your opponent in the edit box. To retrieve the IP number of your opponent, you can use the utility ICQ. See [How to launch a game with ICQ](#how-to-launch-a-game-with-icq) for more info.
+3. Type the IP number of your opponent in the edit box.
 4. Click Connect.
 5. Note: your opponent has to execute these steps as well.
 
@@ -188,39 +186,3 @@ NOTE: The Winipcfg display is not updated dynamically.
 To view changes, quit Winipcfg and then run it again.
 
 If you are using Windows NT, use the **ipconfig** command.
-
-## How to configure ICQ
-
-You can launch external games from within ICQ. To do so your ICQ Client must be in **Advanced Mode**.
-
-**Configuring installed applications to work with ICQ:**
-
-Click the **ICQ Menu** button.
-
-Select **Preferences**.
-
-![ICQ](ICQ1.png?raw=true)
-
-Choose the **Telephony/Data/Games** tab.
-
-Click the **New External** button to add a new external application.
-
-In **External Group** we choose: Game
-
-In **External Application** enter application name: RPS Online
-
-Click **Browse** to configure the path of the application: RPS.exe
-
-Enter **Command Line**: %i %h %e
-
-![ICQ](Icq2.png?raw=true)
-
-## How to launch a game with ICQ
-
-If the [configuration](#how-to-configure-icq) is OK, you just have to follow these steps.
-
-1. In the ICQ Window click **recipient's name**.
-2. Select **Games**
-3. Choose **application** (RPS Online)<br>A **Send Telephony/Data/Games request** dialog appears.
-4. Enter **reason** for request.
-5. Click the **Send** button.
