@@ -19,6 +19,8 @@
 #include <IdTCPClient.hpp>
 #include <IdTCPConnection.hpp>
 #include <IdTCPServer.hpp>
+#include <Vcl.WinXPanels.hpp>
+#include <Vcl.WinXCtrls.hpp>
 //---------------------------------------------------------------------------
 enum class TPlayerMove : unsigned char
 {
@@ -59,7 +61,6 @@ __published:    // IDE-managed Components
     TMenuItem *File1;
     TMenuItem *Help1;
     TMenuItem *Network1;
-    TMenuItem *Options1;
     TMenuItem *Connecttoopponent1;
     TMenuItem *Disconnectec1;
     TMenuItem *HelpTopic1;
@@ -83,13 +84,23 @@ __published:    // IDE-managed Components
     TSpeedButton *Roche1;
     TSpeedButton *Papier1;
     TSpeedButton *Ciseaux1;
-    TMenuItem *Sound1;
     TMediaPlayer *PlayerMidi;
     TPanel *Tie;
     TLabel *Label3;
-    TMenuItem *Music1;
     TMenuItem *N3;
     TMenuItem *Statistics1;
+    TCardPanel *CardPanel1;
+    TCard *Card1;
+    TCard *Card2;
+    TCard *Card3;
+    TCard *Card4;
+    TCard *Card5;
+    TToggleSwitch *SwitchMusic;
+    TToggleSwitch *SwitchSound;
+    TLabel *Label4;
+    TLabel *Label5;
+    TGroupBox *GroupBox2;
+    TLabel *Label6;
     void __fastcall Quitter1Click(TObject *Sender);
     void __fastcall Disconnectec1Click(TObject *Sender);
     void __fastcall SendClick(TObject *Sender);
@@ -117,10 +128,10 @@ __published:    // IDE-managed Components
     void __fastcall Roche1Click(TObject *Sender);
     void __fastcall Papier1Click(TObject *Sender);
     void __fastcall Ciseaux1Click(TObject *Sender);
-    void __fastcall Sound1Click(TObject *Sender);
     void __fastcall PlayerMidiNotify(TObject *Sender);
-    void __fastcall Music1Click(TObject *Sender);
     void __fastcall Statistics1Click(TObject *Sender);
+    void __fastcall SwitchSoundClick(TObject *Sender);
+    void __fastcall SwitchMusicClick(TObject *Sender);
 private:    // User declarations
     String IPServer;   // Contient l'adresse IP de l'adversaire
     String NickServer; // Contient le nick name de l'adversaire

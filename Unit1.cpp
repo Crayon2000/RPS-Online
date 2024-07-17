@@ -55,10 +55,8 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
     // Audio
     PlayerMidi->FileName = ExtractFilePath(Application->ExeName) + "\\rps.mid"; // Spécifie le fichier son
-    Music1->Checked = !FMusicEnabled; // Par défaut on met de la musique (true=musique)
-    Music1Click(nullptr);
-    Sound1->Checked = !FSoundEnabled; // Par défaut on met du son (true=son)
-    Sound1Click(nullptr);
+    SwitchMusic->State = (FMusicEnabled ? TToggleSwitchState::tssOn : TToggleSwitchState::tssOff);
+    SwitchSound->State = (FSoundEnabled ? TToggleSwitchState::tssOn : TToggleSwitchState::tssOff);
 
     // On load les images du fichier RES
     LoadPng(Logo->Picture->Bitmap, "PNG_TITLE");
@@ -113,8 +111,8 @@ __fastcall TForm1::~TForm1()
         {
             LIniFile = new TIniFile(ChangeFileExt(Application->ExeName, ".ini"));
             LIniFile->WriteString ( "Setting", "IP", IPServer );
-            LIniFile->WriteBool   ( "Setting", "Music", FMusicEnabled ); // 0 = Off
-            LIniFile->WriteBool   ( "Setting", "Sound", FSoundEnabled ); // 1 = On
+            LIniFile->WriteBool   ( "Setting", "Music", FMusicEnabled );
+            LIniFile->WriteBool   ( "Setting", "Sound", FSoundEnabled );
         }
         __finally
         {
@@ -559,12 +557,6 @@ void __fastcall TForm1::Ciseaux1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Sound1Click(TObject *Sender)
-{
-    Sound1->Checked = !Sound1->Checked;
-    FSoundEnabled = Sound1->Checked;
-}
-//---------------------------------------------------------------------------
 
 void __fastcall TForm1::PlayerMidiNotify(TObject *Sender)
 {
@@ -577,31 +569,6 @@ void __fastcall TForm1::PlayerMidiNotify(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Music1Click(TObject *Sender)
-{
-    Music1->Checked = !Music1->Checked;
-    if (Music1->Checked == true)
-    {
-        // Start music
-        FMusicEnabled = true;
-        try
-        {
-             PlayerMidi->Open();
-             PlayerMidi->Play();
-        }
-        catch ( ... )
-        {
-        }
-    }
-    else
-    {
-        // Stop music
-        FMusicEnabled = false;
-        PlayerMidi->Stop();
-        PlayerMidi->Close();
-    }
-}
-//---------------------------------------------------------------------------
 
 void __fastcall TForm1::Statistics1Click(TObject *Sender)
 {
@@ -686,6 +653,37 @@ void __fastcall TForm1::ReplaceColor(Graphics::TBitmap* ABitmap, TColor AOldColo
             }
             Pixel++;
         }
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::SwitchSoundClick(TObject *Sender)
+{
+    FSoundEnabled = SwitchSound->State == TToggleSwitchState::tssOn;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::SwitchMusicClick(TObject *Sender)
+{
+    if (SwitchMusic->State == TToggleSwitchState::tssOn)
+    {
+        // Start music
+        FMusicEnabled = true;
+        try
+        {
+             PlayerMidi->Open();
+             PlayerMidi->Play();
+        }
+        catch ( ... )
+        {
+        }
+    }
+    else
+    {
+        // Stop music
+        FMusicEnabled = false;
+        PlayerMidi->Stop();
+        PlayerMidi->Close();
     }
 }
 //---------------------------------------------------------------------------

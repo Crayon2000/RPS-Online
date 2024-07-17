@@ -20,7 +20,7 @@
 For more info about this program, contact me by e-mail at:
 [crayon1@rocketmail.com](crayon1@rocketmail.com)
 
-Copyright © 2001-2023 Crayon Application
+Copyright © 2001-2024 Crayon Application
 
 ## RPS Online
 
