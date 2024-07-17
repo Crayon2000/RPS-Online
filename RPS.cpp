@@ -4,7 +4,6 @@
 #include <tchar.h>
 //---------------------------------------------------------------------------
 USEFORM("Unit1.cpp", Form1);
-USEFORM("About.cpp", AboutBox);
 USEFORM("ConnectionBox.cpp", Form2);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
@@ -31,8 +30,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
         Application->Initialize();
         Application->Title = "RPS Online";
         Application->CreateForm(__classid(TForm1), &Form1);
-        Application->CreateForm(__classid(TAboutBox), &AboutBox);
-        Application->Run();
+         Application->Run();
     }
     catch (Exception &exception)
     {

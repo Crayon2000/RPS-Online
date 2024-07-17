@@ -59,13 +59,9 @@ __published:    // IDE-managed Components
     TStatusBar *StatusBar1;
     TMainMenu *MainMenu1;
     TMenuItem *File1;
-    TMenuItem *Help1;
     TMenuItem *Network1;
     TMenuItem *Connecttoopponent1;
     TMenuItem *Disconnectec1;
-    TMenuItem *HelpTopic1;
-    TMenuItem *About1;
-    TMenuItem *N1;
     TMenuItem *Quitter1;
     TPanel *Panel1;
     TLabel *Label1;
@@ -101,6 +97,16 @@ __published:    // IDE-managed Components
     TLabel *Label5;
     TGroupBox *GroupBox2;
     TLabel *Label6;
+    TPanel *Panel2;
+    TImage *ProgramIcon;
+    TLabel *ProductName;
+    TLabel *Version;
+    TLabel *Copyright;
+    TLabel *Comments;
+    TLabel *Label7;
+    TLabel *Label8;
+    TButton *Button1;
+    TGroupBox *GroupBox3;
     void __fastcall Quitter1Click(TObject *Sender);
     void __fastcall Disconnectec1Click(TObject *Sender);
     void __fastcall SendClick(TObject *Sender);
@@ -122,7 +128,6 @@ __published:    // IDE-managed Components
       TCustomWinSocket *Socket);
     void __fastcall ClientSocketDisconnect(TObject *Sender,
       TCustomWinSocket *Socket);
-    void __fastcall About1Click(TObject *Sender);
     void __fastcall NewGame1Click(TObject *Sender);
     void __fastcall HelpTopic1Click(TObject *Sender);
     void __fastcall Roche1Click(TObject *Sender);
@@ -132,6 +137,8 @@ __published:    // IDE-managed Components
     void __fastcall Statistics1Click(TObject *Sender);
     void __fastcall SwitchSoundClick(TObject *Sender);
     void __fastcall SwitchMusicClick(TObject *Sender);
+    void __fastcall CommentsClick(TObject *Sender);
+    void __fastcall Button1Click(TObject *Sender);
 private:    // User declarations
     String IPServer;   // Contient l'adresse IP de l'adversaire
     String NickServer; // Contient le nick name de l'adversaire

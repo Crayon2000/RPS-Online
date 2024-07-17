@@ -20,7 +20,7 @@ object Form1: TForm1
     Width = 505
     Height = 403
     Align = alClient
-    ActiveCard = Card5
+    ActiveCard = Card2
     Caption = 'CardPanel1'
     TabOrder = 0
     ExplicitLeft = 25
@@ -271,6 +271,134 @@ object Form1: TForm1
       ExplicitTop = 0
       ExplicitWidth = 185
       ExplicitHeight = 41
+      object Label8: TLabel
+        AlignWithMargins = True
+        Left = 8
+        Top = 8
+        Width = 487
+        Height = 25
+        Margins.Left = 8
+        Margins.Top = 8
+        Margins.Right = 8
+        Margins.Bottom = 8
+        Align = alTop
+        Caption = 'About RPS Online'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -21
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        ExplicitWidth = 166
+      end
+      object Panel2: TPanel
+        AlignWithMargins = True
+        Left = 8
+        Top = 49
+        Width = 487
+        Height = 161
+        Margins.Left = 8
+        Margins.Top = 8
+        Margins.Right = 8
+        Margins.Bottom = 8
+        Align = alTop
+        BevelInner = bvRaised
+        BevelOuter = bvLowered
+        ParentColor = True
+        TabOrder = 0
+        ExplicitLeft = 16
+        ExplicitTop = 16
+        ExplicitWidth = 265
+        object ProgramIcon: TImage
+          Left = 16
+          Top = 16
+          Width = 43
+          Height = 40
+          AutoSize = True
+          Transparent = True
+          IsControl = True
+        end
+        object ProductName: TLabel
+          Left = 88
+          Top = 16
+          Width = 90
+          Height = 19
+          Caption = 'RPS Online'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          IsControl = True
+        end
+        object Version: TLabel
+          Left = 88
+          Top = 40
+          Width = 64
+          Height = 13
+          Caption = 'Version 2.0.0'
+          IsControl = True
+        end
+        object Copyright: TLabel
+          Left = 8
+          Top = 80
+          Width = 195
+          Height = 13
+          Caption = 'Copyright 2001-2024 Crayon Application'
+          IsControl = True
+        end
+        object Comments: TLabel
+          Left = 8
+          Top = 120
+          Width = 120
+          Height = 13
+          Cursor = crHandPoint
+          Caption = 'crayon1@rocketmail.com'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlue
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsUnderline]
+          ParentFont = False
+          WordWrap = True
+          OnClick = CommentsClick
+          IsControl = True
+        end
+        object Label7: TLabel
+          Left = 8
+          Top = 104
+          Width = 153
+          Height = 13
+          Caption = 'For more info or to report bugs:'
+        end
+      end
+      object GroupBox3: TGroupBox
+        AlignWithMargins = True
+        Left = 8
+        Top = 226
+        Width = 487
+        Height = 79
+        Margins.Left = 8
+        Margins.Top = 8
+        Margins.Right = 8
+        Margins.Bottom = 8
+        Align = alTop
+        Caption = 'Help'
+        TabOrder = 1
+        ExplicitLeft = 0
+        ExplicitTop = 218
+        ExplicitWidth = 503
+        object Button1: TButton
+          Left = 16
+          Top = 32
+          Width = 112
+          Height = 25
+          Caption = 'View Online'
+          TabOrder = 0
+          OnClick = Button1Click
+        end
+      end
     end
     object Card3: TCard
       Left = 1
@@ -397,7 +525,7 @@ object Form1: TForm1
     Top = 344
   end
   object MainMenu1: TMainMenu
-    Left = 296
+    Left = 352
     Top = 344
     object File1: TMenuItem
       Caption = '&Game'
@@ -433,21 +561,6 @@ object Form1: TForm1
         Caption = '&Disconnect'
         Enabled = False
         OnClick = Disconnectec1Click
-      end
-    end
-    object Help1: TMenuItem
-      Caption = '&Help'
-      object HelpTopic1: TMenuItem
-        Caption = 'Online &Help'
-        ShortCut = 112
-        OnClick = HelpTopic1Click
-      end
-      object N1: TMenuItem
-        Caption = '-'
-      end
-      object About1: TMenuItem
-        Caption = '&About...'
-        OnClick = About1Click
       end
     end
   end

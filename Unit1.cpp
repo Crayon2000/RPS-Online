@@ -3,7 +3,6 @@
 #pragma hdrstop
 
 #include "Unit1.h"
-#include "About.h"
 #include "ConnectionBox.h"
 #include <System.IniFiles.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
@@ -82,6 +81,9 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     Roche1->Glyph = FBitmapRockLeft;
     Papier1->Glyph = FBitmapPaperLeft;
     Ciseaux1->Glyph = FBitmapScissorsLeft;
+
+    // Set image
+    ProgramIcon->Picture->Bitmap = Form1->FBitmapRockLeft;
 
     // Met les valeurs par défaut
     if (IPServer.IsEmpty() == true)
@@ -474,12 +476,6 @@ void __fastcall TForm1::ClientSocketDisconnect(TObject *Sender,
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::About1Click(TObject *Sender)
-{
-    AboutBox->ShowModal(); // Affiche le About
-}
-//---------------------------------------------------------------------------
-
 void __fastcall TForm1::NewGame1Click(TObject *Sender)
 {
     if ((ClientSocket->Active == true || IsServer == true)) // Joue online
@@ -685,6 +681,24 @@ void __fastcall TForm1::SwitchMusicClick(TObject *Sender)
         PlayerMidi->Stop();
         PlayerMidi->Close();
     }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::CommentsClick(TObject *Sender)
+{
+    ShellExecuteW(Handle,
+                 L"open",
+                 L"mailto:crayon1@rocketmail.com?subject=RPS Online",
+                 nullptr, nullptr, SW_SHOWDEFAULT);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button1Click(TObject *Sender)
+{
+    ShellExecuteW(Handle,
+                 L"open",
+                 L"https://crayon2000.github.io/RPS-Online",
+                 nullptr, nullptr, SW_SHOWDEFAULT);
 }
 //---------------------------------------------------------------------------
 

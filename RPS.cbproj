@@ -63,7 +63,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <ProjectType>CppVCLApplication</ProjectType>
-        <AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;vclimg.lib;IndySystem.lib;IndyCore.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;vclimg.lib;IndySystem.lib;IndyCore.lib;vclwinx.lib;bindengine.lib</AllPackageLibs>
         <SanitizedProjectName>RPS</SanitizedProjectName>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
         <_TCHARMapping>wchar_t</_TCHARMapping>
@@ -123,7 +123,7 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <BT_BuildType>Debug</BT_BuildType>
         <Icon_MainIcon>RPS.ICO</Icon_MainIcon>
-        <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;vclimg.lib;IndySystem.lib;IndyCore.lib</LinkPackageStatics>
+        <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;vclimg.lib;IndySystem.lib;IndyCore.lib;vclwinx.lib;bindengine.lib</LinkPackageStatics>
         <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)$(CC_SUFFIX)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
     </PropertyGroup>
@@ -144,12 +144,6 @@
         <Icon_MainIcon>RPS.ico</Icon_MainIcon>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="About.cpp">
-            <Form>AboutBox</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>About.h</DependentOn>
-            <BuildOrder>3</BuildOrder>
-        </CppCompile>
         <CppCompile Include="ConnectionBox.cpp">
             <Form>Form2</Form>
             <FormType>dfm</FormType>
@@ -174,7 +168,6 @@
             <BuildOrder>3</BuildOrder>
         </CppCompile>
         <FormResources Include="Unit1.dfm"/>
-        <FormResources Include="About.dfm"/>
         <FormResources Include="ConnectionBox.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
@@ -277,7 +270,19 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName=".\Win32\Debug\RPS.exe" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName=".\Win32\Debug\RPS.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>RPS.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName=".\Win32\Debug\RPS.tds" Configuration="Debug" Class="DebugSymbols"/>
+                <DeployFile LocalName=".\Win32\Debug\RPS.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>RPS.tds</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="IMAGES.rc" Configuration="Debug" Class="ProjectFile"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
