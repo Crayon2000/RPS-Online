@@ -6,6 +6,7 @@
 #include "ConnectionBox.h"
 #include <System.IniFiles.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
+#include <Vcl.Clipbrd.hpp>
 #include <memory>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -361,11 +362,6 @@ void __fastcall TForm1::Play(TPlayerMove AChoice)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Quitter1Click(TObject *Sender)
-{
-    Close(); // Ferme le programme
-}
-//---------------------------------------------------------------------------
 
 void __fastcall TForm1::Disconnectec1Click(TObject *Sender)
 {
@@ -699,6 +695,82 @@ void __fastcall TForm1::Button1Click(TObject *Sender)
                  L"open",
                  L"https://crayon2000.github.io/RPS-Online",
                  nullptr, nullptr, SW_SHOWDEFAULT);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::SpeedButtonSoloClick(TObject *Sender)
+{
+    CardPanel->ActiveCard = CardGame;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::SpeedButtonHostClick(TObject *Sender)
+{
+    CardPanel->ActiveCard = CardHost;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::SpeedButtonJoinClick(TObject *Sender)
+{
+    CardPanel->ActiveCard = CardJoin;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::SpeedButtonExitClick(TObject *Sender)
+{
+    Close();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::cmdCopyClick(TObject *Sender)
+{
+    if(lstMyIP->ItemIndex != -1)
+    {
+        const String LSelectedString = lstMyIP->Items->Strings[lstMyIP->ItemIndex];
+        Clipboard()->AsText = LSelectedString; // Copy to clipboard
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::CardHostEnter(TObject *Sender)
+{
+    // Fill IP list
+    TIdStackLocalAddressList* LLocalAddresses = new TIdStackLocalAddressList();
+    try
+    {
+        TIdStack::IncUsage(); // Ensures GStack is available even if no Indy components are active
+        GStack->GetLocalAddressList(LLocalAddresses);
+        TIdStack::DecUsage();
+        const int LIpCount = LLocalAddresses->Count;
+        for(int i = 0; i < LIpCount; ++i)
+        {   // We try find an IP v4
+            TIdStackLocalAddress* LStackLocalAddress = LLocalAddresses->Addresses[i];
+            if(LStackLocalAddress->IPVersion == TIdIPVersion::Id_IPv4)
+            {
+                lstMyIP->AddItem(LStackLocalAddress->IPAddress, nullptr);
+            }
+        }
+        if(lstMyIP->Items->Count == 0 && LIpCount > 0)
+        {   // Nothing was found, we take the default local address
+            lstMyIP->AddItem(LLocalAddresses->Addresses[0]->IPAddress, nullptr);
+        }
+    }
+    __finally
+    {
+        delete LLocalAddresses;
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::SpeedButton1Click(TObject *Sender)
+{
+    CardPanel->ActiveCard = CardHome;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::SpeedButton2Click(TObject *Sender)
+{
+    CardPanel->ActiveCard = CardHome;
 }
 //---------------------------------------------------------------------------
 

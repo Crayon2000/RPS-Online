@@ -51,7 +51,6 @@ object Form2: TForm2
       Height = 25
       Caption = 'Copy to clipboard'
       TabOrder = 1
-      OnClick = cmdCopyClick
     end
     object lstMyIP: TListBox
       Left = 8

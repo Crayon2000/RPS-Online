@@ -14,20 +14,19 @@ object Form1: TForm1
   Menu = MainMenu1
   Position = poScreenCenter
   TextHeight = 13
-  object CardPanel1: TCardPanel
+  object CardPanel: TCardPanel
     Left = 0
     Top = 0
     Width = 505
     Height = 403
     Align = alClient
-    ActiveCard = Card2
-    Caption = 'CardPanel1'
+    ActiveCard = CardJoin
     TabOrder = 0
     ExplicitLeft = 25
     ExplicitTop = 26
     ExplicitWidth = 300
     ExplicitHeight = 200
-    object Card1: TCard
+    object CardGame: TCard
       Left = 1
       Top = 1
       Width = 503
@@ -259,7 +258,7 @@ object Form1: TForm1
         ExplicitWidth = 488
       end
     end
-    object Card2: TCard
+    object CardAbout: TCard
       Left = 1
       Top = 1
       Width = 503
@@ -302,7 +301,6 @@ object Form1: TForm1
         Margins.Right = 8
         Margins.Bottom = 8
         Align = alTop
-        BevelInner = bvRaised
         BevelOuter = bvLowered
         ParentColor = True
         TabOrder = 0
@@ -400,7 +398,7 @@ object Form1: TForm1
         end
       end
     end
-    object Card3: TCard
+    object CardHost: TCard
       Left = 1
       Top = 1
       Width = 503
@@ -408,10 +406,73 @@ object Form1: TForm1
       Caption = 'Host'
       CardIndex = 2
       TabOrder = 2
+      OnEnter = CardHostEnter
       ExplicitLeft = 0
       ExplicitTop = 0
+      object Label10: TLabel
+        AlignWithMargins = True
+        Left = 8
+        Top = 8
+        Width = 487
+        Height = 25
+        Margins.Left = 8
+        Margins.Top = 8
+        Margins.Right = 8
+        Margins.Bottom = 8
+        Align = alTop
+        Caption = 'Host Game'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -21
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        ExplicitWidth = 102
+      end
+      object SpeedButton1: TSpeedButton
+        Left = 175
+        Top = 240
+        Width = 153
+        Height = 33
+        Caption = 'Back'
+        OnClick = SpeedButton1Click
+      end
+      object GroupBox4: TGroupBox
+        AlignWithMargins = True
+        Left = 8
+        Top = 49
+        Width = 487
+        Height = 104
+        Margins.Left = 8
+        Margins.Top = 8
+        Margins.Right = 8
+        Margins.Bottom = 8
+        Align = alTop
+        Caption = 'Your own IP numbers'
+        TabOrder = 0
+        ExplicitLeft = 0
+        ExplicitTop = 41
+        ExplicitWidth = 503
+        object cmdCopy: TButton
+          Left = 366
+          Top = 24
+          Width = 105
+          Height = 25
+          Caption = 'Copy to clipboard'
+          TabOrder = 1
+          OnClick = cmdCopyClick
+        end
+        object lstMyIP: TListBox
+          Left = 16
+          Top = 24
+          Width = 209
+          Height = 65
+          ItemHeight = 13
+          TabOrder = 0
+        end
+      end
     end
-    object Card4: TCard
+    object CardJoin: TCard
       Left = 1
       Top = 1
       Width = 503
@@ -423,8 +484,36 @@ object Form1: TForm1
       ExplicitTop = 0
       ExplicitWidth = 185
       ExplicitHeight = 41
+      object Label9: TLabel
+        AlignWithMargins = True
+        Left = 8
+        Top = 8
+        Width = 487
+        Height = 25
+        Margins.Left = 8
+        Margins.Top = 8
+        Margins.Right = 8
+        Margins.Bottom = 8
+        Align = alTop
+        Caption = 'Join Game'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -21
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        ExplicitWidth = 98
+      end
+      object SpeedButton2: TSpeedButton
+        Left = 183
+        Top = 248
+        Width = 153
+        Height = 33
+        Caption = 'Back'
+        OnClick = SpeedButton2Click
+      end
     end
-    object Card5: TCard
+    object CardSettings: TCard
       Left = 1
       Top = 1
       Width = 503
@@ -501,6 +590,48 @@ object Form1: TForm1
         end
       end
     end
+    object CardHome: TCard
+      Left = 1
+      Top = 1
+      Width = 503
+      Height = 401
+      Caption = 'Home'
+      CardIndex = 5
+      TabOrder = 5
+      ExplicitLeft = 9
+      object SpeedButtonSolo: TSpeedButton
+        Left = 167
+        Top = 56
+        Width = 153
+        Height = 33
+        Caption = 'Solo'
+        OnClick = SpeedButtonSoloClick
+      end
+      object SpeedButtonHost: TSpeedButton
+        Left = 167
+        Top = 112
+        Width = 153
+        Height = 33
+        Caption = 'Host'
+        OnClick = SpeedButtonHostClick
+      end
+      object SpeedButtonJoin: TSpeedButton
+        Left = 167
+        Top = 168
+        Width = 153
+        Height = 33
+        Caption = 'Join'
+        OnClick = SpeedButtonJoinClick
+      end
+      object SpeedButtonExit: TSpeedButton
+        Left = 167
+        Top = 232
+        Width = 153
+        Height = 33
+        Caption = 'Exit'
+        OnClick = SpeedButtonExitClick
+      end
+    end
   end
   object ServerSocket: TServerSocket
     Active = False
@@ -534,21 +665,10 @@ object Form1: TForm1
         ShortCut = 113
         OnClick = NewGame1Click
       end
-      object N2: TMenuItem
-        Caption = '-'
-      end
       object Statistics1: TMenuItem
         Caption = '&Statistics'
         Visible = False
         OnClick = Statistics1Click
-      end
-      object N3: TMenuItem
-        Caption = '-'
-        Visible = False
-      end
-      object Quitter1: TMenuItem
-        Caption = 'E&xit'
-        OnClick = Quitter1Click
       end
     end
     object Network1: TMenuItem

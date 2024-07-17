@@ -21,6 +21,7 @@
 #include <IdTCPServer.hpp>
 #include <Vcl.WinXPanels.hpp>
 #include <Vcl.WinXCtrls.hpp>
+#include <Vcl.ButtonGroup.hpp>
 //---------------------------------------------------------------------------
 enum class TPlayerMove : unsigned char
 {
@@ -62,7 +63,6 @@ __published:    // IDE-managed Components
     TMenuItem *Network1;
     TMenuItem *Connecttoopponent1;
     TMenuItem *Disconnectec1;
-    TMenuItem *Quitter1;
     TPanel *Panel1;
     TLabel *Label1;
     TLabel *Label2;
@@ -74,7 +74,6 @@ __published:    // IDE-managed Components
     TEdit *Memo1;
     TButton *Send;
     TMenuItem *NewGame1;
-    TMenuItem *N2;
     TImage *GLancer;
     TImage *Logo;
     TSpeedButton *Roche1;
@@ -83,14 +82,13 @@ __published:    // IDE-managed Components
     TMediaPlayer *PlayerMidi;
     TPanel *Tie;
     TLabel *Label3;
-    TMenuItem *N3;
     TMenuItem *Statistics1;
-    TCardPanel *CardPanel1;
-    TCard *Card1;
-    TCard *Card2;
-    TCard *Card3;
-    TCard *Card4;
-    TCard *Card5;
+    TCardPanel *CardPanel;
+    TCard *CardGame;
+    TCard *CardAbout;
+    TCard *CardHost;
+    TCard *CardJoin;
+    TCard *CardSettings;
     TToggleSwitch *SwitchMusic;
     TToggleSwitch *SwitchSound;
     TLabel *Label4;
@@ -107,7 +105,18 @@ __published:    // IDE-managed Components
     TLabel *Label8;
     TButton *Button1;
     TGroupBox *GroupBox3;
-    void __fastcall Quitter1Click(TObject *Sender);
+    TCard *CardHome;
+    TSpeedButton *SpeedButtonSolo;
+    TSpeedButton *SpeedButtonHost;
+    TSpeedButton *SpeedButtonJoin;
+    TSpeedButton *SpeedButtonExit;
+    TGroupBox *GroupBox4;
+    TButton *cmdCopy;
+    TListBox *lstMyIP;
+    TLabel *Label9;
+    TLabel *Label10;
+    TSpeedButton *SpeedButton1;
+    TSpeedButton *SpeedButton2;
     void __fastcall Disconnectec1Click(TObject *Sender);
     void __fastcall SendClick(TObject *Sender);
     void __fastcall Connecttoopponent1Click(TObject *Sender);
@@ -139,6 +148,14 @@ __published:    // IDE-managed Components
     void __fastcall SwitchMusicClick(TObject *Sender);
     void __fastcall CommentsClick(TObject *Sender);
     void __fastcall Button1Click(TObject *Sender);
+    void __fastcall SpeedButtonExitClick(TObject *Sender);
+    void __fastcall SpeedButtonSoloClick(TObject *Sender);
+    void __fastcall cmdCopyClick(TObject *Sender);
+    void __fastcall SpeedButtonHostClick(TObject *Sender);
+    void __fastcall SpeedButtonJoinClick(TObject *Sender);
+    void __fastcall CardHostEnter(TObject *Sender);
+    void __fastcall SpeedButton1Click(TObject *Sender);
+    void __fastcall SpeedButton2Click(TObject *Sender);
 private:    // User declarations
     String IPServer;   // Contient l'adresse IP de l'adversaire
     String NickServer; // Contient le nick name de l'adversaire

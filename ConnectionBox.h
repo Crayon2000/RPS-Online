@@ -21,7 +21,6 @@ __published:	// IDE-managed Components
     TEdit *txtOpponentIP;
     TListBox *lstMyIP;
     void __fastcall cmdPasteClick(TObject *Sender);
-    void __fastcall cmdCopyClick(TObject *Sender);
     void __fastcall cmdConnectClick(TObject *Sender);
 private:	// User declarations
     String *FIPAddress;
