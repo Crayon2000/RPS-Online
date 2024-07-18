@@ -3,7 +3,6 @@
 #pragma hdrstop
 
 #include "Unit1.h"
-#include "ConnectionBox.h"
 #include <System.IniFiles.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
 #include <Vcl.Clipbrd.hpp>
@@ -392,17 +391,6 @@ void __fastcall TForm1::SendClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Connecttoopponent1Click(TObject *Sender)
-{
-    auto LConnectionBox = std::make_unique<TForm2>(nullptr, &IPServer);
-    const int LReturn = LConnectionBox->ShowModal();
-    if(LReturn == mrOk && IPServer.IsEmpty() == false)
-    {
-        ConnectServer(IPServer);
-        NewGame1Click(nullptr); // On fait une nouvelle game
-    }
-}
-//---------------------------------------------------------------------------
 
 void __fastcall TForm1::ClientSocketError(TObject *Sender,
       TCustomWinSocket *Socket, TErrorEvent ErrorEvent, int &ErrorCode)
@@ -771,6 +759,35 @@ void __fastcall TForm1::SpeedButton1Click(TObject *Sender)
 void __fastcall TForm1::SpeedButton2Click(TObject *Sender)
 {
     CardPanel->ActiveCard = CardHome;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::SpeedButton3Click(TObject *Sender)
+{
+    CardPanel->ActiveCard = CardGame;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::cmdPasteClick(TObject *Sender)
+{
+    txtOpponentIP->PasteFromClipboard();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::SpeedButton4Click(TObject *Sender)
+{
+    IPServer = txtOpponentIP->Text;
+    if(IPServer.IsEmpty() == false)
+    {
+        ConnectServer(IPServer);
+        NewGame1Click(nullptr); // On fait une nouvelle game
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::CardJoinEnter(TObject *Sender)
+{
+    txtOpponentIP->Text = IPServer;
 }
 //---------------------------------------------------------------------------
 

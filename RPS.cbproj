@@ -144,12 +144,6 @@
         <Icon_MainIcon>RPS.ico</Icon_MainIcon>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="ConnectionBox.cpp">
-            <Form>Form2</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>ConnectionBox.h</DependentOn>
-            <BuildOrder>5</BuildOrder>
-        </CppCompile>
         <ResourceCompile Include="IMAGES.rc">
             <Form>IMAGES.res</Form>
             <BuildOrder>4</BuildOrder>
@@ -168,7 +162,6 @@
             <BuildOrder>3</BuildOrder>
         </CppCompile>
         <FormResources Include="Unit1.dfm"/>
-        <FormResources Include="ConnectionBox.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

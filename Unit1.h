@@ -117,9 +117,13 @@ __published:    // IDE-managed Components
     TLabel *Label10;
     TSpeedButton *SpeedButton1;
     TSpeedButton *SpeedButton2;
+    TSpeedButton *SpeedButton3;
+    TGroupBox *GroupBox5;
+    TButton *cmdPaste;
+    TEdit *txtOpponentIP;
+    TSpeedButton *SpeedButton4;
     void __fastcall Disconnectec1Click(TObject *Sender);
     void __fastcall SendClick(TObject *Sender);
-    void __fastcall Connecttoopponent1Click(TObject *Sender);
     void __fastcall ClientSocketError(TObject *Sender,
       TCustomWinSocket *Socket, TErrorEvent ErrorEvent,
       int &ErrorCode);
@@ -156,6 +160,10 @@ __published:    // IDE-managed Components
     void __fastcall CardHostEnter(TObject *Sender);
     void __fastcall SpeedButton1Click(TObject *Sender);
     void __fastcall SpeedButton2Click(TObject *Sender);
+    void __fastcall SpeedButton3Click(TObject *Sender);
+    void __fastcall cmdPasteClick(TObject *Sender);
+    void __fastcall SpeedButton4Click(TObject *Sender);
+    void __fastcall CardJoinEnter(TObject *Sender);
 private:    // User declarations
     String IPServer;   // Contient l'adresse IP de l'adversaire
     String NickServer; // Contient le nick name de l'adversaire

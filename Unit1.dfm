@@ -3,8 +3,8 @@ object Form1: TForm1
   Top = 246
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  ClientHeight = 403
-  ClientWidth = 505
+  ClientHeight = 402
+  ClientWidth = 501
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,27 +17,19 @@ object Form1: TForm1
   object CardPanel: TCardPanel
     Left = 0
     Top = 0
-    Width = 505
-    Height = 403
+    Width = 501
+    Height = 402
     Align = alClient
     ActiveCard = CardJoin
     TabOrder = 0
-    ExplicitLeft = 25
-    ExplicitTop = 26
-    ExplicitWidth = 300
-    ExplicitHeight = 200
     object CardGame: TCard
       Left = 1
       Top = 1
-      Width = 503
-      Height = 401
+      Width = 499
+      Height = 400
       Caption = 'Game'
       CardIndex = 0
       TabOrder = 0
-      ExplicitLeft = 169
-      ExplicitTop = 62
-      ExplicitWidth = 298
-      ExplicitHeight = 198
       object BoxYou: TGroupBox
         Left = 7
         Top = 0
@@ -246,35 +238,29 @@ object Form1: TForm1
       end
       object StatusBar1: TStatusBar
         Left = 0
-        Top = 382
-        Width = 503
+        Top = 381
+        Width = 499
         Height = 19
         Panels = <
           item
             Width = 50
           end>
         SizeGrip = False
-        ExplicitTop = 374
-        ExplicitWidth = 488
       end
     end
     object CardAbout: TCard
       Left = 1
       Top = 1
-      Width = 503
-      Height = 401
+      Width = 499
+      Height = 400
       Caption = 'About'
       CardIndex = 1
       TabOrder = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 185
-      ExplicitHeight = 41
       object Label8: TLabel
         AlignWithMargins = True
         Left = 8
         Top = 8
-        Width = 487
+        Width = 483
         Height = 25
         Margins.Left = 8
         Margins.Top = 8
@@ -294,7 +280,7 @@ object Form1: TForm1
         AlignWithMargins = True
         Left = 8
         Top = 49
-        Width = 487
+        Width = 483
         Height = 161
         Margins.Left = 8
         Margins.Top = 8
@@ -304,9 +290,6 @@ object Form1: TForm1
         BevelOuter = bvLowered
         ParentColor = True
         TabOrder = 0
-        ExplicitLeft = 16
-        ExplicitTop = 16
-        ExplicitWidth = 265
         object ProgramIcon: TImage
           Left = 16
           Top = 16
@@ -375,7 +358,7 @@ object Form1: TForm1
         AlignWithMargins = True
         Left = 8
         Top = 226
-        Width = 487
+        Width = 483
         Height = 79
         Margins.Left = 8
         Margins.Top = 8
@@ -384,9 +367,6 @@ object Form1: TForm1
         Align = alTop
         Caption = 'Help'
         TabOrder = 1
-        ExplicitLeft = 0
-        ExplicitTop = 218
-        ExplicitWidth = 503
         object Button1: TButton
           Left = 16
           Top = 32
@@ -401,19 +381,17 @@ object Form1: TForm1
     object CardHost: TCard
       Left = 1
       Top = 1
-      Width = 503
-      Height = 401
+      Width = 499
+      Height = 400
       Caption = 'Host'
       CardIndex = 2
       TabOrder = 2
       OnEnter = CardHostEnter
-      ExplicitLeft = 0
-      ExplicitTop = 0
       object Label10: TLabel
         AlignWithMargins = True
         Left = 8
         Top = 8
-        Width = 487
+        Width = 483
         Height = 25
         Margins.Left = 8
         Margins.Top = 8
@@ -437,11 +415,19 @@ object Form1: TForm1
         Caption = 'Back'
         OnClick = SpeedButton1Click
       end
+      object SpeedButton3: TSpeedButton
+        Left = 175
+        Top = 184
+        Width = 153
+        Height = 33
+        Caption = 'Play'
+        OnClick = SpeedButton3Click
+      end
       object GroupBox4: TGroupBox
         AlignWithMargins = True
         Left = 8
         Top = 49
-        Width = 487
+        Width = 483
         Height = 104
         Margins.Left = 8
         Margins.Top = 8
@@ -450,9 +436,6 @@ object Form1: TForm1
         Align = alTop
         Caption = 'Your own IP numbers'
         TabOrder = 0
-        ExplicitLeft = 0
-        ExplicitTop = 41
-        ExplicitWidth = 503
         object cmdCopy: TButton
           Left = 366
           Top = 24
@@ -475,20 +458,17 @@ object Form1: TForm1
     object CardJoin: TCard
       Left = 1
       Top = 1
-      Width = 503
-      Height = 401
+      Width = 499
+      Height = 400
       Caption = 'Join'
       CardIndex = 3
       TabOrder = 3
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 185
-      ExplicitHeight = 41
+      OnEnter = CardJoinEnter
       object Label9: TLabel
         AlignWithMargins = True
         Left = 8
         Top = 8
-        Width = 487
+        Width = 483
         Height = 25
         Margins.Left = 8
         Margins.Top = 8
@@ -512,22 +492,58 @@ object Form1: TForm1
         Caption = 'Back'
         OnClick = SpeedButton2Click
       end
+      object SpeedButton4: TSpeedButton
+        Left = 183
+        Top = 176
+        Width = 153
+        Height = 33
+        Caption = 'Connect'
+        OnClick = SpeedButton4Click
+      end
+      object GroupBox5: TGroupBox
+        AlignWithMargins = True
+        Left = 8
+        Top = 49
+        Width = 483
+        Height = 64
+        Margins.Left = 8
+        Margins.Top = 8
+        Margins.Right = 8
+        Margins.Bottom = 8
+        Align = alTop
+        Caption = 'IP number of your opponent'
+        TabOrder = 0
+        object cmdPaste: TButton
+          Left = 352
+          Top = 22
+          Width = 113
+          Height = 25
+          Caption = 'Paste from clipboard'
+          TabOrder = 1
+          OnClick = cmdPasteClick
+        end
+        object txtOpponentIP: TEdit
+          Left = 16
+          Top = 24
+          Width = 193
+          Height = 21
+          TabOrder = 0
+        end
+      end
     end
     object CardSettings: TCard
       Left = 1
       Top = 1
-      Width = 503
-      Height = 401
+      Width = 499
+      Height = 400
       Caption = 'Settings'
       CardIndex = 4
       TabOrder = 4
-      ExplicitLeft = 17
-      ExplicitTop = -87
       object Label6: TLabel
         AlignWithMargins = True
         Left = 8
         Top = 8
-        Width = 487
+        Width = 483
         Height = 25
         Margins.Left = 8
         Margins.Top = 8
@@ -547,7 +563,7 @@ object Form1: TForm1
         AlignWithMargins = True
         Left = 8
         Top = 49
-        Width = 487
+        Width = 483
         Height = 81
         Margins.Left = 8
         Margins.Top = 8
@@ -556,8 +572,6 @@ object Form1: TForm1
         Align = alTop
         Caption = 'Audio'
         TabOrder = 0
-        ExplicitLeft = 0
-        ExplicitTop = 160
         object Label4: TLabel
           Left = 16
           Top = 23
@@ -593,12 +607,11 @@ object Form1: TForm1
     object CardHome: TCard
       Left = 1
       Top = 1
-      Width = 503
-      Height = 401
+      Width = 499
+      Height = 400
       Caption = 'Home'
       CardIndex = 5
       TabOrder = 5
-      ExplicitLeft = 9
       object SpeedButtonSolo: TSpeedButton
         Left = 167
         Top = 56
@@ -675,7 +688,6 @@ object Form1: TForm1
       Caption = '&Network'
       object Connecttoopponent1: TMenuItem
         Caption = '&Connect to Opponent...'
-        OnClick = Connecttoopponent1Click
       end
       object Disconnectec1: TMenuItem
         Caption = '&Disconnect'
